@@ -35,5 +35,8 @@ groq>=0.12
 # HTTP
 requests>=2.31
 
+#Babel
+babel>=2.14
+
 # Celery result backend
 django-celery-results>=2.5
