@@ -4,23 +4,25 @@
 {% block title %}{% trans "Browse Hawker Stalls" %} — MakanSpace{% endblock %}
 
 {% block content %}
-<div class="flex-between mb-2">
-    <h1 style="font-size: 1.4rem; font-weight: 700;">{% trans "Hawker Stalls for Rent" %}</h1>
-</div>
-
 <!-- Hero banner (admin-editable) -->
-{% if site_settings.banner_image %}
-<div class="mb-2" style="border-radius: var(--radius-md); overflow: hidden;">
+<div class="hero-banner mb-2" style="position: relative; border-radius: var(--radius-md); overflow: hidden; max-height: 280px;">
+    {% if site_settings.banner_image %}
     <img src="{{ site_settings.banner_image.url }}" alt="{% trans 'MakanSpace banner' %}"
-         style="width: 100%; height: auto; max-height: 280px; object-fit: cover; display: block;">
+         style="width: 100%; height: 280px; object-fit: cover; display: block;">
+    {% else %}
+    <div style="width: 100%; height: 280px; background: linear-gradient(90deg, #4B2E83 0%, #6B4FB3 100%);"></div>
+    {% endif %}
+
+    <!-- Brand-aligned gradient overlay -->
+    <div class="hero-overlay" style="position: absolute; inset: 0;
+                background: linear-gradient(to top, rgba(30,23,48,0.75) 0%, rgba(30,23,48,0.15) 60%);"></div>
+
+    <!-- Heading + tagline, bottom-left aligned -->
+    <div class="hero-content" style="position: absolute; bottom: 0; left: 0; padding: 1.5rem; color: #fff; z-index: 1;">
+        <h1 style="font-size: 1.6rem; font-weight: 700; margin: 0 0 0.3rem 0;">{% trans "Hawker Stalls for Rent" %}</h1>
+        <p style="margin: 0; opacity: 0.9; font-size: 0.95rem;">{% trans "Find your next hawker stall" %}</p>
+    </div>
 </div>
-{% else %}
-<div class="mb-2" style="border-radius: var(--radius-md); background: linear-gradient(90deg, #4B2E83 0%, #6B4FB3 100%);
-            color: #fff; padding: 2rem 1.5rem; text-align: center;">
-    <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Find your next hawker stall" %}</h2>
-    <p style="margin: 0; opacity: 0.9;">{% trans "Browse private coffee shops, food courts, and appointed-operator hawker centres across Singapore." %}</p>
-</div>
-{% endif %}
 
 <!-- Filter panel (spec 3.3) -->
 {% include "includes/filter_panel.html" %}
