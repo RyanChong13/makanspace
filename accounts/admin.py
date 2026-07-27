@@ -1,7 +1,16 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User, Company
+from .models import User, Company, SiteSettings
+
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    list_display = ("__str__", "updated_at")
+
+    def has_add_permission(self, request):
+        # Singleton: only one settings row is allowed.
+        return not SiteSettings.objects.exists()
 
 
 @admin.register(Company)

@@ -8,6 +8,20 @@
     <h1 style="font-size: 1.4rem; font-weight: 700;">{% trans "Hawker Stalls for Rent" %}</h1>
 </div>
 
+<!-- Hero banner (admin-editable) -->
+{% if site_settings.banner_image %}
+<div class="mb-2" style="border-radius: var(--radius-md); overflow: hidden;">
+    <img src="{{ site_settings.banner_image.url }}" alt="{% trans 'MakanSpace banner' %}"
+         style="width: 100%; height: auto; max-height: 280px; object-fit: cover; display: block;">
+</div>
+{% else %}
+<div class="mb-2" style="border-radius: var(--radius-md); background: linear-gradient(90deg, #4B2E83 0%, #6B4FB3 100%);
+            color: #fff; padding: 2rem 1.5rem; text-align: center;">
+    <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem;">{% trans "Find your next hawker stall" %}</h2>
+    <p style="margin: 0; opacity: 0.9;">{% trans "Browse private coffee shops, food courts, and appointed-operator hawker centres across Singapore." %}</p>
+</div>
+{% endif %}
+
 <!-- Filter panel (spec 3.3) -->
 {% include "includes/filter_panel.html" %}
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MakanSpace VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-27 21:44+0800\n"
+"POT-Creation-Date: 2026-07-28 00:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ta\n"
@@ -66,6 +66,16 @@ msgstr "அனைத்து வடிகட்டிகளையும் அ�
 
 msgid "Company Legal Name"
 msgstr "நிறுவன சட்டபூர்வ பெயர்"
+
+msgid ""
+"Connecting hawker companies with aspiring hawkers across Singapore. Only "
+"NEA-directly-tendered centres are excluded — private coffee shops, food "
+"courts, and appointed-operator hawker centres are welcome."
+msgstr ""
+"சிங்கப்பூர் முழுவதும் ஹாக்கர் நிறுவனங்களை எதிர்கால ஹாக்கர்களுடன் "
+"இணைக்கிறது. NEA நேரடியாக டெண்டர் வழங்கிய மையங்கள் மட்டும் "
+"விலக்கப்பட்டுள்ளன — தனியார் காபி கடைகள், உணவு மண்டபங்கள் மற்றும் "
+"நியமிக்கப்பட்ட இயக்குநர் ஹாக்கர் மையங்கள் வரவேற்கப்படுகின்றன."
 
 msgid "Connecting hawker stall owners with prospective hawkers across Singapore."
 msgstr ""
@@ -204,9 +214,6 @@ msgstr "விலை: குறைவிலிருந்து அதிகம
 
 msgid "Primary Region"
 msgstr "முதன்மை பகுதி"
-
-msgid "Private stalls only. NEA-managed stalls are excluded."
-msgstr "தனியார் கடைகள் மட்டும். NEA நிர்வாக கடைகள் விலக்கப்பட்டுள்ளன."
 
 msgid "Register Company"
 msgstr "நிறுவனத்தை பதிவு செய்"

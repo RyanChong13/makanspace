@@ -86,7 +86,7 @@ TRANSLATIONS = {
         "Try broadening your search or clearing some filters.": "请尝试扩大搜索范围或清除部分筛选条件。",
         # Footer
         "Connecting hawker stall owners with prospective hawkers across Singapore.": "连接新加坡各地小贩摊主与有意经营者。",
-        "Private stalls only. NEA-managed stalls are excluded.": "仅限私人摊位。不包括国家环境局管理的摊位。",
+        "Connecting hawker companies with aspiring hawkers across Singapore. Only NEA-directly-tendered centres are excluded — private coffee shops, food courts, and appointed-operator hawker centres are welcome.": "连接新加坡的熟食公司与有志小贩。仅排除国家环境局直接招标的中心——私人咖啡店、美食广场和获委任运营商的小贩中心都欢迎。",
         # Company signup
         "Register Your Company": "注册您的公司",
         "Register as a corporate F&B landlord. Once verified by our admin team, you can invite leasing managers and create stall listings.": "注册为餐饮企业房东。经管理员验证后，您可以邀请租赁经理并创建摊位列表。",
@@ -178,7 +178,7 @@ TRANSLATIONS = {
         "Try broadening your search or clearing some filters.": "தேடலை விரிவுபடுத்தவும் அல்லது சில வடிகட்டிகளை அழிக்கவும்.",
         # Footer
         "Connecting hawker stall owners with prospective hawkers across Singapore.": "சிங்கப்பூர் முழுவதும் ஹாக்கர் கடை உரிமையாளர்களை எதிர்கால ஹாக்கர்களுடன் இணைக்கிறது.",
-        "Private stalls only. NEA-managed stalls are excluded.": "தனியார் கடைகள் மட்டும். NEA நிர்வாக கடைகள் விலக்கப்பட்டுள்ளன.",
+        "Connecting hawker companies with aspiring hawkers across Singapore. Only NEA-directly-tendered centres are excluded — private coffee shops, food courts, and appointed-operator hawker centres are welcome.": "சிங்கப்பூர் முழுவதும் ஹாக்கர் நிறுவனங்களை எதிர்கால ஹாக்கர்களுடன் இணைக்கிறது. NEA நேரடியாக டெண்டர் வழங்கிய மையங்கள் மட்டும் விலக்கப்பட்டுள்ளன — தனியார் காபி கடைகள், உணவு மண்டபங்கள் மற்றும் நியமிக்கப்பட்ட இயக்குநர் ஹாக்கர் மையங்கள் வரவேற்கப்படுகின்றன.",
         # Company signup
         "Register Your Company": "உங்கள் நிறுவனத்தை பதிவு செய்யுங்கள்",
         "Register as a corporate F&B landlord. Once verified by our admin team, you can invite leasing managers and create stall listings.": "நிறுவன உணவு நிலஉரிமையாளராக பதிவு செய்யுங்கள். நிர்வாக குழுவால் சரிபார்க்கப்பட்ட பிறகு, குத்தகை மேலாளர்களை அழைத்து கடை பட்டியல்களை உருவாக்கலாம்.",
@@ -270,7 +270,7 @@ TRANSLATIONS = {
         "Try broadening your search or clearing some filters.": "Cuba luaskan carian anda atau kosongkan beberapa penapis.",
         # Footer
         "Connecting hawker stall owners with prospective hawkers across Singapore.": "Menghubungkan pemilik gerai penjaja dengan penjaja berpotensi di seluruh Singapura.",
-        "Private stalls only. NEA-managed stalls are excluded.": "Gerai persendirian sahaja. Gerai yang diuruskan NEA dikecualikan.",
+        "Connecting hawker companies with aspiring hawkers across Singapore. Only NEA-directly-tendered centres are excluded — private coffee shops, food courts, and appointed-operator hawker centres are welcome.": "Menghubungkan syarikat penjaja dengan penjaja berpotensi di seluruh Singapura. Hanya pusat yang ditender secara langsung oleh NEA dikecualikan — kedai kopi persendirian, food court, dan pusat penjaja pengendali dilantik dialu-alukan.",
         # Company signup
         "Register Your Company": "Daftar Syarikat Anda",
         "Register as a corporate F&B landlord. Once verified by our admin team, you can invite leasing managers and create stall listings.": "Daftar sebagai tuan tanah F&B korporat. Setelah disahkan oleh pasukan pentadbir, anda boleh menjemput pengurus pajakan dan membuat senarai gerai.",

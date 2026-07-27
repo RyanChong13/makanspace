@@ -33,6 +33,23 @@
             {% for err in form.description.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
+        <!-- Price transparency toggle -->
+        <div class="form-group" style="background: #F3F4F6; padding: 1rem; border-radius: var(--radius-md);">
+            <label class="form-label">{% trans "Pricing Display" %}</label>
+            <div class="flex gap-2" style="align-items: flex-start;">
+                {% for choice in form.price_display %}
+                <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer;">
+                    {{ choice.tag }}
+                    <span>{{ choice.choice_label }}</span>
+                </label>
+                {% endfor %}
+            </div>
+            <p class="text-secondary text-sm mt-1" style="margin-bottom: 0;">
+                {% trans "Exact pricing helps hawkers compare stalls quickly. Only choose 'Rental on request' if your pricing truly needs to be discussed privately." %}
+            </p>
+            {% for err in form.price_display.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
         <!-- Cost + Size row -->
         <div class="flex gap-2">
             <div class="form-group" style="flex: 1;">

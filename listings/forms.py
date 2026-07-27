@@ -22,6 +22,7 @@ class ListingForm(forms.ModelForm):
         fields = [
             "title",
             "description",
+            "price_display",
             "cost_min",
             "cost_max",
             "size_sqft",
@@ -44,6 +45,7 @@ class ListingForm(forms.ModelForm):
                 "rows": 4,
                 "class": "form-textarea",
             }),
+            "price_display": forms.RadioSelect(),
             "cost_min": forms.NumberInput(attrs={
                 "placeholder": "1500",
                 "class": "form-input",

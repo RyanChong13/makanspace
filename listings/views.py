@@ -13,6 +13,7 @@ from .forms import (
     ListingForm, ListingImage, ListingImageFormSet,
     ApplicationForm, TastingSlotForm,
 )
+from accounts.models import SiteSettings
 from .models import Amenity, Listing, Application, TastingSlot
 from .services import compress_image, check_property_reference, geocode_listing, SG_DISTRICT_MAP
 
@@ -140,6 +141,8 @@ class ListingListView(View):
             for l in listings
         ]
 
+        site_settings = SiteSettings.load()
+
         return render(request, self.template_name, {
             "listings": listings,
             "count": listings.count(),
@@ -148,6 +151,7 @@ class ListingListView(View):
             "selected_amenities": request.GET.getlist("amenities"),
             "listings_data": listings_data,
             "location_choices": sorted(SG_DISTRICT_MAP.items()),
+            "site_settings": site_settings,
         })
 
 
@@ -157,17 +161,41 @@ class ListingDetailView(View):
     template_name = "listings/listing_detail.html"
 
     def get(self, request, code):
-        listing = get_object_or_404(
-            Listing.objects.select_related("company", "posted_by").prefetch_related("images", "amenities"),
-            code=code,
-            status=Listing.Status.VERIFIED,
-        )
-        listing.view_count += 1
-        listing.save(update_fields=["view_count"])
+        qs = Listing.objects.select_related("company", "posted_by").prefetch_related("images", "amenities")
+
+        # Public visitors only see verified listings.
+        try:
+            listing = qs.get(code=code, status=Listing.Status.VERIFIED)
+            is_preview = False
+        except Listing.DoesNotExist:
+            listing = get_object_or_404(qs, code=code)
+            is_preview = self._can_preview(request, listing)
+            if not is_preview:
+                from django.http import Http404
+                raise Http404()
+
+        if not is_preview:
+            listing.view_count += 1
+            listing.save(update_fields=["view_count"])
 
         return render(request, self.template_name, {
             "listing": listing,
+            "is_preview": is_preview,
         })
+
+    def _can_preview(self, request, listing):
+        """Owners and same-company leasing managers may preview non-verified listings."""
+        if not request.user.is_authenticated:
+            return False
+        if request.user.is_staff:
+            return True
+        if listing.posted_by == request.user:
+            return True
+        return (
+            request.user.role == User.Role.LEASING_MANAGER
+            and request.user.company is not None
+            and request.user.company == listing.company
+        )
 
 
 class WhatsAppClickView(View):
@@ -300,13 +328,27 @@ class ListingUpdateView(LoginRequiredMixin, CompanyListingMixin, View):
 
         if form.is_valid() and formset.is_valid():
             form.save()
+
+            # Capture old image filenames BEFORE formset.save() mutates them,
+            # otherwise replacement uploads are indistinguishable from unchanged files.
+            old_images = {}
+            for img_form in formset.forms:
+                instance = img_form.instance
+                if instance.pk:
+                    old_images[instance.pk] = instance.image.name if instance.image else ""
+
             formset.save()
 
+            # Compress only genuinely new or replaced images.
             for img_form in formset.forms:
-                if img_form.cleaned_data.get("image") and not img_form.cleaned_data.get("DELETE"):
-                    if img_form.cleaned_data["image"] != img_form.instance.image:
-                        img_form.instance.image = compress_image(img_form.cleaned_data["image"])
-                        img_form.instance.save()
+                if img_form.cleaned_data.get("DELETE"):
+                    continue
+                instance = img_form.instance
+                if instance.pk and instance.image:
+                    old_name = old_images.get(instance.pk, "")
+                    if instance.image.name != old_name:
+                        instance.image = compress_image(instance.image)
+                        instance.save(update_fields=["image"])
 
             return redirect("listings:listing_detail", code=listing.code)
 

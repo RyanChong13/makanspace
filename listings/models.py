@@ -121,6 +121,15 @@ class Listing(models.Model):
         null=True,
         help_text="Maximum monthly rent in SGD (leave blank if fixed price).",
     )
+    price_display = models.CharField(
+        max_length=20,
+        choices=[
+            ("exact", "Exact price"),
+            ("on_request", "Rental on request"),
+        ],
+        default="exact",
+        help_text="'Exact price' is recommended for transparency. 'Rental on request' hides the numeric range.",
+    )
     size_sqft = models.PositiveIntegerField(
         blank=True,
         null=True,
@@ -260,6 +269,8 @@ class Listing(models.Model):
 
     @property
     def cost_display(self):
+        if self.price_display == "on_request":
+            return "Rental on Request"
         if self.cost_max and self.cost_max != self.cost_min:
             return f"${self.cost_min:,.0f}–${self.cost_max:,.0f}/mo"
         return f"${self.cost_min:,.0f}/mo"

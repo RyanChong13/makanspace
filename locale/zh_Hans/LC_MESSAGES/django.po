@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MakanSpace VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-27 21:44+0800\n"
+"POT-Creation-Date: 2026-07-28 00:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_Hans\n"
@@ -66,6 +66,12 @@ msgstr "清除所有筛选"
 
 msgid "Company Legal Name"
 msgstr "公司法定名称"
+
+msgid ""
+"Connecting hawker companies with aspiring hawkers across Singapore. Only "
+"NEA-directly-tendered centres are excluded — private coffee shops, food "
+"courts, and appointed-operator hawker centres are welcome."
+msgstr "连接新加坡的熟食公司与有志小贩。仅排除国家环境局直接招标的中心——私人咖啡店、美食广场和获委任运营商的小贩中心都欢迎。"
 
 msgid "Connecting hawker stall owners with prospective hawkers across Singapore."
 msgstr "连接新加坡各地小贩摊主与有意经营者。"
@@ -200,9 +206,6 @@ msgstr "价格：从低到高"
 
 msgid "Primary Region"
 msgstr "主要区域"
-
-msgid "Private stalls only. NEA-managed stalls are excluded."
-msgstr "仅限私人摊位。不包括国家环境局管理的摊位。"
 
 msgid "Register Company"
 msgstr "注册公司"

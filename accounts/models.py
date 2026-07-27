@@ -162,3 +162,34 @@ class User(AbstractUser):
     @property
     def can_access_dashboard(self):
         return self.is_staff or self.is_creator
+
+
+# ─── SiteSettings (singleton) ───────────────────────────────────────────────
+
+class SiteSettings(models.Model):
+    """Singleton site-wide settings editable from Django Admin."""
+
+    banner_image = models.ImageField(
+        upload_to="site/banners/",
+        blank=True,
+        help_text="Homepage hero banner image (wide promotional image, e.g. 1200x400).",
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Site Setting"
+        verbose_name_plural = "Site Settings"
+
+    def __str__(self):
+        return "Site Settings"
+
+    def save(self, *args, **kwargs):
+        # Enforce singleton: only one row ever exists.
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        """Return the singleton instance, creating it if necessary."""
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj

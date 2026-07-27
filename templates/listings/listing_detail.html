@@ -12,6 +12,22 @@
     </a>
 
     <div class="card">
+        {% if is_preview %}
+        <!-- Owner preview status banner -->
+        <div style="padding: 0.75rem 1rem; font-size: 0.9rem; font-weight: 600;
+                    {% if listing.status == listing.Status.REJECTED %}background: #FDE8E8; color: #C62828;
+                    {% else %}background: #FFF8E1; color: #8D6E00;{% endif %}">
+            {% if listing.status == listing.Status.PENDING %}
+            {% trans "Pending review — not yet visible to the public" %}
+            {% elif listing.status == listing.Status.REJECTED %}
+            {% trans "Rejected" %}{% if listing.rejection_category %}: {{ listing.get_rejection_category_display }}{% endif %}
+            {% if listing.rejection_reason %}<br><span style="font-weight: 400;">{{ listing.rejection_reason }}</span>{% endif %}
+            {% else %}
+            {% trans "Preview only — not yet visible to the public" %}
+            {% endif %}
+        </div>
+        {% endif %}
+
         <!-- Company header strip -->
         <div class="card__header">
             <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-accent-light);
