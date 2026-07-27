@@ -1,0 +1,62 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 1rem;">Overview / KPIs</h1>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">Leasing Managers</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">{{ total_leasing_managers }}</div>
+    </div>
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">Landlord Companies</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">{{ total_companies }}</div>
+        <div class="text-sm text-secondary">{{ verified_companies }} verified</div>
+    </div>
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">Listings This Week</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">{{ listings_this_week }}</div>
+    </div>
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">Listings This Month</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">{{ listings_this_month }}</div>
+    </div>
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">WhatsApp Clicks This Week</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">{{ whatsapp_clicks_this_week }}</div>
+    </div>
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">Revenue This Month</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">${{ revenue_this_month|default:"0.00" }}</div>
+    </div>
+</div>
+
+<h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Companies by Status</h2>
+<div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
+    <div class="badge badge--pending" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Pending: {{ company_status_counts.pending_verification|default:0 }}
+    </div>
+    <div class="badge badge--verified" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Verified: {{ company_status_counts.verified|default:0 }}
+    </div>
+    <div class="badge badge--rejected" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Rejected: {{ company_status_counts.rejected|default:0 }}
+    </div>
+</div>
+
+<h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Listings by Status</h2>
+<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+    <div class="badge badge--pending" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Pending: {{ status_counts.pending_verification|default:0 }}
+    </div>
+    <div class="badge badge--verified" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Verified: {{ status_counts.verified|default:0 }}
+    </div>
+    <div class="badge badge--rejected" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Rejected: {{ status_counts.rejected|default:0 }}
+    </div>
+    <div class="badge badge--taken" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Taken: {{ status_counts.taken|default:0 }}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ current_language|default:'en' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MakanSpace{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/logo.svg' %}">
+
+    <!-- Design system -->
+    <link rel="stylesheet" href="{% static 'css/design_system.css' %}">
+    {% block extra_css %}{% endblock %}
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4"
+            integrity="sha384-HD3H/kXwH+X9W2R7ME3pBfY1M8fTQ6K7s1F5q7B8kZx5G7t6m9r4s"
+            crossorigin="anonymous"></script>
+
+    <!-- CSRF token for HTMX POST requests -->
+    <meta name="htmx-config" content='{"antiCsrf": "{{ csrf_token }}"}'>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+    {% include "includes/header.html" %}
+
+    {% if show_language_modal %}
+    {% include "includes/language_modal.html" %}
+    {% endif %}
+
+    <main class="container" style="padding-top: 1.5rem; padding-bottom: 3rem;">
+        {% if messages %}
+        <div class="mb-2">
+            {% for message in messages %}
+            <div class="alert alert--{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include "includes/footer.html" %}
+
+    <!-- Chatbot Floating Widget (spec 10.11) -->
+    <div id="chatbot-fab" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:1000;">
+        <button id="chatbot-toggle" style="background:var(--color-accent);color:#fff;border:none;border-radius:50%;
+                width:56px;height:56px;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 12px rgba(75,46,131,0.35);
+                display:flex;align-items:center;justify-content:center;transition:transform 0.2s"
+                onclick="document.getElementById('chatbot-panel').classList.toggle('is-open')">💬</button>
+    </div>
+    <div id="chatbot-panel" style="position:fixed;bottom:6rem;right:1.5rem;width:340px;max-height:480px;
+            background:#fff;border-radius:var(--radius-lg);box-shadow:0 8px 32px rgba(0,0,0,0.15);
+            display:none;flex-direction:column;z-index:1001;overflow:hidden;border:1px solid var(--color-border);">
+        <div style="background:var(--color-header);color:#fff;padding:0.8rem 1rem;font-weight:700;font-size:0.95rem;
+                    display:flex;align-items:center;justify-content:space-between;">
+            <span>🔍 MakanSpace Assistant</span>
+            <button onclick="document.getElementById('chatbot-panel').classList.remove('is-open')"
+                    style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer">✕</button>
+        </div>
+        <div id="chatbot-messages" style="flex:1;overflow-y:auto;padding:0.8rem;font-size:0.9rem;
+                                            display:flex;flex-direction:column;gap:0.6rem;">
+            <div style="background:var(--color-bg-secondary);padding:0.6rem 0.8rem;border-radius:var(--radius-md);
+                        max-width:85%;align-self:flex-start;">
+                Hi! Describe the hawker stall you're looking for — I'll find matches for you.
+            </div>
+        </div>
+        <form id="chatbot-form" style="border-top:1px solid var(--color-border);padding:0.6rem;display:flex;gap:0.4rem;">
+            <input type="text" id="chatbot-input" placeholder="e.g. stall near MRT under $2000..."
+                   style="flex:1;border:1px solid var(--color-border);border-radius:var(--radius-pill);
+                          padding:0.5rem 0.8rem;font-size:0.9rem;outline:none">
+            <button type="submit" style="background:var(--color-accent);color:#fff;border:none;
+                    border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem">↑</button>
+        </form>
+    </div>
+
+    <!-- Lucide line icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.lucide) lucide.createIcons();
+        });
+        document.body.addEventListener('htmx:afterSwap', function() {
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+
+    <style>
+        #chatbot-panel.is-open{display:flex!important}
+        .chatbot-result{background:var(--color-bg-secondary);border-radius:var(--radius-md);padding:0.6rem;
+                        margin-top:0.4rem;font-size:0.85rem;border:1px solid var(--color-border)}
+        .chatbot-result strong{color:var(--color-accent)}
+    </style>
+
+    <script>
+        // ── Chatbot Widget (spec 10.11) ──────────────────────────────────────
+        const chatForm = document.getElementById('chatbot-form');
+        const chatInput = document.getElementById('chatbot-input');
+        const chatMsgs = document.getElementById('chatbot-messages');
+        if (chatForm) {
+            chatForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const msg = chatInput.value.trim();
+                if (!msg) return;
+
+                // User bubble
+                const userDiv = document.createElement('div');
+                userDiv.style.cssText = 'background:var(--color-accent);color:#fff;padding:0.6rem 0.8rem;border-radius:var(--radius-md);max-width:85%;align-self:flex-end;';
+                userDiv.textContent = msg;
+                chatMsgs.appendChild(userDiv);
+                chatInput.value = '';
+                chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+                // Loading
+                const loadDiv = document.createElement('div');
+                loadDiv.style.cssText = 'color:var(--color-text-secondary);font-size:0.85rem;padding:0.3rem;';
+                loadDiv.textContent = 'Searching...';
+                chatMsgs.appendChild(loadDiv);
+
+                try {
+                    const resp = await fetch('{% url "chatbot:search" %}', {
+                        method: 'POST',
+                        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+                        body: JSON.stringify({message: msg}),
+                    });
+                    const data = await resp.json();
+                    loadDiv.remove();
+
+                    const botDiv = document.createElement('div');
+                    botDiv.style.cssText = 'align-self:flex-start;max-width:90%;';
+
+                    if (data.results && data.results.length > 0) {
+                        let html = '<div>Found ' + data.results.length + ' match(es):</div>';
+                        data.results.forEach(function(l) {
+                            html += '<div class="chatbot-result"><strong>' + l.code + '</strong> — ' + l.title +
+                                    '<br>💰 ' + l.cost + (l.size ? ' · 📏 ' + l.size : '') + '</div>';
+                        });
+                        botDiv.innerHTML = html;
+                    } else {
+                        botDiv.innerHTML = '<div style="background:var(--color-bg-secondary);padding:0.6rem 0.8rem;border-radius:var(--radius-md);">No matches found. Try different criteria!</div>';
+                    }
+                    chatMsgs.appendChild(botDiv);
+                } catch(err) {
+                    loadDiv.remove();
+                    const errDiv = document.createElement('div');
+                    errDiv.style.cssText = 'background:#FDE8E8;padding:0.6rem;border-radius:var(--radius-md);color:#C0392B;font-size:0.85rem;';
+                    errDiv.textContent = 'Sorry, something went wrong. Please try again.';
+                    chatMsgs.appendChild(errDiv);
+                }
+                chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            });
+        }
+    </script>
+
+    <script>
+        // Language selector toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            const trigger = document.querySelector('.lang-selector__trigger');
+            const menu = document.querySelector('.lang-selector__menu');
+            if (trigger && menu) {
+                trigger.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    menu.classList.toggle('is-open');
+                });
+                document.addEventListener('click', function () {
+                    menu.classList.remove('is-open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

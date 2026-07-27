@@ -1,0 +1,255 @@
+{% load i18n %}
+<!-- Filter bar (spec 9): horizontal dropdown buttons for Location, Cost, Size, Lease, MRT/Bus, Amenities -->
+<form hx-get="{% url 'listings:listing_list' %}" hx-target="#results" hx-swap="innerHTML" id="filter-form">
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;">
+
+        <!-- Location -->
+        <details class="filter-dropdown">
+            <summary class="filter-summary">{% trans "Location" %}</summary>
+            <div class="filter-menu">
+                <label class="filter-option">
+                    <input type="radio" name="location" value=""
+                           {% if not filters.location %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Any location" %}</span>
+                </label>
+                {% for prefix, label in location_choices %}
+                <label class="filter-option">
+                    <input type="radio" name="location" value="{{ prefix }}"
+                           {% if filters.location == prefix %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{{ label }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </details>
+
+        <!-- Cost Range -->
+        <details class="filter-dropdown">
+            <summary class="filter-summary">{% trans "Cost Range" %}</summary>
+            <div class="filter-menu">
+                <label class="filter-option">
+                    <input type="radio" name="cost" value=""
+                           {% if not filters.cost %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Any cost" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="cost" value="500-1000"
+                           {% if filters.cost == '500-1000' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>$500–1,000</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="cost" value="1000-2000"
+                           {% if filters.cost == '1000-2000' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>$1,000–2,000</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="cost" value="2000-3000"
+                           {% if filters.cost == '2000-3000' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>$2,000–3,000</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="cost" value="3000+"
+                           {% if filters.cost == '3000+' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>$3,000+</span>
+                </label>
+            </div>
+        </details>
+
+        <!-- Size -->
+        <details class="filter-dropdown">
+            <summary class="filter-summary">{% trans "Size" %}</summary>
+            <div class="filter-menu">
+                <label class="filter-option">
+                    <input type="radio" name="size" value=""
+                           {% if not filters.size %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Any size" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="size" value="<200"
+                           {% if filters.size == '<200' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>&lt;200 sqft</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="size" value="200-400"
+                           {% if filters.size == '200-400' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>200–400 sqft</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="size" value="400+"
+                           {% if filters.size == '400+' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>400+ sqft</span>
+                </label>
+            </div>
+        </details>
+
+        <!-- Lease Duration -->
+        <details class="filter-dropdown">
+            <summary class="filter-summary">{% trans "Lease Duration" %}</summary>
+            <div class="filter-menu">
+                <label class="filter-option">
+                    <input type="radio" name="lease" value=""
+                           {% if not filters.lease %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Any duration" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="lease" value="<6mo"
+                           {% if filters.lease == '<6mo' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Less than 6 months" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="lease" value="6-12mo"
+                           {% if filters.lease == '6-12mo' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "6 to 12 months" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="lease" value="1-2yr"
+                           {% if filters.lease == '1-2yr' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "1 to 2 years" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="lease" value="2yr+"
+                           {% if filters.lease == '2yr+' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "More than 2 years" %}</span>
+                </label>
+            </div>
+        </details>
+
+        <!-- MRT/Bus Distance -->
+        <details class="filter-dropdown">
+            <summary class="filter-summary">{% trans "MRT/Bus Distance" %}</summary>
+            <div class="filter-menu">
+                <label class="filter-option">
+                    <input type="radio" name="mrt_distance" value=""
+                           {% if not filters.mrt_distance %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Any distance" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="mrt_distance" value="5"
+                           {% if filters.mrt_distance == '5' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Within 5 min walk" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="mrt_distance" value="10"
+                           {% if filters.mrt_distance == '10' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Within 10 min walk" %}</span>
+                </label>
+                <label class="filter-option">
+                    <input type="radio" name="mrt_distance" value="15"
+                           {% if filters.mrt_distance == '15' %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <span>{% trans "Within 15 min walk" %}</span>
+                </label>
+            </div>
+        </details>
+
+        <!-- Amenities -->
+        <details class="filter-dropdown">
+            <summary class="filter-summary">{% trans "Amenities" %}</summary>
+            <div class="filter-menu">
+                {% for amenity in amenities %}
+                <label class="filter-option">
+                    <input type="checkbox" name="amenities" value="{{ amenity.slug }}"
+                           {% if amenity.slug in selected_amenities %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <i data-lucide="{{ amenity.icon }}" style="width:14px;height:14px;flex-shrink:0;"></i>
+                    <span>{{ amenity.name_en }}</span>
+                </label>
+                {% endfor %}
+                <label class="filter-option">
+                    <input type="checkbox" name="has_grease_trap" value="1"
+                           {% if filters.has_grease_trap %}checked{% endif %}
+                           onchange="applyFilter()">
+                    <i data-lucide="droplets" style="width:14px;height:14px;flex-shrink:0;"></i>
+                    <span>{% trans "Has Grease Trap" %}</span>
+                </label>
+            </div>
+        </details>
+
+        <a href="{% url 'listings:listing_list' %}" class="text-sm" style="color: var(--color-text-secondary); padding: 0.4rem 0.2rem;">
+            {% trans "Clear all" %}
+        </a>
+    </div>
+</form>
+
+<style>
+.filter-dropdown {
+    position: relative;
+}
+.filter-summary {
+    list-style: none;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.filter-summary::-webkit-details-marker { display: none; }
+.filter-summary::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    margin-left: 0.2rem;
+}
+.filter-menu {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    min-width: 220px;
+    max-height: 320px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    padding: 0.5rem;
+    z-index: 50;
+}
+.filter-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+}
+.filter-option:hover { background: var(--color-bg-secondary); }
+.filter-option input { margin: 0; }
+</style>
+
+<script>
+function applyFilter() {
+    document.querySelectorAll('details.filter-dropdown').forEach(function(d) {
+        d.removeAttribute('open');
+    });
+    document.getElementById('filter-form').requestSubmit();
+}
+</script>

@@ -1,0 +1,65 @@
+{% load static i18n %}
+<header class="bh-header">
+    <a href="{% url 'listings:listing_list' %}" class="bh-header__logo" style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="width: 32px; height: 32px; color: #fff;">
+            {% include "includes/logo_icon.html" %}
+        </span>
+        MakanSpace
+    </a>
+
+    <nav class="bh-header__nav">
+        <!-- Language selector -->
+        <div class="lang-selector">
+            <button class="lang-selector__trigger" type="button" aria-label="Select language">
+                {{ current_language_display|default:"EN" }}
+                <span style="font-size: 0.7rem;">&#9660;</span>
+            </button>
+            <div class="lang-selector__menu">
+                <form method="post" action="{% url 'accounts:language_select' 'en' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="lang-selector__option {% if current_language == 'en' %}is-active{% endif %}">
+                        English
+                    </button>
+                </form>
+                <form method="post" action="{% url 'accounts:language_select' 'zh' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="lang-selector__option {% if current_language == 'zh' %}is-active{% endif %}">
+                        中文 (Chinese)
+                    </button>
+                </form>
+                <form method="post" action="{% url 'accounts:language_select' 'ta' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="lang-selector__option {% if current_language == 'ta' %}is-active{% endif %}">
+                        தமிழ் (Tamil)
+                    </button>
+                </form>
+                <form method="post" action="{% url 'accounts:language_select' 'ms' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="lang-selector__option {% if current_language == 'ms' %}is-active{% endif %}">
+                        Bahasa Melayu
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Auth links -->
+        {% if user.is_authenticated %}
+            {% if user.can_post_listings %}
+            <a href="{% url 'listings:listing_create' %}" class="bh-header__nav-btn">+ {% trans "Post Stall" %}</a>
+            {% endif %}
+            <a href="{% url 'accounts:profile' %}" class="bh-header__nav-btn" style="display: flex; align-items: center; gap: 0.3rem;">
+                <span style="width: 24px; height: 24px; border-radius: 50%; background: var(--color-accent-light);
+                             display: inline-flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">
+                    {{ user.display_name|slice:":1"|upper }}
+                </span>
+                {{ user.display_name }}
+            </a>
+            <a href="{% url 'account_logout' %}" class="bh-header__nav-btn">{% trans "Log Out" %}</a>
+        {% else %}
+            <a href="{% url 'account_login' %}" class="bh-header__nav-btn">{% trans "Log In" %}</a>
+            <a href="{% url 'accounts:company_signup' %}" class="bh-header__nav-btn btn btn--primary" style="padding: 0.3rem 0.8rem;">
+                {% trans "Register Company" %}
+            </a>
+        {% endif %}
+    </nav>
+</header>

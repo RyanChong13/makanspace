@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Edit {{ listing.title }} — MakanSpace{% endblock %}
+
+{% block content %}
+<div class="container--narrow" style="max-width: 650px; margin: 0 auto;">
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">Edit Your Listing</h1>
+    <p class="text-secondary text-sm mb-2">
+        Update your stall details. Changes will be re-reviewed if already verified.
+        <span class="badge badge--{{ listing.status }}">{{ listing.get_status_display }}</span>
+    </p>
+
+    {% if form.errors or formset.errors %}
+    <div class="alert alert--error mb-2">Please correct the errors below.</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.title.id_for_label }}">Stall Title</label>
+            {{ form.title }}
+            {% for err in form.title.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.description.id_for_label }}">Description</label>
+            {{ form.description }}
+            {% for err in form.description.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="flex gap-2">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.cost_min.id_for_label }}">Monthly Rent (SGD)</label>
+                {{ form.cost_min }}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.cost_max.id_for_label }}">Max Rent (optional)</label>
+                {{ form.cost_max }}
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.size_sqft.id_for_label }}">Size (sqft)</label>
+                {{ form.size_sqft }}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.lease_duration.id_for_label }}">Lease Duration</label>
+                {{ form.lease_duration }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.postal_code.id_for_label }}">Postal Code</label>
+            {{ form.postal_code }}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.contact_number.id_for_label }}">WhatsApp Contact Number</label>
+            {{ form.contact_number }}
+        </div>
+
+        <!-- F&B-specific fields -->
+        <div style="background: var(--color-bg-secondary); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+            <div class="text-sm" style="font-weight: 600; margin-bottom: 0.5rem;">F&amp;B Operational Costs (optional)</div>
+            <div class="flex gap-2">
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label" for="{{ form.grease_trap_fee.id_for_label }}">Grease Trap Fee ($/mo)</label>
+                    {{ form.grease_trap_fee }}
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label" for="{{ form.dishwashing_cost.id_for_label }}">Dishwashing Cost ($/mo)</label>
+                    {{ form.dishwashing_cost }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ form.footfall_estimate.id_for_label }}">Estimated Daily Footfall</label>
+                {{ form.footfall_estimate }}
+            </div>
+        </div>
+
+        <!-- Amenities -->
+        <div class="form-group">
+            <label class="form-label">Amenities</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+                {% for amenity in amenities %}
+                <label style="display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.6rem;
+                              border: 1px solid var(--color-border); border-radius: var(--radius-md);
+                              cursor: pointer; font-size: 0.9rem;">
+                    <input type="checkbox" name="amenities" value="{{ amenity.pk }}"
+                           {% if amenity in listing.amenities.all %}checked{% endif %}>
+                    <i data-lucide="{{ amenity.icon }}" style="width:16px;height:16px;"></i>
+                    <span>{{ amenity.name_en }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Existing + new images -->
+        <div class="form-group">
+            <label class="form-label">Photos (up to 6)</label>
+            {{ formset.management_form }}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem;">
+                {% for img_form in formset %}
+                <div style="border: 1px solid var(--color-border); border-radius: var(--radius-md);
+                            padding: 0.5rem; text-align: center;">
+                    {% if img_form.instance.pk and img_form.instance.image %}
+                    <img src="{{ img_form.instance.image.url }}" style="width: 100%; height: 80px; object-fit: cover;
+                         border-radius: var(--radius-sm); margin-bottom: 0.3rem;">
+                    {% endif %}
+                    {{ img_form.id }}
+                    {{ img_form.listing }}
+                    {{ img_form.image }}
+                    {{ img_form.DELETE }}
+                    <div class="text-sm text-secondary mt-1">Photo {{ forloop.counter }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="flex gap-2 mt-2">
+            <button type="submit" class="btn btn--primary" style="flex: 1; padding: 0.8rem;">Save Changes</button>
+            <a href="{% url 'listings:listing_detail' listing.code %}" class="btn btn--secondary" style="padding: 0.8rem;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 1rem;">Applications Overview</h1>
+
+<div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+    <div class="badge badge--pending" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Submitted: {{ status_counts.submitted|default:0 }}
+    </div>
+    <div class="badge" style="font-size: 0.9rem; padding: 0.4rem 0.8rem; background: #E3F2FD; color: #1565C0;">
+        Tasting: {{ status_counts.tasting_scheduled|default:0 }}
+    </div>
+    <div class="badge badge--verified" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Approved: {{ status_counts.approved|default:0 }}
+    </div>
+    <div class="badge badge--rejected" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;">
+        Rejected: {{ status_counts.rejected|default:0 }}
+    </div>
+</div>
+
+{% if applications %}
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+    <thead>
+        <tr style="border-bottom: 2px solid var(--color-border);">
+            <th style="text-align: left; padding: 0.5rem;">Date</th>
+            <th style="text-align: left; padding: 0.5rem;">Applicant</th>
+            <th style="text-align: left; padding: 0.5rem;">Listing</th>
+            <th style="text-align: left; padding: 0.5rem;">Status</th>
+            <th style="text-align: left; padding: 0.5rem;">Tasting Slot</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for app in applications %}
+        <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.5rem;">{{ app.created_at|date:"d M Y" }}</td>
+            <td style="padding: 0.5rem;">{{ app.applicant.display_name }}</td>
+            <td style="padding: 0.5rem;">
+                <a href="{% url 'listings:listing_detail' app.listing.code %}">{{ app.listing.code }}</a>
+            </td>
+            <td style="padding: 0.5rem;">
+                <span class="badge {% if app.status == 'approved' %}badge--verified{% elif app.status == 'rejected' %}badge--rejected{% else %}badge--pending{% endif %}">
+                    {{ app.get_status_display }}
+                </span>
+            </td>
+            <td style="padding: 0.5rem;">
+                {% if app.tasting_slot %}
+                    {{ app.tasting_slot.start_time|date:"d M H:i" }}
+                {% else %}
+                    —
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert--info">No applications yet.</div>
+{% endif %}
+{% endblock %}

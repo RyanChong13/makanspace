@@ -1,0 +1,24 @@
+<div class="lang-modal-overlay" id="languageModal">
+    <div class="lang-modal">
+        <div class="lang-modal__title">Choose Your Language</div>
+        <div class="lang-modal__subtitle">Select your preferred language to browse stalls</div>
+        <div class="lang-modal__options">
+            <form method="post" action="{% url 'accounts:language_select' 'en' %}">
+                {% csrf_token %}
+                <button type="submit" class="lang-modal__btn">English</button>
+            </form>
+            <form method="post" action="{% url 'accounts:language_select' 'zh' %}">
+                {% csrf_token %}
+                <button type="submit" class="lang-modal__btn">中文 (Chinese)</button>
+            </form>
+            <form method="post" action="{% url 'accounts:language_select' 'ta' %}">
+                {% csrf_token %}
+                <button type="submit" class="lang-modal__btn">தமிழ் (Tamil)</button>
+            </form>
+            <form method="post" action="{% url 'accounts:language_select' 'ms' %}">
+                {% csrf_token %}
+                <button type="submit" class="lang-modal__btn">Bahasa Melayu (Malay)</button>
+            </form>
+        </div>
+    </div>
+</div>

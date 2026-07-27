@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Account Settings" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="max-width: 550px; margin: 0 auto;">
+
+    <!-- Back to home link -->
+    <a href="{% url 'listings:listing_list' %}" class="text-sm text-secondary mb-2" style="display: inline-block;">
+        &larr; {% trans "Back to listings" %}
+    </a>
+
+    <h1 style="font-size: 1.4rem; font-weight: 700; color: var(--color-header); margin-bottom: 0.3rem;">
+        {% trans "Account Settings" %}
+    </h1>
+    <p class="text-secondary text-sm mb-2">Manage your profile and login details</p>
+
+    <!-- Profile avatar -->
+    <div class="card mb-2">
+        <div class="card__header">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--color-accent);
+                        display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 1.2rem;">
+                {{ user.display_name|slice:":1"|upper }}
+            </div>
+            <div style="flex: 1;">
+                <div style="font-weight: 600;">{{ user.display_name }}</div>
+                <div class="text-sm text-secondary">
+                    {{ user.get_role_display }} &middot;
+                    Member since {{ user.date_joined|date:"M Y" }}
+                    {% if user.company %}
+                    <div style="margin-top: 0.2rem;">
+                        <strong>{{ user.company.name }}</strong>
+                        {% if user.company.is_verified %}
+                        <span class="badge badge--verified" style="margin-left: 0.3rem;">&#10003; Verified</span>
+                        {% else %}
+                        <span class="badge badge--pending">Pending Verification</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile form -->
+    <div class="card mb-2">
+        <div class="card__header" style="background: var(--color-bg-primary);">
+            <span style="font-weight: 600;">Personal Information</span>
+        </div>
+        <div class="card__body">
+            <form method="post" action="{% url 'accounts:profile' %}">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                <div class="alert alert--error mb-2">Please correct the errors below.</div>
+                {% endif %}
+
+                <div class="flex gap-2">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="id_first_name">First Name</label>
+                        {{ form.first_name }}
+                        {% for err in form.first_name.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="id_last_name">Last Name</label>
+                        {{ form.last_name }}
+                        {% for err in form.last_name.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="id_email">Email Address</label>
+                    {{ form.email }}
+                    {% for err in form.email.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                    <p class="text-secondary text-sm mt-1">Used for login and notifications.</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="id_phone">Phone / HP Number</label>
+                    {{ form.phone }}
+                    {% for err in form.phone.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                    <p class="text-secondary text-sm mt-1">For WhatsApp contact. Include country code, e.g. +65 9123 4567</p>
+                </div>
+
+                <button type="submit" class="btn btn--primary" style="padding: 0.65rem 1.5rem;">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password section -->
+    <div class="card mb-2">
+        <div class="card__header" style="background: var(--color-bg-primary);">
+            <span style="font-weight: 600;">Login &amp; Security</span>
+        </div>
+        <div class="card__body">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 500;">Password</div>
+                    <div class="text-sm text-secondary">Last changed: never</div>
+                </div>
+                <a href="{% url 'account_change_password' %}" class="btn btn--secondary" style="font-size: 0.85rem;">
+                    Change Password
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Listings (leasing managers) -->
+    {% if user.posted_listings.exists %}
+    <div class="card mb-2">
+        <div class="card__header" style="background: var(--color-bg-primary);">
+            <span style="font-weight: 600;">My Listings</span>
+        </div>
+        <div class="card__body" style="padding: 0;">
+            {% for listing in user.posted_listings.all %}
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+                        border-bottom: {% if not forloop.last %}1px solid var(--color-border){% else %}none{% endif %};">
+                <div style="flex: 1;">
+                    <a href="{% url 'listings:listing_detail' listing.code %}" style="font-weight: 600;">
+                        {{ listing.title }}
+                    </a>
+                    <div class="text-sm text-secondary">
+                        {{ listing.code }} &middot;
+                        <span style="color: {% if listing.status == 'verified' %}var(--color-success){% elif listing.status == 'rejected' %}var(--color-error){% else %}var(--color-warning){% endif %};">
+                            {{ listing.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                <a href="{% url 'listings:listing_update' listing.code %}" class="text-sm">Edit</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- My Applications (applicants) -->
+    {% if user.applications.exists %}
+    <div class="card mb-2">
+        <div class="card__header" style="background: var(--color-bg-primary);">
+            <span style="font-weight: 600;">My Applications</span>
+        </div>
+        <div class="card__body" style="padding: 0;">
+            {% for app in user.applications.all|slice:":10" %}
+            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+                        border-bottom: {% if not forloop.last %}1px solid var(--color-border){% else %}none{% endif %};">
+                <div style="flex: 1;">
+                    <a href="{% url 'listings:listing_detail' app.listing.code %}" style="font-weight: 600;">
+                        {{ app.listing.title }}
+                    </a>
+                    <div class="text-sm text-secondary">
+                        {{ app.listing.code }} &middot;
+                        <span style="color: {% if app.status == 'approved' %}var(--color-success){% elif app.status == 'rejected' %}var(--color-error){% else %}var(--color-warning){% endif %};">
+                            {{ app.get_status_display }}
+                        </span>
+                        &middot; {{ app.created_at|date:"d M Y" }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

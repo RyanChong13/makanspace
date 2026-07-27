@@ -1,0 +1,275 @@
+# Malay translations for MakanSpace.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the MakanSpace project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: MakanSpace VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-07-27 21:44+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ms\n"
+"Language-Team: ms <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "1 to 2 years"
+msgstr "1 hingga 2 tahun"
+
+msgid "6 to 12 months"
+msgstr "6 hingga 12 bulan"
+
+msgid "Account Settings"
+msgstr "Tetapan Akaun"
+
+msgid "Already have an account?"
+msgstr "Sudah mempunyai akaun?"
+
+msgid "Amenities"
+msgstr "Kemudahan"
+
+msgid "Any distance"
+msgstr "Sebarang jarak"
+
+msgid "Any duration"
+msgstr "Sebarang tempoh"
+
+msgid "Apply Now"
+msgstr "Mohon Sekarang"
+
+msgid "Available Tasting / Viewing Slots"
+msgstr "Slot Merasa / Melihat yang Tersedia"
+
+msgid "Back to listings"
+msgstr "Kembali ke senarai"
+
+msgid "Boost this Listing"
+msgstr "Galakkan Senarai Ini"
+
+msgid "Browse Hawker Stalls"
+msgstr "Layari Gerai Penjaja"
+
+msgid "Business Registration Document"
+msgstr "Dokumen Pendaftaran Perniagaan"
+
+msgid "Business verified"
+msgstr "Perniagaan disahkan"
+
+msgid "Clear all filters"
+msgstr "Kosongkan semua penapis"
+
+msgid "Company Legal Name"
+msgstr "Nama Undang-undang Syarikat"
+
+msgid "Connecting hawker stall owners with prospective hawkers across Singapore."
+msgstr ""
+"Menghubungkan pemilik gerai penjaja dengan penjaja berpotensi di seluruh "
+"Singapura."
+
+msgid "Cost Range (SGD/month)"
+msgstr "Julat Kos (SGD/bulan)"
+
+msgid "Description"
+msgstr "Penerangan"
+
+msgid "Dishwashing Cost"
+msgstr "Kos Basuh Pinggan"
+
+msgid "Edit Listing"
+msgstr "Sunting Senarai"
+
+msgid "Est. Daily Footfall"
+msgstr "Anggaran Trafik Harian"
+
+msgid "F&B Operational Costs"
+msgstr "Kos Operasi F&B"
+
+msgid "F&B Operational Costs (optional)"
+msgstr "Kos Operasi F&B (pilihan)"
+
+msgid "FEATURED"
+msgstr "TETAPAN"
+
+msgid "Featured first"
+msgstr "Tetapan pertama"
+
+msgid ""
+"Fill in your stall details. Your listing will be reviewed by our team "
+"before going live."
+msgstr ""
+"Isikan butiran gerai anda. Senarai anda akan disemak oleh pasukan kami "
+"sebelum disiarkan."
+
+msgid "First Name"
+msgstr "Nama Pertama"
+
+msgid "Grease Trap Fee"
+msgstr "Yuran Perangkap Gris"
+
+msgid "Grease trap"
+msgstr "Perangkap gris"
+
+msgid "Has Grease Trap"
+msgstr "Ada Perangkap Gris"
+
+msgid "Hawker Stalls for Rent"
+msgstr "Gerai Penjaja Untuk Disewa"
+
+msgid "Last Name"
+msgstr "Nama Akhir"
+
+msgid "Lease Duration"
+msgstr "Tempoh Sewa"
+
+msgid "Less than 6 months"
+msgstr "Kurang dari 6 bulan"
+
+msgid "List"
+msgstr "Senarai"
+
+msgid "Listing code"
+msgstr "Kod senarai"
+
+msgid "Log In"
+msgstr "Log Masuk"
+
+msgid "Log Out"
+msgstr "Log Keluar"
+
+msgid "Log in"
+msgstr "Log masuk"
+
+msgid "MRT/Bus Distance"
+msgstr "Jarak MRT/Bas"
+
+msgid "Manage Tasting Slots"
+msgstr "Urus Slot Merasa"
+
+msgid "Map"
+msgstr "Peta"
+
+msgid "Max Rent (optional)"
+msgstr "Sewa Maksimum (pilihan)"
+
+msgid "Monthly Rent (SGD)"
+msgstr "Sewa Bulanan (SGD)"
+
+msgid "More than 2 years"
+msgstr "Lebih dari 2 tahun"
+
+msgid "Nearest MRT/Bus"
+msgstr "MRT/Bas Terdekat"
+
+msgid "Newest"
+msgstr "Terbaru"
+
+msgid "No stalls match your filters"
+msgstr "Tiada gerai yang sepadan dengan penapis anda"
+
+msgid "Password"
+msgstr "Kata Laluan"
+
+msgid "Phone Number"
+msgstr "Nombor Telefon"
+
+msgid "Photos (up to 6)"
+msgstr "Foto (sehingga 6)"
+
+msgid "Please correct the errors below."
+msgstr "Sila betulkan kesilapan di bawah."
+
+msgid "Post Stall"
+msgstr "Siarkan Gerai"
+
+msgid "Post Your Hawker Stall"
+msgstr "Siarkan Gerai Penjaja Anda"
+
+msgid "Post a Hawker Stall"
+msgstr "Siarkan Gerai Penjaja"
+
+msgid "Postal Code"
+msgstr "Poskod"
+
+msgid "Price: High to Low"
+msgstr "Harga: Tinggi ke Rendah"
+
+msgid "Price: Low to High"
+msgstr "Harga: Rendah ke Tinggi"
+
+msgid "Primary Region"
+msgstr "Rantau Utama"
+
+msgid "Private stalls only. NEA-managed stalls are excluded."
+msgstr "Gerai persendirian sahaja. Gerai yang diuruskan NEA dikecualikan."
+
+msgid "Register Company"
+msgstr "Daftar Syarikat"
+
+msgid "Register Your Company"
+msgstr "Daftar Syarikat Anda"
+
+msgid ""
+"Register as a corporate F&B landlord. Once verified by our admin team, "
+"you can invite leasing managers and create stall listings."
+msgstr ""
+"Daftar sebagai tuan tanah F&B korporat. Setelah disahkan oleh pasukan "
+"pentadbir, anda boleh menjemput pengurus pajakan dan membuat senarai "
+"gerai."
+
+msgid "Size"
+msgstr "Saiz"
+
+msgid "Size (sqft)"
+msgstr "Saiz (kaki persegi)"
+
+msgid "Stall Title"
+msgstr "Tajuk Gerai"
+
+msgid "Try broadening your search or clearing some filters."
+msgstr "Cuba luaskan carian anda atau kosongkan beberapa penapis."
+
+msgid "UEN (Business Registration)"
+msgstr "UEN (Pendaftaran Perniagaan)"
+
+msgid "Verified"
+msgstr "Disahkan"
+
+msgid "Verified Landlord"
+msgstr "Tuan Tanah Disahkan"
+
+msgid "View Applications"
+msgstr "Lihat Permohonan"
+
+msgid "WhatsApp Contact Number"
+msgstr "Nombor Hubungan WhatsApp"
+
+msgid "Within 10 min walk"
+msgstr "Dalam 10 minit berjalan"
+
+msgid "Within 15 min walk"
+msgstr "Dalam 15 minit berjalan"
+
+msgid "Within 5 min walk"
+msgstr "Dalam 5 minit berjalan"
+
+msgid "Your Account (First Leasing Manager)"
+msgstr "Akaun Anda (Pengurus Pajakan Pertama)"
+
+msgid "Your Email"
+msgstr "E-mel Anda"
+
+msgid "found"
+msgstr "dijumpai"
+
+msgid "more"
+msgstr "lagi"
+
+msgid "stall"
+msgstr "gerai"
+

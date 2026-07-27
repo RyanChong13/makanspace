@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}Reject listings{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to reject the following {{ listings|length }} listing(s)?</p>
+
+    <ul>
+        {% for listing in listings %}
+        <li>
+            <strong>{{ listing.code }}</strong> — {{ listing.title }}
+            <span style="color: #666;">(company: {{ listing.company.name }})</span>
+            <input type="hidden" name="{{ action_checkbox_name }}" value="{{ listing.pk }}">
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div style="margin: 1rem 0;">
+        <label for="id_reason" style="font-weight: bold; display: block; margin-bottom: 0.3rem;">
+            Rejection Reason:
+        </label>
+        {{ form.reason }}
+        {% if form.reason.errors %}
+        <div style="color: red; font-size: 0.85rem;">{{ form.reason.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <input type="hidden" name="action" value="reject_listings">
+    <input type="submit" name="apply" value="Reject listings" class="default" style="background: #c62828; color: white; border: none; padding: 0.5rem 1rem; cursor: pointer;">
+    <a href="{% url opts|admin_urlname:'changelist' %}" style="margin-left: 1rem;">Cancel</a>
+</form>
+{% endblock %}

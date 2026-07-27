@@ -1,0 +1,57 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 1rem;">Payments Log</h1>
+
+{% if payments %}
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+    <thead>
+        <tr style="border-bottom: 2px solid var(--color-border);">
+            <th style="text-align: left; padding: 0.5rem;">Date</th>
+            <th style="text-align: left; padding: 0.5rem;">Company</th>
+            <th style="text-align: left; padding: 0.5rem;">Fee Type</th>
+            <th style="text-align: left; padding: 0.5rem;">Listing</th>
+            <th style="text-align: right; padding: 0.5rem;">Amount</th>
+            <th style="text-align: left; padding: 0.5rem;">Provider</th>
+            <th style="text-align: left; padding: 0.5rem;">Status</th>
+            <th style="text-align: left; padding: 0.5rem;">Webhook Ref</th>
+            <th style="text-align: left; padding: 0.5rem;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payment in payments %}
+        <tr style="border-bottom: 1px solid var(--color-border);
+                   {% if payment.is_failed or payment.is_stuck %}background: #FFF8E8;{% endif %}">
+            <td style="padding: 0.5rem;">{{ payment.created_at|date:"d M Y H:i" }}</td>
+            <td style="padding: 0.5rem;">{{ payment.company.name|default:payment.user.email }}</td>
+            <td style="padding: 0.5rem;">{{ payment.get_fee_type_display }}</td>
+            <td style="padding: 0.5rem;">{{ payment.listing.code|default:"\u2014" }}</td>
+            <td style="padding: 0.5rem; text-align: right;">S${{ payment.amount }}</td>
+            <td style="padding: 0.5rem;">{{ payment.get_provider_display }}</td>
+            <td style="padding: 0.5rem;">
+                <span class="badge {% if payment.status == 'succeeded' %}badge--verified{% elif payment.status == 'failed' %}badge--rejected{% else %}badge--pending{% endif %}">
+                    {{ payment.get_status_display }}
+                </span>
+                {% if payment.is_failed %}<span class="badge badge--rejected" style="margin-left: 0.25rem;">Failed</span>{% endif %}
+                {% if payment.is_stuck %}<span class="badge badge--pending" style="margin-left: 0.25rem;">Stuck >24h</span>{% endif %}
+            </td>
+            <td style="padding: 0.5rem; font-family: monospace; font-size: 0.8rem;">{{ payment.webhook_ref|default:"\u2014" }}</td>
+            <td style="padding: 0.5rem;">
+                {% if payment.is_failed or payment.is_stuck %}
+                <form method="post" style="display: contents;" onsubmit="return confirm('Mark this payment as processed manually?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="payment_id" value="{{ payment.pk }}">
+                    <button type="submit" class="btn btn--secondary" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">
+                        Mark Processed
+                    </button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert--info">No payments yet.</div>
+{% endif %}
+{% endblock %}

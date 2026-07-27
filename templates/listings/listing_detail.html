@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load i18n listing_extras %}
+
+{% block title %}{% with translation=listing|get_translation:current_language %}{% if translation %}{{ translation.title }}{% else %}{{ listing.title }}{% endif %}{% endwith %} — MakanSpace{% endblock %}
+
+{% block content %}
+{% with translation=listing|get_translation:current_language %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <!-- Back link -->
+    <a href="{% url 'listings:listing_list' %}" class="text-sm text-secondary mb-2" style="display: inline-block;">
+        &larr; {% trans "Back to listings" %}
+    </a>
+
+    <div class="card">
+        <!-- Company header strip -->
+        <div class="card__header">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-accent-light);
+                        display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700;">
+                {{ listing.company.name|slice:":1"|upper }}
+            </div>
+            <div style="flex: 1;">
+                <div style="font-weight: 600;">{{ listing.company.name }}</div>
+                <div class="text-sm text-secondary" style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    {% if listing.company.is_verified %}
+                    <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                        <span style="color: var(--color-success);">&#10003;</span>
+                        <span>{% trans "Verified landlord" %}</span>
+                    </span>
+                    {% endif %}
+                    <span>{% trans "Listing code" %}: {{ listing.code }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image gallery -->
+        {% if listing.images.all %}
+        <div style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+                    aspect-ratio: 16/9;">
+            {% for img in listing.images.all %}
+            <div style="min-width: 100%; scroll-snap-align: start;">
+                <img src="{{ img.image.url }}" alt="{{ listing.title }}"
+                     style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="aspect-ratio: 16/9; background: var(--color-bg-secondary);
+                    display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+            🏪
+        </div>
+        {% endif %}
+
+        <!-- Details -->
+        <div class="card__body">
+            <h1 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem;">{% if translation %}{{ translation.title }}{% else %}{{ listing.title }}{% endif %}</h1>
+            <div style="color: var(--color-accent); font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem;">
+                {{ listing.cost_display }}
+            </div>
+
+            <!-- Key facts -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem;">
+                {% if listing.size_display %}
+                <div>
+                    <div class="text-sm text-secondary">{% trans "Size" %}</div>
+                    <div style="font-weight: 600;">{{ listing.size_display }}</div>
+                </div>
+                {% endif %}
+                {% if listing.lease_display %}
+                <div>
+                    <div class="text-sm text-secondary">{% trans "Lease Duration" %}</div>
+                    <div style="font-weight: 600;">{{ listing.lease_display }}</div>
+                </div>
+                {% endif %}
+                <div>
+                    <div class="text-sm text-secondary">{% trans "Postal Code" %}</div>
+                    <div style="font-weight: 600;">{{ listing.postal_code }}</div>
+                </div>
+                {% if listing.mrt_display %}
+                <div>
+                    <div class="text-sm text-secondary">{% trans "Nearest MRT" %}</div>
+                    <div style="font-weight: 600;">&#128647; {{ listing.mrt_display }}</div>
+                </div>
+                {% endif %}
+                {% if listing.bus_display %}
+                <div>
+                    <div class="text-sm text-secondary">{% trans "Nearest Bus Stop" %}</div>
+                    <div style="font-weight: 600;">&#128652; {{ listing.bus_display }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- F&B-specific operational fields -->
+            {% if listing.grease_trap_fee or listing.dishwashing_cost or listing.footfall_estimate %}
+            <div class="mb-2" style="background: var(--color-bg-secondary); padding: 1rem; border-radius: var(--radius-md);">
+                <div class="text-sm" style="font-weight: 600; margin-bottom: 0.5rem;">{% trans "F&B Operational Costs" %}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
+                    {% if listing.grease_trap_fee %}
+                    <div>
+                        <div class="text-sm text-secondary">{% trans "Grease Trap Fee" %}</div>
+                        <div style="font-weight: 600;">${{ listing.grease_trap_fee }}/mo</div>
+                    </div>
+                    {% endif %}
+                    {% if listing.dishwashing_cost %}
+                    <div>
+                        <div class="text-sm text-secondary">{% trans "Dishwashing Cost" %}</div>
+                        <div style="font-weight: 600;">${{ listing.dishwashing_cost }}/mo</div>
+                    </div>
+                    {% endif %}
+                    {% if listing.footfall_estimate %}
+                    <div>
+                        <div class="text-sm text-secondary">{% trans "Est. Daily Footfall" %}</div>
+                        <div style="font-weight: 600;">{{ listing.footfall_estimate }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Description -->
+            <div class="mb-2">
+                <div class="text-sm text-secondary mb-1">{% trans "Description" %}</div>
+                <div style="white-space: pre-wrap; line-height: 1.7;">
+                    {% if translation %}{{ translation.description }}{% else %}{{ listing.description }}{% endif %}
+                </div>
+                {% if translation %}
+                <div class="text-sm mt-1" style="color: var(--color-text-secondary);">
+                    {% trans "Translated by AI" %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Amenities -->
+            {% if listing.amenities.all %}
+            <div class="mb-2">
+                <div class="text-sm text-secondary mb-1">{% trans "Amenities" %}</div>
+                <div class="flex gap-1" style="flex-wrap: wrap;">
+                    {% for amenity in listing.amenities.all %}
+                    <span style="background: var(--color-bg-secondary); padding: 0.3rem 0.75rem;
+                          border-radius: var(--radius-pill); font-size: 0.9rem;">
+                        <i data-lucide="{{ amenity.icon }}" style="width:16px;height:16px;vertical-align:middle;"></i>
+                        {% if translation %}{{ translation.amenities_text|index:forloop.counter0 }}{% else %}{{ amenity.name_en }}{% endif %}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <!-- Connect via WhatsApp CTA (spec 8) -->
+        <div class="card__footer" style="padding: 0;">
+            {% if listing.whatsapp_url %}
+            <a href="{% url 'listings:whatsapp_click' listing.code %}"
+               class="btn btn--primary btn--full"
+               style="border-radius: 0; padding: 1rem; font-size: 1.05rem; text-align: center; text-decoration: none; display: block;">
+                {% trans "Connect via WhatsApp" %}
+            </a>
+            {% else %}
+            <button type="button" class="btn btn--primary btn--full" disabled
+                    style="border-radius: 0; padding: 1rem; font-size: 1.05rem; text-align: center; display: block; opacity: 0.6; cursor: not-allowed;">
+                {% trans "Contact unavailable" %}
+            </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Landlord actions (same company or admin) -->
+    {% if user.is_authenticated and user.company and user.company == listing.company or user.is_staff %}
+    <div class="mt-2" style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+        <a href="{% url 'listings:listing_update' listing.code %}" class="btn btn--secondary">{% trans "Edit Listing" %}</a>
+    </div>
+    {% endif %}
+</div>
+{% endwith %}
+{% endblock %}

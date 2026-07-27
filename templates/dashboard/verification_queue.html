@@ -1,0 +1,116 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 1rem;">Listing Verification Queue</h1>
+
+<!-- Search -->
+<form method="get" class="flex gap-1 mb-2" style="align-items: center;">
+    <input type="text" name="q" value="{{ search_query }}" placeholder="Search by code, title or company..."
+           class="form-input" style="max-width: 320px;">
+    <button type="submit" class="btn btn--secondary" style="padding: 0.5rem 1rem;">Search</button>
+    {% if search_query %}
+    <a href="{% url 'dashboard:verification_queue' %}" class="btn btn--secondary" style="padding: 0.5rem 1rem;">Clear</a>
+    {% endif %}
+</form>
+
+<p class="text-secondary text-sm mb-2">
+    {{ pending_listings|length }} listing{{ pending_listings|length|pluralize }} awaiting review.
+</p>
+
+{% if pending_listings %}
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+    {% for listing in pending_listings %}
+    <div class="card">
+        <div class="card__header">
+            <div style="flex: 1;">
+                <strong>{{ listing.code }}</strong> — {{ listing.title }}
+                <span class="badge badge--pending">Pending</span>
+            </div>
+            <span class="text-sm text-secondary">{{ listing.created_at|date:"d M Y" }}</span>
+        </div>
+        <div class="card__body">
+            <div class="flex gap-2 mb-1">
+                <div>
+                    <div class="text-sm text-secondary">Company</div>
+                    <div>{{ listing.company.name }}
+                        {% if listing.company.is_verified %}
+                        <span class="badge badge--verified">&#10003;</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Posted By</div>
+                    <div>{{ listing.posted_by.email|default:"—" }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Cost</div>
+                    <div>{{ listing.cost_display }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Postal Code</div>
+                    <div>{{ listing.postal_code }}</div>
+                </div>
+            </div>
+
+            {% if listing.images.all %}
+            <div class="flex gap-1 mt-1">
+                {% for img in listing.images.all %}
+                <img src="{{ img.image.url }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: var(--radius-sm);">
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- PropertyReference cross-check result -->
+            {% with ref=listing.ref_result match=listing.ref_result.match %}
+            {% if ref.blocked and match.category == "nea_direct" %}
+            <div class="text-sm mt-1" style="padding: 0.75rem; border-radius: var(--radius-sm);
+                    background: #FDE8E8; color: #C62828; border: 1px solid #E57373; font-weight: 600;">
+                ⚠ NEA Direct Match — DO NOT APPROVE<br>
+                <span style="font-weight: 400;">{{ ref.message }}</span>
+            </div>
+            {% else %}
+            <div class="text-sm mt-1" style="padding: 0.5rem; border-radius: var(--radius-sm);
+                    {% if ref.blocked %}background: #FDE8E8; color: #C62828;
+                    {% elif ref.needs_review %}background: #FFF8E1; color: #856404;
+                    {% else %}background: #E8F5E9; color: #2E7D32;{% endif %}">
+                <strong>PropertyReference check:</strong> {{ ref.message }}
+                {% if match %}<span class="text-secondary">({{ match.get_category_display }})</span>{% endif %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Approve / Reject actions -->
+            <div class="flex gap-1 mt-1" id="actions-{{ listing.pk }}" style="align-items: center; flex-wrap: wrap;">
+                <form method="post" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.pk }}">
+                    <button type="submit" name="action" value="approve"
+                            class="btn btn--primary" style="padding: 0.4rem 0.8rem;">
+                        Approve
+                    </button>
+                </form>
+                <form method="post" style="display: contents;" onsubmit="return confirm('Reject this listing?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.pk }}">
+                    <input type="hidden" name="action" value="reject">
+                    <select name="rejection_category" class="form-input" style="width: 220px; padding: 0.3rem 0.5rem;" required>
+                        <option value="">Rejection reason type...</option>
+                        <option value="business_verification">Business verification issue</option>
+                        <option value="property_tier_failure">Property tier failure</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <input type="text" name="reason" placeholder="Details..."
+                           class="form-input" style="width: 200px; padding: 0.3rem 0.5rem;">
+                    <button type="submit" class="btn" style="background: #C62828; color: #fff; padding: 0.4rem 0.8rem;">
+                        Reject
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert--success">No pending listings. All caught up!</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,120 @@
+{% load i18n listing_extras %}
+{% with translation=listing|get_translation:current_language %}
+<!-- Listing card component (B2B, spec 1a / 3.3) -->
+<div class="card listing-map-pin" style="display: flex; flex-direction: column;"
+     data-lat="{{ listing.lat|default:'' }}"
+     data-lng="{{ listing.lng|default:'' }}"
+     data-code="{{ listing.code }}"
+     data-title="{% if translation %}{{ translation.title }}{% else %}{{ listing.title }}{% endif %}"
+     data-cost="{{ listing.cost_display }}">
+    <!-- Company header strip -->
+    <div class="card__header">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-accent-light);
+                    display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.85rem;">
+            {{ listing.company.name|slice:":1"|upper }}
+        </div>
+        <div style="flex: 1;">
+            <span style="font-size: 0.85rem; font-weight: 600;">{{ listing.company.name }}</span>
+            {% if listing.company.is_verified %}
+            <span class="badge badge--verified" title="{% trans 'Business verified' %}">&#10003; {% trans "Verified" %}</span>
+            {% endif %}
+        </div>
+        {% if listing.featured %}
+        <span style="font-size: 0.7rem; color: var(--color-accent); font-weight: 600;">{% trans "FEATURED" %}</span>
+        {% endif %}
+    </div>
+
+    <!-- Image carousel (CSS scroll-snap) -->
+    <div style="position: relative;">
+        <a href="{% url 'listings:listing_detail' listing.code %}">
+            {% if listing.images.all %}
+            <div style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; aspect-ratio: 16/10;"
+                 class="carousel-scroll">
+                {% for img in listing.images.all %}
+                <div style="min-width: 100%; scroll-snap-align: start;">
+                    <img src="{{ img.image.url }}" alt="{{ listing.title }}"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                {% endfor %}
+            </div>
+            {% if listing.images.count > 1 %}
+            <div style="position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+                        display: flex; gap: 4px;">
+                {% for img in listing.images.all %}
+                <span style="width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.6);"></span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% else %}
+            <div style="aspect-ratio: 16/10; background: var(--color-bg-secondary);
+                        display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary);">
+                <span style="font-size: 2.5rem;">🏪</span>
+            </div>
+            {% endif %}
+        </a>
+    </div>
+
+    <!-- Card body -->
+    <div class="card__body" style="flex: 1;">
+        <a href="{% url 'listings:listing_detail' listing.code %}" style="text-decoration: none; color: inherit;">
+            <div style="font-size: 1.05rem; font-weight: 600; margin-bottom: 0.3rem; line-height: 1.3;">
+                {% if translation %}{{ translation.title }}{% else %}{{ listing.title }}{% endif %}
+            </div>
+        </a>
+        <div style="color: var(--color-accent); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">
+            {{ listing.cost_display }}
+        </div>
+        <div class="flex gap-1 text-sm text-secondary" style="flex-wrap: wrap;">
+            {% if listing.size_display %}
+            <span>{{ listing.size_display }}</span>
+            {% endif %}
+            {% if listing.lease_display %}
+            <span>&middot; {{ listing.lease_display }}</span>
+            {% endif %}
+        </div>
+        {% if listing.mrt_display %}
+        <div class="text-sm text-secondary mt-1">&#128647; {{ listing.mrt_display }}</div>
+        {% endif %}
+
+        <!-- F&B-specific fields -->
+        {% if listing.footfall_estimate or listing.grease_trap_fee %}
+        <div class="text-sm text-secondary mt-1" style="color: var(--color-text-secondary);">
+            {% if listing.footfall_estimate %}&#128694; {{ listing.footfall_estimate }}{% endif %}
+            {% if listing.grease_trap_fee %} &middot; {% trans "Grease trap" %}: ${{ listing.grease_trap_fee }}/mo{% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Amenity pills -->
+        {% if listing.amenities.all %}
+        <div class="flex gap-1 mt-1" style="flex-wrap: wrap;">
+            {% for amenity in listing.amenities.all|slice:":4" %}
+            <span class="text-sm" style="background: var(--color-bg-secondary); padding: 0.15rem 0.5rem;
+                  border-radius: var(--radius-pill); color: var(--color-text-secondary);">
+                <i data-lucide="{{ amenity.icon }}" style="width:14px;height:14px;vertical-align:middle;"></i>
+                {% if translation %}{{ translation.amenities_text|index:forloop.counter0 }}{% else %}{{ amenity.name_en }}{% endif %}
+            </span>
+            {% endfor %}
+            {% if listing.amenities.count > 4 %}
+            <span class="text-sm text-secondary">+{{ listing.amenities.count|add:"-4" }} {% trans "more" %}</span>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Connect via WhatsApp CTA (spec 8) -->
+    <div class="card__footer" style="padding: 0;">
+        {% if listing.whatsapp_url %}
+        <a href="{% url 'listings:whatsapp_click' listing.code %}"
+           class="btn btn--primary btn--full"
+           style="border-radius: 0; padding: 0.75rem; text-align: center; text-decoration: none; display: block;">
+            {% trans "Connect via WhatsApp" %}
+        </a>
+        {% else %}
+        <button type="button" class="btn btn--primary btn--full" disabled
+                style="border-radius: 0; padding: 0.75rem; text-align: center; display: block; opacity: 0.6; cursor: not-allowed;">
+            {% trans "Contact unavailable" %}
+        </button>
+        {% endif %}
+    </div>
+</div>
+{% endwith %}

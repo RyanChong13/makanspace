@@ -1,0 +1,72 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 1rem;">Company Verification Queue</h1>
+<p class="text-secondary text-sm mb-2">
+    {{ pending_companies|length }} compan{{ pending_companies|length|pluralize:"y,ies" }} awaiting verification.
+</p>
+
+{% if pending_companies %}
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+    {% for company in pending_companies %}
+    <div class="card">
+        <div class="card__header">
+            <div style="flex: 1;">
+                <strong>{{ company.name }}</strong>
+                <span class="badge badge--pending">Pending</span>
+            </div>
+            <span class="text-sm text-secondary">{{ company.created_at|date:"d M Y" }}</span>
+        </div>
+        <div class="card__body">
+            <div class="flex gap-2 mb-1">
+                <div>
+                    <div class="text-sm text-secondary">UEN</div>
+                    <div>{{ company.uen }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Region</div>
+                    <div>{{ company.get_region_display|default:"—" }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Business Reg Doc</div>
+                    {% if company.business_reg_doc %}
+                    <a href="{{ company.business_reg_doc.url }}" target="_blank">View Doc</a>
+                    {% else %}
+                    <span class="text-secondary">Not uploaded</span>
+                    {% endif %}
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Users</div>
+                    <div>{{ company.users.count }}</div>
+                </div>
+            </div>
+
+            <!-- Approve / Reject actions -->
+            <div class="flex gap-1 mt-1" style="align-items: center; flex-wrap: wrap;">
+                <form method="post" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="company_id" value="{{ company.pk }}">
+                    <button type="submit" name="action" value="approve"
+                            class="btn btn--primary" style="padding: 0.4rem 0.8rem;">
+                        Approve &amp; Verify
+                    </button>
+                </form>
+                <form method="post" style="display: contents;" onsubmit="return confirm('Reject this company?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="company_id" value="{{ company.pk }}">
+                    <input type="hidden" name="action" value="reject">
+                    <input type="text" name="reason" placeholder="Rejection reason..."
+                           class="form-input" style="width: 260px; padding: 0.3rem 0.5rem;" required>
+                    <button type="submit" class="btn" style="background: #C62828; color: #fff; padding: 0.4rem 0.8rem;">
+                        Reject
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert--success">No pending companies. All caught up!</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 1rem;">Listing Engagement</h1>
+
+{% if listings %}
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+    <thead>
+        <tr style="border-bottom: 2px solid var(--color-border);">
+            <th style="text-align: left; padding: 0.5rem;">Code</th>
+            <th style="text-align: left; padding: 0.5rem;">Title</th>
+            <th style="text-align: left; padding: 0.5rem;">Company</th>
+            <th style="text-align: right; padding: 0.5rem;">
+                <a href="?sort={% if current_sort == '-view_count' %}view_count{% else %}-view_count{% endif %}" style="text-decoration: none; color: inherit;">
+                    Views {% if current_sort == '-view_count' %}↓{% elif current_sort == 'view_count' %}↑{% endif %}
+                </a>
+            </th>
+            <th style="text-align: right; padding: 0.5rem;">
+                <a href="?sort={% if current_sort == '-whatsapp_click_count' %}whatsapp_click_count{% else %}-whatsapp_click_count{% endif %}" style="text-decoration: none; color: inherit;">
+                    WhatsApp Clicks {% if current_sort == '-whatsapp_click_count' %}↓{% elif current_sort == 'whatsapp_click_count' %}↑{% endif %}
+                </a>
+            </th>
+            <th style="text-align: left; padding: 0.5rem;">
+                <a href="?sort={% if current_sort == '-created_at' %}created_at{% else %}-created_at{% endif %}" style="text-decoration: none; color: inherit;">
+                    Created {% if current_sort == '-created_at' %}↓{% elif current_sort == 'created_at' %}↑{% endif %}
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for listing in listings %}
+        <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.5rem;">
+                <a href="{% url 'listings:listing_detail' listing.code %}" style="font-weight: 600;">{{ listing.code }}</a>
+            </td>
+            <td style="padding: 0.5rem;">{{ listing.title }}</td>
+            <td style="padding: 0.5rem;">{{ listing.company.name }}</td>
+            <td style="padding: 0.5rem; text-align: right; font-weight: 600;">{{ listing.view_count }}</td>
+            <td style="padding: 0.5rem; text-align: right; font-weight: 600;">{{ listing.whatsapp_click_count }}</td>
+            <td style="padding: 0.5rem;" class="text-sm text-secondary">{{ listing.created_at|date:"d M Y" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert--info">No listings yet.</div>
+{% endif %}
+{% endblock %}

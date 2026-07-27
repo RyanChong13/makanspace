@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Invite Leasing Manager — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 0 auto;">
+    <h1 style="font-size: 1.4rem; margin-bottom: 0.3rem;">Invite a Leasing Manager</h1>
+    <p class="text-secondary text-sm mb-2">
+        Add a colleague to your company ({{ user.company.name }}). They'll be able to create and manage listings.
+    </p>
+
+    {% if form.errors %}
+    <div class="alert alert--error mb-2">Please correct the errors below.</div>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.email.id_for_label }}">Email Address</label>
+            {{ form.email }}
+            {% for err in form.email.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="flex gap-2">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.first_name.id_for_label }}">First Name</label>
+                {{ form.first_name }}
+                {% for err in form.first_name.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.last_name.id_for_label }}">Last Name</label>
+                {{ form.last_name }}
+                {% for err in form.last_name.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full mt-2" style="padding: 0.8rem;">
+            Send Invite
+        </button>
+    </form>
+</div>
+{% endblock %}

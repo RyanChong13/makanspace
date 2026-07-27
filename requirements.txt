@@ -1,0 +1,39 @@
+# Django core
+django>=5.0,<6.0
+django-allauth[ socialaccount]>=0.63.0
+djangorestframework>=3.15
+psycopg2-binary>=2.9
+dj-database-url>=2.1
+python-dotenv>=1.0
+whitenoise>=6.5
+
+gunicorn>=21.0
+
+# HTMX
+django-htmx>=1.17
+
+# Background jobs
+celery[redis]>=5.3
+redis>=5.0
+
+# Image storage
+cloudinary>=1.40
+django-cloudinary-storage>=0.3
+
+# Image processing
+Pillow>=10.0
+
+# Payments
+stripe>=9.0
+
+# AI
+anthropic>=0.40
+
+# Voice transcription (Whisper via Groq - free tier)
+groq>=0.12
+
+# HTTP
+requests>=2.31
+
+# Celery result backend
+django-celery-results>=2.5

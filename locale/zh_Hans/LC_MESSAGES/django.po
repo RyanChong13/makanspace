@@ -1,0 +1,268 @@
+# Chinese (Simplified) translations for MakanSpace.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the MakanSpace project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: MakanSpace VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-07-27 21:44+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_Hans\n"
+"Language-Team: zh_Hans <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+msgid "1 to 2 years"
+msgstr "1到2年"
+
+msgid "6 to 12 months"
+msgstr "6到12个月"
+
+msgid "Account Settings"
+msgstr "账户设置"
+
+msgid "Already have an account?"
+msgstr "已有账户？"
+
+msgid "Amenities"
+msgstr "设施"
+
+msgid "Any distance"
+msgstr "不限距离"
+
+msgid "Any duration"
+msgstr "不限租期"
+
+msgid "Apply Now"
+msgstr "立即申请"
+
+msgid "Available Tasting / Viewing Slots"
+msgstr "可用品尝/参观时段"
+
+msgid "Back to listings"
+msgstr "返回列表"
+
+msgid "Boost this Listing"
+msgstr "推广此列表"
+
+msgid "Browse Hawker Stalls"
+msgstr "浏览小贩摊位"
+
+msgid "Business Registration Document"
+msgstr "商业注册文件"
+
+msgid "Business verified"
+msgstr "已验证商家"
+
+msgid "Clear all filters"
+msgstr "清除所有筛选"
+
+msgid "Company Legal Name"
+msgstr "公司法定名称"
+
+msgid "Connecting hawker stall owners with prospective hawkers across Singapore."
+msgstr "连接新加坡各地小贩摊主与有意经营者。"
+
+msgid "Cost Range (SGD/month)"
+msgstr "租金范围（新元/月）"
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Dishwashing Cost"
+msgstr "洗碗费用"
+
+msgid "Edit Listing"
+msgstr "编辑列表"
+
+msgid "Est. Daily Footfall"
+msgstr "预估每日客流量"
+
+msgid "F&B Operational Costs"
+msgstr "餐饮运营成本"
+
+msgid "F&B Operational Costs (optional)"
+msgstr "餐饮运营成本（可选）"
+
+msgid "FEATURED"
+msgstr "精选"
+
+msgid "Featured first"
+msgstr "精选优先"
+
+msgid ""
+"Fill in your stall details. Your listing will be reviewed by our team "
+"before going live."
+msgstr "填写摊位详情。我们的团队会在上线前审核您的列表。"
+
+msgid "First Name"
+msgstr "名字"
+
+msgid "Grease Trap Fee"
+msgstr "油脂拦截器费用"
+
+msgid "Grease trap"
+msgstr "油脂拦截器"
+
+msgid "Has Grease Trap"
+msgstr "有油脂拦截器"
+
+msgid "Hawker Stalls for Rent"
+msgstr "出租小贩摊位"
+
+msgid "Last Name"
+msgstr "姓氏"
+
+msgid "Lease Duration"
+msgstr "租期"
+
+msgid "Less than 6 months"
+msgstr "少于6个月"
+
+msgid "List"
+msgstr "列表"
+
+msgid "Listing code"
+msgstr "编号"
+
+msgid "Log In"
+msgstr "登录"
+
+msgid "Log Out"
+msgstr "退出"
+
+msgid "Log in"
+msgstr "登录"
+
+msgid "MRT/Bus Distance"
+msgstr "地铁/巴士距离"
+
+msgid "Manage Tasting Slots"
+msgstr "管理品尝时段"
+
+msgid "Map"
+msgstr "地图"
+
+msgid "Max Rent (optional)"
+msgstr "最高租金（可选）"
+
+msgid "Monthly Rent (SGD)"
+msgstr "月租金（新元）"
+
+msgid "More than 2 years"
+msgstr "超过2年"
+
+msgid "Nearest MRT/Bus"
+msgstr "最近地铁/巴士"
+
+msgid "Newest"
+msgstr "最新"
+
+msgid "No stalls match your filters"
+msgstr "没有符合条件的摊位"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Phone Number"
+msgstr "电话号码"
+
+msgid "Photos (up to 6)"
+msgstr "照片（最多6张）"
+
+msgid "Please correct the errors below."
+msgstr "请更正以下错误。"
+
+msgid "Post Stall"
+msgstr "发布摊位"
+
+msgid "Post Your Hawker Stall"
+msgstr "发布您的小贩摊位"
+
+msgid "Post a Hawker Stall"
+msgstr "发布小贩摊位"
+
+msgid "Postal Code"
+msgstr "邮政编码"
+
+msgid "Price: High to Low"
+msgstr "价格：从高到低"
+
+msgid "Price: Low to High"
+msgstr "价格：从低到高"
+
+msgid "Primary Region"
+msgstr "主要区域"
+
+msgid "Private stalls only. NEA-managed stalls are excluded."
+msgstr "仅限私人摊位。不包括国家环境局管理的摊位。"
+
+msgid "Register Company"
+msgstr "注册公司"
+
+msgid "Register Your Company"
+msgstr "注册您的公司"
+
+msgid ""
+"Register as a corporate F&B landlord. Once verified by our admin team, "
+"you can invite leasing managers and create stall listings."
+msgstr "注册为餐饮企业房东。经管理员验证后，您可以邀请租赁经理并创建摊位列表。"
+
+msgid "Size"
+msgstr "面积"
+
+msgid "Size (sqft)"
+msgstr "面积（平方英尺）"
+
+msgid "Stall Title"
+msgstr "摊位名称"
+
+msgid "Try broadening your search or clearing some filters."
+msgstr "请尝试扩大搜索范围或清除部分筛选条件。"
+
+msgid "UEN (Business Registration)"
+msgstr "UEN（商业注册）"
+
+msgid "Verified"
+msgstr "已验证"
+
+msgid "Verified Landlord"
+msgstr "已验证房东"
+
+msgid "View Applications"
+msgstr "查看申请"
+
+msgid "WhatsApp Contact Number"
+msgstr "WhatsApp联系电话"
+
+msgid "Within 10 min walk"
+msgstr "步行10分钟内"
+
+msgid "Within 15 min walk"
+msgstr "步行15分钟内"
+
+msgid "Within 5 min walk"
+msgstr "步行5分钟内"
+
+msgid "Your Account (First Leasing Manager)"
+msgstr "您的账户（首位租赁经理）"
+
+msgid "Your Email"
+msgstr "您的邮箱"
+
+msgid "found"
+msgstr "找到"
+
+msgid "more"
+msgstr "更多"
+
+msgid "stall"
+msgstr "个摊位"
+

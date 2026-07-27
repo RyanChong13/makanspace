@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Post a Hawker Stall" %} — MakanSpace{% endblock %}
+
+
+
+{% block content %}
+<div class="container--narrow" style="max-width: 650px; margin: 0 auto;">
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "Post Your Hawker Stall" %}</h1>
+    <p class="text-secondary text-sm mb-2">
+        {% trans "Fill in your stall details. Your listing will be reviewed by our team before going live." %}
+    </p>
+
+    {% if form.errors or formset.errors %}
+    <div class="alert alert--error mb-2">{% trans "Please correct the errors below." %}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <!-- Title -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.title.id_for_label }}">{% trans "Stall Title" %}</label>
+            {{ form.title }}
+            {% for err in form.title.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.description.id_for_label }}">{% trans "Description" %}</label>
+            {{ form.description }}
+            {% for err in form.description.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <!-- Cost + Size row -->
+        <div class="flex gap-2">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.cost_min.id_for_label }}">{% trans "Monthly Rent (SGD)" %}</label>
+                {{ form.cost_min }}
+                {% for err in form.cost_min.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.cost_max.id_for_label }}">{% trans "Max Rent (optional)" %}</label>
+                {{ form.cost_max }}
+                {% for err in form.cost_max.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <!-- Size + Lease row -->
+        <div class="flex gap-2">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.size_sqft.id_for_label }}">{% trans "Size (sqft)" %}</label>
+                {{ form.size_sqft }}
+                {% for err in form.size_sqft.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.lease_duration.id_for_label }}">{% trans "Lease Duration" %}</label>
+                {{ form.lease_duration }}
+                {% for err in form.lease_duration.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <!-- Postal code -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.postal_code.id_for_label }}">{% trans "Postal Code" %}</label>
+            {{ form.postal_code }}
+            <p class="text-secondary text-sm">6-digit Singapore postal code. Location will be auto-geocoded.</p>
+            {% for err in form.postal_code.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <!-- Contact number -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.contact_number.id_for_label }}">{% trans "WhatsApp Contact Number" %}</label>
+            {{ form.contact_number }}
+            <p class="text-secondary text-sm">Include country code, e.g. +65 9123 4567</p>
+            {% for err in form.contact_number.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <!-- Amenities (icon + plain-language checklist) -->
+        <div class="form-group">
+            <label class="form-label">{% trans "Amenities" %}</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
+                {% for amenity in amenities %}
+                <label style="display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.6rem;
+                              border: 1px solid var(--color-border); border-radius: var(--radius-md);
+                              cursor: pointer; font-size: 0.9rem;">
+                    <input type="checkbox" name="amenities" value="{{ amenity.pk }}"
+                           {% if amenity.pk|stringformat:"i" in form.data.amenities %}checked{% endif %}>
+                    <i data-lucide="{{ amenity.icon }}" style="width:16px;height:16px;"></i>
+                    <span>{{ amenity.name_en }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- F&B-specific fields -->
+        <div class="mb-2" style="background: var(--color-bg-secondary); padding: 1rem; border-radius: var(--radius-md);">
+            <div class="text-sm" style="font-weight: 600; margin-bottom: 0.5rem;">{% trans "F&B Operational Costs (optional)" %}</div>
+            <div class="flex gap-2">
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label" for="{{ form.grease_trap_fee.id_for_label }}">Grease Trap Fee ($/mo)</label>
+                    {{ form.grease_trap_fee }}
+                    {% for err in form.grease_trap_fee.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label" for="{{ form.dishwashing_cost.id_for_label }}">Dishwashing Cost ($/mo)</label>
+                    {{ form.dishwashing_cost }}
+                    {% for err in form.dishwashing_cost.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ form.footfall_estimate.id_for_label }}">Estimated Daily Footfall</label>
+                {{ form.footfall_estimate }}
+                {% for err in form.footfall_estimate.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <!-- Image uploads -->
+        <div class="form-group">
+            <label class="form-label">{% trans "Photos (up to 6)" %}</label>
+            <p class="text-secondary text-sm mb-1">
+                Photos are automatically compressed — just upload, we'll handle the rest.
+            </p>
+            {{ formset.management_form }}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem;">
+                {% for img_form in formset %}
+                <div style="border: 2px dashed var(--color-border); border-radius: var(--radius-md);
+                            padding: 1rem; text-align: center;">
+                    {{ img_form.id }}
+                    {{ img_form.listing }}
+                    {{ img_form.image }}
+                    <div class="text-sm text-secondary mt-1">Photo {{ forloop.counter }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- NEA attestation -->
+        <div class="form-group" style="background: #FFF8E1; padding: 1rem; border-radius: var(--radius-md); border: 1px solid #FFE082;">
+            <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" name="nea_attestation" required style="margin-top: 0.2rem;">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">{{ form.nea_attestation.label }}</div>
+                    <div class="text-sm text-secondary">{{ form.nea_attestation.help_text }}</div>
+                </div>
+            </label>
+            {% for err in form.nea_attestation.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full mt-2" style="padding: 0.8rem;">
+            Submit Listing for Review
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+

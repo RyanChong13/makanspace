@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: berryhawker
+    runtime: python
+    plan: free
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn berryhawker.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: WEB_CONCURRENCY
+        value: "2"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: berryhawker-db
+          property: connectionString
+      - key: RENDER_EXTERNAL_HOSTNAME
+        value: berryhawker.onrender.com
+        # Replace with your actual Render domain after deployment
+
+databases:
+  - name: berryhawker-db
+    plan: free
+    databaseName: berryhawker
+    user: berryhawker

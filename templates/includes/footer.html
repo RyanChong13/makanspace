@@ -1,0 +1,19 @@
+{% load i18n %}
+<footer style="background-color: #1E1730; color: rgba(255,255,255,0.6); padding: 2rem 1rem; margin-top: 3rem;">
+    <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem;">
+        <div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.5rem;">MakanSpace</div>
+            <div style="font-size: 0.85rem;">
+                {% trans "Connecting hawker stall owners with prospective hawkers across Singapore." %}
+            </div>
+        </div>
+        <div style="font-size: 0.8rem;">
+            <div>
+                {% trans "Private stalls only. NEA-managed stalls are excluded." %}
+            </div>
+            <div style="margin-top: 0.4rem;">
+                &copy; {% now "Y" %} MakanSpace. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>

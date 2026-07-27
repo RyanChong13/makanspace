@@ -1,0 +1,75 @@
+category,operator,establishment_name,region,in_scope,scope_reason
+Government (NEA Direct),NEA,Adam Road Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Amoy Street Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Bedok Interchange Hawker Centre,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Beo Crescent Market,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Berseh Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Boon Lay Place Market and Food Village,West,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Bukit Timah Market & Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Changi Village Hawker Centre,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Chomp Chomp Food Centre,North-East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Clementi 448 Market & Food Centre,West,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Dunman Food Centre,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,East Coast Lagoon Food Village,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Fengshan Market & Food Centre (Bedok 85),East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Geylang Serai Market & Food Centre,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Ghim Moh Market & Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Golden Mile Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Haig Road Market & Food Centre,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Hong Lim Market & Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Kovan Market & Food Centre,North-East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Market Street Hawker Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Maxwell Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Newton Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Old Airport Road Food Centre,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Pek Kio Market & Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Redhill Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Serangoon Garden Market,North-East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Tampines Round Market & Food Centre,East,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Tekka Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Tiong Bahru Market,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Toa Payoh West Market & Food Court,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Whampoa Drive Makan Place,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (NEA Direct),NEA,Zion Riverside Food Centre,Central,FALSE,NEA e-tender is the only legal allocation channel
+Government (SEHC),Fei Siong,Ci Yuan Hawker Centre,North-East,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),Fei Siong,Buangkok Hawker Centre,North-East,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),Fei Siong,Woodleigh Village Hawker Centre,Central,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),Fei Siong,Bukit Batok West Hawker Centre,West,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),Fei Siong,Margaret Drive Hawker Centre,Central,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),FairPrice Group (Kopitiam),Hawker Centre @ Our Tampines Hub,East,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),FairPrice Group (Kopitiam),Kampung Admiralty Hawker Centre,North,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),FairPrice Group (Kopitiam),Bukit Panjang Hawker Centre,West,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),FairPrice Group (Kopitiam),Pasir Ris Central Hawker Centre,East,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),FairPrice Group (Kopitiam),Senja Hawker Centre,West,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),Koufu,Jurong West Hawker Centre,West,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Government (SEHC),Timbre Group,Yishun Park Hawker Centre,North,TRUE,Appointed operator manages own tenant selection under NEA SEHC scheme
+Private (Food Court),FairPrice Group (Kopitiam),Kopitiam Square Sengkang,North-East,TRUE,Fully private commercial property
+Private (Food Court),FairPrice Group (Kopitiam),Kopitiam @ VivoCity,Central,TRUE,Fully private commercial property
+Private (Food Court),FairPrice Group (Kopitiam),Kopitiam @ Plaza Singapura,Central,TRUE,Fully private commercial property
+Private (Food Court),FairPrice Group (Kopitiam),Kopitiam @ Tampines Mall,East,TRUE,Fully private commercial property
+Private (Food Court),FairPrice Group (Kopitiam),Cantine @ Jurong Point,West,TRUE,Fully private commercial property
+Private (Food Court),FairPrice Group (Kopitiam),Cantine @ Paya Lebar Square,East,TRUE,Fully private commercial property
+Private (Food Court),Koufu,Koufu @ Waterway Point,North-East,TRUE,Fully private commercial property
+Private (Food Court),Koufu,Koufu @ HDB Hub,Central,TRUE,Fully private commercial property
+Private (Food Court),Koufu,Koufu @ Tampines 1,East,TRUE,Fully private commercial property
+Private (Food Court),Koufu,Rasapura Masters (Marina Bay Sands),Central,TRUE,Fully private commercial property
+Private (Food Court),Koufu,Cookhouse by Koufu (JEM),West,TRUE,Fully private commercial property
+Private (Food Court),Food Republic,Food Republic @ Wisma Atria,Central,TRUE,Fully private commercial property
+Private (Food Court),Food Republic,Food Republic @ 313 Somerset,Central,TRUE,Fully private commercial property
+Private (Food Court),Food Republic,Food Republic @ VivoCity,Central,TRUE,Fully private commercial property
+Private (Food Court),Food Republic,Food Republic @ Suntec City,Central,TRUE,Fully private commercial property
+Private (Food Court),Food Republic,Food Republic @ Parkway Parade,East,TRUE,Fully private commercial property
+Private (Food Court),Food Republic,Food Opera @ ION Orchard,Central,TRUE,Fully private commercial property
+Private (Food Court),Food Junction,Food Junction @ Bugis Junction,Central,TRUE,Fully private commercial property
+Private (Food Court),Food Junction,Food Junction @ Great World,Central,TRUE,Fully private commercial property
+Private (Food Court),Food Junction,Food Junction @ NEX,North-East,TRUE,Fully private commercial property
+Private (Food Court),Food Junction,Food Junction @ Lot One,West,TRUE,Fully private commercial property
+Private (Coffeeshop),Kimly Group,Kimly Coffeeshop @ Hougang St 21 (Block 212),North-East,TRUE,Fully private commercial property
+Private (Coffeeshop),Kimly Group,Kimly Coffeeshop @ Bukit Batok St 11 (Block 155),West,TRUE,Fully private commercial property
+Private (Coffeeshop),Kimly Group,Kimly Coffeeshop @ Tampines St 43 (Block 478),East,TRUE,Fully private commercial property
+Private (Coffeeshop),Chang Cheng Group,Chang Cheng Mee Wah @ Yishun (Block 293),North,TRUE,Fully private commercial property
+Private (Coffeeshop),Chang Cheng Group,Chang Cheng Mee Wah @ Choa Chu Kang (Block 302),West,TRUE,Fully private commercial property
+Private (Thematic),Timbre Group,Timbre+ One North,West,TRUE,Fully private commercial property
+Private (Thematic),Fei Siong,Malaysia Boleh! @ Jurong Point,West,TRUE,Fully private commercial property
+Private (Thematic),Fei Siong,Malaysia Boleh! @ AMK Hub,North-East,TRUE,Fully private commercial property
+Private (Thematic),Fei Siong,Malaysia Chiak! @ Northpoint City,North,TRUE,Fully private commercial property

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Tasting Slots — {{ listing.title }} — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 0 auto;">
+    <a href="{% url 'listings:listing_detail' listing.code %}" class="text-sm text-secondary mb-2" style="display: inline-block;">
+        &larr; Back to listing
+    </a>
+
+    <h1 style="font-size: 1.4rem; margin-bottom: 0.3rem;">Tasting / Viewing Slots</h1>
+    <p class="text-secondary text-sm mb-2">
+        Define available time slots for applicants to visit and taste/view the stall at <strong>{{ listing.title }}</strong>.
+    </p>
+
+    <!-- Add new slot form -->
+    <div class="card mb-2">
+        <div class="card__header" style="background: var(--color-bg-primary);">
+            <span style="font-weight: 600;">Add New Slot</span>
+        </div>
+        <div class="card__body">
+            {% if form.errors %}
+            <div class="alert alert--error mb-1">Please correct the errors below.</div>
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="flex gap-2">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="{{ form.start_time.id_for_label }}">Start Time</label>
+                        {{ form.start_time }}
+                        {% for err in form.start_time.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="{{ form.end_time.id_for_label }}">End Time</label>
+                        {{ form.end_time }}
+                        {% for err in form.end_time.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn--primary" style="padding: 0.5rem 1rem;">
+                    Add Slot
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Existing slots -->
+    <h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Available Slots ({{ slots|length }})</h2>
+    {% if slots %}
+    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+        {% for slot in slots %}
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+                    background: {% if slot.is_booked %}#F5F5F5{% else %}var(--color-bg-primary){% endif %};
+                    border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+            <div style="flex: 1;">
+                <div style="font-weight: 600;">
+                    {{ slot.start_time|date:"D, d M Y" }}
+                </div>
+                <div class="text-sm text-secondary">
+                    {{ slot.start_time|time:"H:i" }} – {{ slot.end_time|time:"H:i" }}
+                </div>
+            </div>
+            {% if slot.is_booked %}
+            <span class="badge badge--pending">Booked</span>
+            {% else %}
+            <span class="badge badge--verified">Available</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert--info">No slots defined yet. Add your first tasting slot above.</div>
+    {% endif %}
+</div>
+{% endblock %}
