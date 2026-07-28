@@ -168,6 +168,16 @@ class CompanyVerificationQueueView(CreatorRequiredMixin, View):
             company.rejection_reason = request.POST.get("reason", "").strip()
             company.save(update_fields=["status", "rejection_reason"])
             messages.warning(request, f"Company '{company.name}' rejected.")
+        elif action == "recheck":
+            # Re-run the advisory ACRA UEN lookup (e.g. after an earlier outage).
+            from accounts.services import apply_acra_lookup
+
+            apply_acra_lookup(company, thorough=True)
+            company.refresh_from_db()
+            if company.acra_lookup_success:
+                messages.success(request, f"ACRA check completed for '{company.name}'.")
+            else:
+                messages.warning(request, f"ACRA check for '{company.name}' is still unavailable.")
 
         return self.get(request)
 

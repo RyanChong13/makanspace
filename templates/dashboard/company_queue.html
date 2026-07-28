@@ -41,6 +41,39 @@
                 </div>
             </div>
 
+            <!-- ACRA automated check (advisory — informs manual review, never decides it) -->
+            <div class="mb-1" style="background: var(--color-bg, #F7F5FA); border-radius: 8px; padding: 0.6rem 0.8rem;">
+                <div class="text-sm text-secondary" style="margin-bottom: 0.3rem;">ACRA Automated Check</div>
+                {% if not company.acra_checked_at or not company.acra_lookup_success %}
+                <span class="badge" style="background: #ECEFF1; color: #546E7A;">Automated check unavailable</span>
+                {% elif not company.acra_verified_name %}
+                <span class="badge" style="background: #FDE8E8; color: #C62828;">&#9888; UEN not found in ACRA records</span>
+                {% else %}
+                <div class="flex gap-2 mb-1" style="flex-wrap: wrap;">
+                    <div>
+                        <div class="text-sm text-secondary">ACRA-Registered Name</div>
+                        <div>{{ company.acra_verified_name }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-secondary">Registration Date</div>
+                        <div>{{ company.acra_registration_date|date:"d M Y"|default:"—" }}</div>
+                    </div>
+                </div>
+                <div class="flex gap-1" style="flex-wrap: wrap;">
+                    {% if company.acra_status_is_live %}
+                    <span class="badge" style="background: #E8F5E9; color: #2E7D32;">Status: {{ company.acra_status }}</span>
+                    {% else %}
+                    <span class="badge" style="background: #FDE8E8; color: #C62828;">&#9888; Status: {{ company.acra_status|default:"Unknown" }}</span>
+                    {% endif %}
+                    {% if company.acra_name_matches %}
+                    <span class="badge" style="background: #E8F5E9; color: #2E7D32;">Name matches</span>
+                    {% else %}
+                    <span class="badge" style="background: #FFF8E1; color: #8D6E00;">&#9888; Name differs from ACRA record</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
             <!-- Approve / Reject actions -->
             <div class="flex gap-1 mt-1" style="align-items: center; flex-wrap: wrap;">
                 <form method="post" style="display: contents;">
@@ -59,6 +92,14 @@
                            class="form-input" style="width: 260px; padding: 0.3rem 0.5rem;" required>
                     <button type="submit" class="btn" style="background: #C62828; color: #fff; padding: 0.4rem 0.8rem;">
                         Reject
+                    </button>
+                </form>
+                <form method="post" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="company_id" value="{{ company.pk }}">
+                    <button type="submit" name="action" value="recheck"
+                            class="btn" style="background: #ECEFF1; color: #37474F; padding: 0.4rem 0.8rem;">
+                        Re-run ACRA check
                     </button>
                 </form>
             </div>

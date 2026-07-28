@@ -65,6 +65,34 @@ class Company(models.Model):
         blank=True,
         help_text="Admin-visible reason when status is 'rejected'.",
     )
+
+    # Automated ACRA UEN lookup results (data.gov.sg, advisory only — never
+    # auto-approves/rejects; informs the admin's manual verification decision).
+    acra_verified_name = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Entity name returned by the ACRA UEN lookup.",
+    )
+    acra_status = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Entity status from ACRA (e.g. 'Live Company', 'Struck Off').",
+    )
+    acra_registration_date = models.DateField(
+        null=True,
+        blank=True,
+        help_text="Registration/incorporation date from ACRA.",
+    )
+    acra_lookup_success = models.BooleanField(
+        default=False,
+        help_text="Whether the automated ACRA lookup completed without errors.",
+    )
+    acra_checked_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the automated ACRA lookup last ran.",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -77,6 +105,35 @@ class Company(models.Model):
     @property
     def is_verified(self):
         return self.is_business_verified and self.status == self.Status.VERIFIED
+
+    @property
+    def acra_status_is_live(self):
+        """True when the ACRA status indicates a live entity ('Live', 'Live Company')."""
+        return self.acra_status.strip().lower().startswith("live")
+
+    @property
+    def acra_name_matches(self):
+        """
+        Loose comparison of the signup name against the ACRA-registered name.
+        Case-insensitive, ignores punctuation and common corporate suffixes;
+        passes on substring containment or a fuzzy ratio >= 0.6.
+        """
+        import difflib
+        import re
+
+        def normalize(name):
+            name = re.sub(r"[^a-z0-9 ]", " ", name.lower())
+            suffixes = {"pte", "ltd", "private", "limited", "llp", "co"}
+            words = [w for w in name.split() if w not in suffixes]
+            return " ".join(words)
+
+        entered = normalize(self.name)
+        registered = normalize(self.acra_verified_name)
+        if not entered or not registered:
+            return False
+        if entered in registered or registered in entered:
+            return True
+        return difflib.SequenceMatcher(None, entered, registered).ratio() >= 0.6
 
 
 # ─── User (spec section 2) ──────────────────────────────────────────────────

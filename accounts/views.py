@@ -7,6 +7,7 @@ from django.views import View
 
 from .forms import CompanySignupForm, LeasingManagerInviteForm, ProfileForm
 from .models import LANG_CHOICES, Company
+from .services import apply_acra_lookup
 
 User = get_user_model()
 
@@ -30,6 +31,8 @@ class CompanySignupView(View):
         form = CompanySignupForm(request.POST, request.FILES)
         if form.is_valid():
             company = form.save()
+            # Automated ACRA UEN check (advisory; never blocks signup).
+            apply_acra_lookup(company)
             # Auto-login the user who registered the company
             user = User.objects.get(email=form.cleaned_data["email"])
             login(request, user, backend="django.contrib.auth.backends.ModelBackend")
