@@ -32,6 +32,9 @@ urlpatterns = [
     # Internal dashboard
     path("dashboard/", include("dashboard.urls")),
 
+    # Company self-service portal (leasing managers)
+    path("company/", include("listings.company_urls")),
+
     # Root redirect to listings
     path("", RedirectView.as_view(pattern_name="listings:listing_list"), name="root"),
 ]

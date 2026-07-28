@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 
 from accounts.models import Company
-from listings.models import Listing, Application
+from listings.models import Listing
 from listings.services import check_property_reference
 from payments.models import Payment
 
@@ -180,32 +180,6 @@ class CompanyVerificationQueueView(CreatorRequiredMixin, View):
                 messages.warning(request, f"ACRA check for '{company.name}' is still unavailable.")
 
         return self.get(request)
-
-
-class ApplicationsOverviewView(CreatorRequiredMixin, View):
-    """Applications overview — all applications across listings (spec 7a)."""
-
-    template_name = "dashboard/applications.html"
-
-    def get(self, request):
-        applications = (
-            Application.objects
-            .select_related("listing", "applicant", "tasting_slot")
-            .order_by("-created_at")[:50]
-        )
-
-        # Stats by status
-        status_stats = (
-            Application.objects
-            .values("status")
-            .annotate(count=Count("id"))
-        )
-        status_counts = {item["status"]: item["count"] for item in status_stats}
-
-        return render(request, self.template_name, {
-            "applications": applications,
-            "status_counts": status_counts,
-        })
 
 
 class DashboardPaymentsView(CreatorRequiredMixin, View):

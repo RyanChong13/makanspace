@@ -47,6 +47,9 @@
             {% if user.can_access_dashboard %}
             <a href="{% url 'dashboard:overview' %}" class="bh-header__nav-btn">{% trans "Dashboard" %}</a>
             {% endif %}
+            {% if user.company %}
+            <a href="{% url 'company:my_listings' %}" class="bh-header__nav-btn">{% trans "My Listings" %}</a>
+            {% endif %}
             {% if user.can_post_listings %}
             <a href="{% url 'listings:listing_create' %}" class="bh-header__nav-btn">+ {% trans "Post Stall" %}</a>
             {% endif %}

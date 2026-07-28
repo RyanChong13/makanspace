@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Delete Listing" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div class="container--narrow" style="max-width: 520px; margin: 0 auto;">
+    <div class="card">
+        <div class="card__header">
+            <strong>{% trans "Delete this listing?" %}</strong>
+        </div>
+        <div class="card__body">
+            <p style="margin-bottom: 0.5rem;">
+                <strong>{{ listing.code }}</strong> — {{ listing.title }}
+                <span class="badge badge--{{ listing.status }}">{{ listing.get_status_display }}</span>
+            </p>
+            <p class="text-secondary text-sm mb-2">
+                {% blocktrans count photo_count=listing.images.count %}
+                This will permanently remove the listing and its {{ photo_count }} photo. This cannot be undone.
+                {% plural %}
+                This will permanently remove the listing and its {{ photo_count }} photos. This cannot be undone.
+                {% endblocktrans %}
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="flex gap-2">
+                    <button type="submit" class="btn" style="flex: 1; padding: 0.7rem; background: #C62828; color: #fff;">
+                        {% trans "Yes, delete listing" %}
+                    </button>
+                    <a href="{% url 'company:my_listings' %}" class="btn btn--secondary" style="padding: 0.7rem 1.2rem;">
+                        {% trans "Cancel" %}
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,9 +1,13 @@
-from django.db.models.signals import post_save, pre_save
+import logging
+
+from django.db.models.signals import post_save, pre_delete, pre_save
 from django.dispatch import receiver
 
 from .models import Listing
 from .services import geocode_listing
 from .tasks import translate_listing
+
+logger = logging.getLogger(__name__)
 
 
 @receiver(pre_save, sender=Listing)
@@ -48,3 +52,24 @@ def translate_on_verify(sender, instance, **kwargs):
     if previous == Listing.Status.VERIFIED:
         return
     translate_listing.delay(instance.pk)
+
+
+@receiver(pre_delete, sender=Listing)
+def delete_listing_images_from_storage(sender, instance, **kwargs):
+    """
+    Remove image files from storage (Cloudinary in production) before the
+    ListingImage rows are cascade-deleted, so no orphaned files remain.
+    """
+    for listing_image in instance.images.all():
+        if not listing_image.image:
+            continue
+        try:
+            listing_image.image.delete(save=False)
+        except Exception:
+            # Never block listing deletion on a storage hiccup.
+            logger.warning(
+                "Failed to delete image %s for listing %s from storage",
+                listing_image.image.name,
+                instance.code,
+                exc_info=True,
+            )

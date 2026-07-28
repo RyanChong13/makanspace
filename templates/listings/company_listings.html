@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "My Company Listings" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto;">
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "My Company Listings" %}</h1>
+    <p class="text-secondary text-sm mb-2">
+        {{ company.name }} — {{ listings|length }} listing{{ listings|length|pluralize }}
+    </p>
+
+    <!-- Code search: BOOTH-XXXXXX (hawker-facing) or SG-XXXXXX -->
+    <form method="get" class="flex gap-1 mb-2" style="align-items: center;">
+        <input type="text" name="code" value="{{ search_query }}"
+               placeholder="{% trans 'Jump to code, e.g. BOOTH-A1B2C3 or SG-A1B2C3' %}"
+               class="form-input" style="max-width: 340px;">
+        <button type="submit" class="btn btn--secondary" style="padding: 0.5rem 1rem;">{% trans "Find" %}</button>
+    </form>
+
+    {% if listings %}
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+        {% for listing in listings %}
+        <div class="card">
+            <div class="card__header">
+                <div style="flex: 1;">
+                    <strong>{{ listing.code }}</strong> — {{ listing.title }}
+                    <span class="badge badge--{{ listing.status }}">{{ listing.get_status_display }}</span>
+                </div>
+                <span class="text-sm text-secondary">{{ listing.created_at|date:"d M Y" }}</span>
+            </div>
+            <div class="card__body">
+                <div class="flex gap-2 mb-1" style="flex-wrap: wrap;">
+                    <div>
+                        <div class="text-sm text-secondary">{% trans "Rent" %}</div>
+                        <div>{{ listing.cost_display }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-secondary">{% trans "Views" %}</div>
+                        <div>{{ listing.view_count }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-secondary">{% trans "WhatsApp Clicks" %}</div>
+                        <div>{{ listing.whatsapp_click_count }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-secondary">{% trans "Photos" %}</div>
+                        <div>{{ listing.images.all|length }}/6</div>
+                    </div>
+                </div>
+                <div class="flex gap-1" style="flex-wrap: wrap;">
+                    <a href="{% url 'listings:listing_detail' listing.code %}" class="btn btn--secondary" style="padding: 0.4rem 0.9rem;">{% trans "View" %}</a>
+                    <a href="{% url 'listings:listing_update' listing.code %}" class="btn btn--secondary" style="padding: 0.4rem 0.9rem;">{% trans "Edit" %}</a>
+                    <a href="{% url 'listings:listing_delete' listing.code %}" class="btn" style="padding: 0.4rem 0.9rem; background: #FDE8E8; color: #C62828;">{% trans "Delete" %}</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert--info">
+        {% trans "Your company has no listings yet." %}
+        {% if user.can_post_listings %}
+        <a href="{% url 'listings:listing_create' %}">{% trans "Post your first stall" %}</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

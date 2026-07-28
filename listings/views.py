@@ -361,6 +361,62 @@ class ListingUpdateView(LoginRequiredMixin, CompanyListingMixin, View):
         })
 
 
+# ─── My Company Listings (leasing manager self-service, /company/ namespace) ───
+
+class MyCompanyListingsView(LoginRequiredMixin, UserPassesTestMixin, View):
+    """Self-service page: all listings belonging to the user's own company."""
+
+    template_name = "listings/company_listings.html"
+
+    def test_func(self):
+        return self.request.user.company is not None
+
+    def get(self, request):
+        listings = (
+            Listing.objects.filter(company=request.user.company)
+            .prefetch_related("images")
+            .order_by("-created_at")
+        )
+
+        # Code search: accepts BOOTH-XXXXXX (hawker-facing) or SG-XXXXXX (stored)
+        query = request.GET.get("code", "").strip().upper()
+        if query:
+            normalized = query
+            if normalized.startswith("BOOTH-"):
+                normalized = "SG-" + normalized[len("BOOTH-"):]
+            match = listings.filter(code=normalized).first()
+            if match:
+                return redirect("listings:listing_detail", code=match.code)
+            messages.error(request, f"No listing with code {query} found for your company.")
+
+        return render(request, self.template_name, {
+            "listings": listings,
+            "company": request.user.company,
+            "search_query": query,
+        })
+
+
+# ─── Listing Delete (same company's leasing managers or admin) ───────────────
+
+class ListingDeleteView(LoginRequiredMixin, CompanyListingMixin, View):
+    """Delete a listing after explicit confirmation (same check as Edit Listing)."""
+
+    template_name = "listings/listing_confirm_delete.html"
+
+    def get_object(self):
+        return get_object_or_404(Listing, code=self.kwargs["code"])
+
+    def get(self, request, code):
+        return render(request, self.template_name, {"listing": self.get_object()})
+
+    def post(self, request, code):
+        listing = self.get_object()
+        title = listing.title
+        listing.delete()  # pre_delete signal removes images from storage first
+        messages.success(request, f"Listing '{title}' has been permanently deleted.")
+        return redirect("company:my_listings")
+
+
 # ─── Application Views (spec 4.1) ───────────────────────────────────────────
 
 class ApplicationCreateView(LoginRequiredMixin, View):
@@ -390,25 +446,6 @@ class ApplicationCreateView(LoginRequiredMixin, View):
         return render(request, self.template_name, {
             "form": form,
             "listing": listing,
-        })
-
-
-class ApplicationListView(LoginRequiredMixin, View):
-    """Landlord views incoming applications for their listings."""
-
-    template_name = "listings/application_list_landlord.html"
-
-    def get(self, request, code):
-        listing = get_object_or_404(Listing, code=code)
-        # Only same company or admin
-        if not request.user.is_staff and (not request.user.company or listing.company != request.user.company):
-            messages.error(request, "You don't have access to this listing's applications.")
-            return redirect("listings:listing_detail", code=code)
-
-        applications = listing.applications.select_related("applicant", "tasting_slot").order_by("-created_at")
-        return render(request, self.template_name, {
-            "listing": listing,
-            "applications": applications,
         })
 
 

@@ -15,4 +15,5 @@ urlpatterns = [
     # Leasing manager actions
     path("post/", views.ListingCreateView.as_view(), name="listing_create"),
     path("listing/<str:code>/edit/", views.ListingUpdateView.as_view(), name="listing_update"),
+    path("listing/<str:code>/delete/", views.ListingDeleteView.as_view(), name="listing_delete"),
 ]
