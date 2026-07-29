@@ -466,3 +466,103 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.applicant.display_name} → {self.listing.code} ({self.status})"
+
+
+# ─── WhatsAppClickEvent ──────────────────────────────────────────────────────
+
+class WhatsAppClickEvent(models.Model):
+    """
+    Timestamped log of a single 'Connect via WhatsApp' click.
+    Enables rolling-window stats (e.g. clicks in the last 7 days) that the
+    running whatsapp_click_count counter cannot answer.
+    """
+
+    listing = models.ForeignKey(
+        Listing,
+        on_delete=models.CASCADE,
+        related_name="click_events",
+    )
+    clicked_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ["-clicked_at"]
+
+    def __str__(self):
+        return f"{self.listing.code} @ {self.clicked_at:%d %b %H:%M}"
+
+
+# ─── QuickReplyTemplate ──────────────────────────────────────────────────────
+
+class QuickReplyTemplate(models.Model):
+    """
+    Pre-written WhatsApp response a leasing manager can copy-paste when
+    replying to hawker enquiries (never auto-sent).
+    """
+
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="quick_replies",
+    )
+    label = models.CharField(max_length=100, help_text="Short name, e.g. 'Still available'.")
+    message = models.TextField(help_text="The reply text to copy into WhatsApp.")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at"]
+
+    def __str__(self):
+        return f"{self.company.name} — {self.label}"
+
+
+# ─── WantedPost (reverse listing) ────────────────────────────────────────────
+
+class WantedPost(models.Model):
+    """
+    'Stall wanted' post from a hawker describing what they're looking for.
+    No user account required — matches the no-login hawker model; leasing
+    managers respond directly via WhatsApp.
+    """
+
+    contact_name = models.CharField(max_length=100)
+    contact_whatsapp = models.CharField(
+        max_length=20,
+        help_text="WhatsApp number with country code, e.g. +65 9123 4567.",
+    )
+    preferred_town = models.CharField(max_length=100, blank=True)
+    preferred_district = models.CharField(max_length=100, blank=True)
+    cuisine_type = models.CharField(max_length=100, blank=True)
+    budget_min = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    budget_max = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    lease_duration = models.CharField(
+        max_length=10,
+        choices=LEASE_DURATION_CHOICES,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.contact_name} — {self.preferred_town or 'anywhere'}"
+
+    @property
+    def budget_display(self):
+        if self.budget_min and self.budget_max:
+            return f"${self.budget_min:,.0f}–${self.budget_max:,.0f}/mo"
+        if self.budget_min:
+            return f"From ${self.budget_min:,.0f}/mo"
+        if self.budget_max:
+            return f"Up to ${self.budget_max:,.0f}/mo"
+        return ""
+
+    @property
+    def whatsapp_url(self):
+        """wa.me deep link to the hawker who posted, with a pre-filled opener."""
+        digits = "".join(ch for ch in self.contact_whatsapp if ch.isdigit())
+        if not digits:
+            return ""
+        from urllib.parse import quote
+        message = "Hi! I saw your stall-wanted post on MakanSpace."
+        return f"https://wa.me/{digits}?text={quote(message)}"

@@ -6,6 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}MakanSpace{% endblock %}</title>
 
+    {% block meta %}
+    <!-- Open Graph / Twitter fallbacks for rich link previews -->
+    <meta property="og:site_name" content="MakanSpace">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MakanSpace — Hawker stall rentals in Singapore">
+    <meta property="og:description" content="Browse verified hawker and coffee-shop stalls for rent across Singapore.">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.png' %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MakanSpace — Hawker stall rentals in Singapore">
+    <meta name="twitter:description" content="Browse verified hawker and coffee-shop stalls for rent across Singapore.">
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo.png' %}">
+    {% endblock %}
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'img/logo.svg' %}">
 
@@ -72,6 +86,9 @@
             <input type="text" id="chatbot-input" placeholder="e.g. stall near MRT under $2000..."
                    style="flex:1;border:1px solid var(--color-border);border-radius:var(--radius-pill);
                           padding:0.5rem 0.8rem;font-size:0.9rem;outline:none">
+            <button type="button" id="chatbot-mic" title="Speak your search"
+                    style="background:var(--color-bg-secondary);border:1px solid var(--color-border);
+                    border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem">🎤</button>
             <button type="submit" style="background:var(--color-accent);color:#fff;border:none;
                     border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem">↑</button>
         </form>
@@ -95,6 +112,11 @@
         .chatbot-result{background:var(--color-bg-secondary);border-radius:var(--radius-md);padding:0.6rem;
                         margin-top:0.4rem;font-size:0.85rem;border:1px solid var(--color-border)}
         .chatbot-result strong{color:var(--color-accent)}
+        #chatbot-mic.is-recording{background:#C62828!important;border-color:#C62828!important;color:#fff;
+                                  animation:mic-pulse 1.2s infinite}
+        @keyframes mic-pulse{0%{box-shadow:0 0 0 0 rgba(198,40,40,0.5)}
+                             70%{box-shadow:0 0 0 8px rgba(198,40,40,0)}
+                             100%{box-shadow:0 0 0 0 rgba(198,40,40,0)}}
     </style>
 
     <script>
@@ -153,6 +175,79 @@
                     chatMsgs.appendChild(errDiv);
                 }
                 chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            });
+        }
+
+        // ── Chatbot voice input — same Groq Whisper pipeline as voice-to-listing ─
+        const chatMic = document.getElementById('chatbot-mic');
+        let chatRecorder = null;
+        let chatChunks = [];
+
+        function chatbotVoiceError(text) {
+            const errDiv = document.createElement('div');
+            errDiv.style.cssText = 'background:#FDE8E8;padding:0.6rem;border-radius:var(--radius-md);color:#C0392B;font-size:0.85rem;';
+            errDiv.textContent = text;
+            chatMsgs.appendChild(errDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+
+        if (chatMic) {
+            chatMic.addEventListener('click', async function() {
+                // Second tap stops the recording and sends it
+                if (chatRecorder && chatRecorder.state === 'recording') {
+                    chatRecorder.stop();
+                    return;
+                }
+                if (!navigator.mediaDevices || !window.MediaRecorder) {
+                    chatbotVoiceError('Voice input is not supported in this browser.');
+                    return;
+                }
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+                    chatChunks = [];
+                    chatRecorder = new MediaRecorder(stream);
+                    chatRecorder.addEventListener('dataavailable', function(e) {
+                        if (e.data.size) chatChunks.push(e.data);
+                    });
+                    chatRecorder.addEventListener('stop', async function() {
+                        stream.getTracks().forEach(function(t) { t.stop(); });
+                        chatMic.classList.remove('is-recording');
+                        chatMic.textContent = '🎤';
+
+                        const loadDiv = document.createElement('div');
+                        loadDiv.style.cssText = 'color:var(--color-text-secondary);font-size:0.85rem;padding:0.3rem;';
+                        loadDiv.textContent = 'Transcribing...';
+                        chatMsgs.appendChild(loadDiv);
+                        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+
+                        try {
+                            const fd = new FormData();
+                            fd.append('audio', new Blob(chatChunks, {type: 'audio/webm'}), 'chatbot-voice.webm');
+                            const resp = await fetch('{% url "chatbot:transcribe" %}', {
+                                method: 'POST',
+                                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                body: fd,
+                            });
+                            const data = await resp.json();
+                            loadDiv.remove();
+                            if (resp.ok && data.text) {
+                                // Feed the transcript through the existing typed-input path
+                                chatInput.value = data.text;
+                                chatForm.dispatchEvent(new Event('submit', {cancelable: true}));
+                            } else {
+                                chatbotVoiceError(data.error || 'Sorry, something went wrong. Please try again.');
+                            }
+                        } catch (err) {
+                            loadDiv.remove();
+                            chatbotVoiceError('Sorry, something went wrong. Please try again.');
+                        }
+                    });
+                    chatRecorder.start();
+                    chatMic.classList.add('is-recording');
+                    chatMic.textContent = '⏹';
+                } catch (err) {
+                    chatbotVoiceError('Microphone access was denied.');
+                }
             });
         }
     </script>

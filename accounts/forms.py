@@ -39,6 +39,14 @@ class CompanySignupForm(forms.ModelForm):
         required=False,
         widget=forms.TextInput(attrs={"class": "form-input", "placeholder": "+65 9123 4567"}),
     )
+    referrer = forms.CharField(
+        required=False,
+        label="Were you referred by another company? Enter their name or UEN",
+        widget=forms.TextInput(attrs={
+            "class": "form-input",
+            "placeholder": "e.g. Kimly Group Pte Ltd or 201234567A",
+        }),
+    )
 
     class Meta:
         model = Company
@@ -82,6 +90,18 @@ class CompanySignupForm(forms.ModelForm):
     def save(self, commit=True):
         company = super().save(commit=False)
         company.status = Company.Status.PENDING
+
+        # Referral capture (schema only): resolve by UEN first, then exact name.
+        # Unmatched text is silently discarded.
+        ref = self.cleaned_data.get("referrer", "").strip()
+        if ref:
+            referrer_company = (
+                Company.objects.filter(uen__iexact=ref).first()
+                or Company.objects.filter(name__iexact=ref).first()
+            )
+            if referrer_company:
+                company.referred_by = referrer_company
+
         if commit:
             company.save()
 

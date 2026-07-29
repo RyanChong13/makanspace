@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 
-from .models import Amenity, Listing, ListingImage, Application, TastingSlot
+from .models import Amenity, Listing, ListingImage, Application, TastingSlot, WantedPost
 
 
 class ListingForm(forms.ModelForm):
@@ -173,3 +173,70 @@ class TastingSlotForm(forms.ModelForm):
         if start and end and end <= start:
             raise forms.ValidationError("End time must be after start time.")
         return cleaned_data
+
+
+# ─── WantedPost Form (reverse listing) ──────────────────────────────────────
+
+class WantedPostForm(forms.ModelForm):
+    """Public 'stall wanted' form for hawkers — no account needed."""
+
+    class Meta:
+        model = WantedPost
+        fields = [
+            "contact_name",
+            "contact_whatsapp",
+            "preferred_town",
+            "preferred_district",
+            "cuisine_type",
+            "budget_min",
+            "budget_max",
+            "lease_duration",
+        ]
+        widgets = {
+            "contact_name": forms.TextInput(attrs={
+                "placeholder": "e.g. Ah Hock",
+                "class": "form-input",
+            }),
+            "contact_whatsapp": forms.TextInput(attrs={
+                "placeholder": "+65 9123 4567",
+                "class": "form-input",
+            }),
+            "preferred_town": forms.TextInput(attrs={
+                "placeholder": "e.g. Jurong West",
+                "class": "form-input",
+            }),
+            "preferred_district": forms.TextInput(attrs={
+                "placeholder": "e.g. West, Central",
+                "class": "form-input",
+            }),
+            "cuisine_type": forms.TextInput(attrs={
+                "placeholder": "e.g. Chicken rice, Western",
+                "class": "form-input",
+            }),
+            "budget_min": forms.NumberInput(attrs={
+                "placeholder": "Optional",
+                "class": "form-input",
+                "min": "0",
+            }),
+            "budget_max": forms.NumberInput(attrs={
+                "placeholder": "Optional",
+                "class": "form-input",
+                "min": "0",
+            }),
+            "lease_duration": forms.Select(attrs={"class": "form-select"}),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        budget_min = cleaned_data.get("budget_min")
+        budget_max = cleaned_data.get("budget_max")
+        if budget_min and budget_max and budget_max < budget_min:
+            self.add_error("budget_max", "Maximum budget cannot be less than minimum budget.")
+        return cleaned_data
+
+    def clean_contact_whatsapp(self):
+        number = self.cleaned_data.get("contact_whatsapp", "").strip()
+        digits = "".join(ch for ch in number if ch.isdigit())
+        if len(digits) < 8:
+            raise forms.ValidationError("Please enter a valid WhatsApp number with country code.")
+        return number

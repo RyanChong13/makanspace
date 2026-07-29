@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ company.name }} — MakanSpace{% endblock %}
+
+{% block meta %}
+<!-- Open Graph rich link preview for the QR-code landing page -->
+<meta property="og:site_name" content="MakanSpace">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ company.name }} | MakanSpace">
+<meta property="og:description" content="{% blocktrans count listing_count=listings|length %}{{ listing_count }} hawker stall available for rent{% plural %}{{ listing_count }} hawker stalls available for rent{% endblocktrans %}">
+<meta property="og:image" content="{{ og_image_url }}">
+<meta property="og:url" content="{{ og_url }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ company.name }} | MakanSpace">
+<meta name="twitter:image" content="{{ og_image_url }}">
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 0 auto;">
+    <!-- Company header -->
+    <div class="card mb-2">
+        <div class="card__body" style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-accent-light);
+                        display: flex; align-items: center; justify-content: center; color: #fff;
+                        font-weight: 700; font-size: 1.4rem;">
+                {{ company.name|slice:":1"|upper }}
+            </div>
+            <div style="flex: 1;">
+                <h1 style="font-size: 1.4rem; font-weight: 700; margin: 0;">{{ company.name }}</h1>
+                <div class="text-sm text-secondary" style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    {% if company.is_verified %}
+                    <span class="badge badge--verified" title="{% trans 'Business verified' %}">&#10003; {% trans "Verified landlord" %}</span>
+                    {% endif %}
+                    <span>
+                        {% blocktrans count listing_count=listings|length %}{{ listing_count }} stall available{% plural %}{{ listing_count }} stalls available{% endblocktrans %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verified listings grid (same card style as the main listing list) -->
+    {% if listings %}
+    <div class="listing-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+        {% for listing in listings %}
+        {% include "includes/listing_card.html" %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert--info">
+        {% trans "This company has no available stalls right now. Check back soon!" %}
+        <a href="{% url 'listings:listing_list' %}">{% trans "Browse all listings" %}</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

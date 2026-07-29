@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Post a Stall Wanted Ad" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="max-width: 550px; margin: 0 auto;">
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "Looking for a stall?" %}</h1>
+    <p class="text-secondary text-sm mb-2">
+        {% trans "Tell landlords what you're looking for — no account needed. Leasing teams will contact you directly on WhatsApp." %}
+    </p>
+
+    {% if form.errors %}
+    <div class="alert alert--error mb-2">{% trans "Please correct the errors below." %}</div>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.contact_name.id_for_label }}">{% trans "Your Name" %}</label>
+            {{ form.contact_name }}
+            {% for err in form.contact_name.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.contact_whatsapp.id_for_label }}">{% trans "WhatsApp Number" %}</label>
+            {{ form.contact_whatsapp }}
+            <p class="text-secondary text-sm">{% trans "Landlords will reply to you here. Include the country code." %}</p>
+            {% for err in form.contact_whatsapp.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="flex gap-2">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.preferred_town.id_for_label }}">{% trans "Preferred Town" %}</label>
+                {{ form.preferred_town }}
+                {% for err in form.preferred_town.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.preferred_district.id_for_label }}">{% trans "Preferred District" %}</label>
+                {{ form.preferred_district }}
+                {% for err in form.preferred_district.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.cuisine_type.id_for_label }}">{% trans "Cuisine Type" %}</label>
+            {{ form.cuisine_type }}
+            {% for err in form.cuisine_type.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <div class="flex gap-2">
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.budget_min.id_for_label }}">{% trans "Budget From ($/mo)" %}</label>
+                {{ form.budget_min }}
+                {% for err in form.budget_min.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label class="form-label" for="{{ form.budget_max.id_for_label }}">{% trans "Budget Up To ($/mo)" %}</label>
+                {{ form.budget_max }}
+                {% for err in form.budget_max.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.lease_duration.id_for_label }}">{% trans "Lease Duration" %}</label>
+            {{ form.lease_duration }}
+            {% for err in form.lease_duration.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--full mt-2" style="padding: 0.8rem;">
+            {% trans "Post Stall Wanted Ad" %}
+        </button>
+    </form>
+</div>
+{% endblock %}

@@ -51,6 +51,12 @@
     {% include "partials/listing_results.html" %}
 </div>
 
+<!-- Stall wanted entry point -->
+<p class="text-sm text-center mt-2" style="color: var(--color-text-secondary);">
+    {% trans "Looking for a stall?" %}
+    <a href="{% url 'listings:wanted_post' %}">{% trans "Tell landlords what you want" %} →</a>
+</p>
+
 <!-- Map (always visible below results) -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <div id="map-container" style="height: 400px; border-radius: var(--radius-md); margin-top: 1.5rem;" class="mb-2">

@@ -15,10 +15,10 @@ class SiteSettingsAdmin(admin.ModelAdmin):
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ("name", "uen", "region", "whatsapp_number", "is_business_verified", "status", "created_at")
+    list_display = ("name", "uen", "region", "whatsapp_number", "is_business_verified", "status", "referred_by", "created_at")
     list_filter = ("status", "is_business_verified", "region")
     search_fields = ("name", "uen")
-    readonly_fields = ("created_at",)
+    readonly_fields = ("created_at", "referred_by")
     actions = ["verify_companies", "reject_companies"]
 
     @admin.action(description="Mark selected companies as verified")

@@ -6,6 +6,7 @@ from django.urls import path
 from .models import (
     Amenity, Listing, ListingImage, ListingTranslation,
     PropertyReference, Application, TastingSlot,
+    WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
 )
 
 
@@ -191,3 +192,35 @@ class AmenityAdmin(admin.ModelAdmin):
     list_display = ("slug", "name_en", "icon")
     search_fields = ("slug", "name_en")
     prepopulated_fields = {"slug": ("name_en",)}
+
+
+# ─── WhatsAppClickEvent Admin ────────────────────────────────────────────────
+
+@admin.register(WhatsAppClickEvent)
+class WhatsAppClickEventAdmin(admin.ModelAdmin):
+    list_display = ("listing", "clicked_at")
+    list_filter = ("clicked_at",)
+    search_fields = ("listing__code", "listing__title")
+    readonly_fields = ("listing", "clicked_at")
+    date_hierarchy = "clicked_at"
+
+
+# ─── QuickReplyTemplate Admin ────────────────────────────────────────────────
+
+@admin.register(QuickReplyTemplate)
+class QuickReplyTemplateAdmin(admin.ModelAdmin):
+    list_display = ("company", "label", "created_at")
+    search_fields = ("company__name", "label", "message")
+
+
+# ─── WantedPost Admin ────────────────────────────────────────────────────────
+
+@admin.register(WantedPost)
+class WantedPostAdmin(admin.ModelAdmin):
+    list_display = ("contact_name", "preferred_town", "cuisine_type", "budget_display", "created_at")
+    search_fields = ("contact_name", "preferred_town", "preferred_district", "cuisine_type")
+    date_hierarchy = "created_at"
+
+    def budget_display(self, obj):
+        return obj.budget_display
+    budget_display.short_description = "Budget"

@@ -5,16 +5,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
+from django.templatetags.static import static
 from django.utils import timezone
 from django.views import View
+from datetime import timedelta
 import json
 
 from .forms import (
     ListingForm, ListingImage, ListingImageFormSet,
-    ApplicationForm, TastingSlotForm,
+    ApplicationForm, TastingSlotForm, WantedPostForm,
 )
-from accounts.models import SiteSettings
-from .models import Amenity, Listing, Application, TastingSlot
+from accounts.models import Company, SiteSettings
+from .models import (
+    Amenity, Listing, Application, TastingSlot,
+    WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
+)
 from .services import compress_image, check_property_reference, geocode_listing, SG_DISTRICT_MAP
 
 User = get_user_model()
@@ -40,6 +45,13 @@ class CompanyListingMixin(UserPassesTestMixin):
             and user.company is not None
             and listing.company == user.company
         )
+
+
+class CompanyMemberRequiredMixin(UserPassesTestMixin):
+    """Restricts to users attached to a company (any role)."""
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.company is not None
 
 
 # ─── Listing List (public, verified only) ────────────────────────────────────
@@ -178,9 +190,29 @@ class ListingDetailView(View):
             listing.view_count += 1
             listing.save(update_fields=["view_count"])
 
+        # Open Graph context for rich link previews (crawlers need absolute URLs)
+        translation = listing.get_translation(getattr(request, "LANGUAGE_CODE", "en"))
+        og_title = f"{translation.title if translation else listing.title} — {listing.company.name} | MakanSpace"
+        images = listing.images.all()
+        og_image_url = (
+            request.build_absolute_uri(images[0].image.url)
+            if images
+            else request.build_absolute_uri(static("img/logo.png"))
+        )
+        og_parts = [listing.cost_display]
+        if listing.size_display:
+            og_parts.append(listing.size_display)
+        if listing.mrt_display:
+            og_parts.append(listing.mrt_display)
+        og_parts.append(f"Postal code {listing.postal_code}")
+
         return render(request, self.template_name, {
             "listing": listing,
             "is_preview": is_preview,
+            "og_title": og_title,
+            "og_description": " · ".join(og_parts),
+            "og_image_url": og_image_url,
+            "og_url": request.build_absolute_uri(request.path),
         })
 
     def _can_preview(self, request, listing):
@@ -205,6 +237,8 @@ class WhatsAppClickView(View):
         listing = get_object_or_404(Listing, code=code, status=Listing.Status.VERIFIED)
         listing.whatsapp_click_count += 1
         listing.save(update_fields=["whatsapp_click_count"])
+        # Timestamped event for rolling-window stats (running counter unchanged)
+        WhatsAppClickEvent.objects.create(listing=listing)
         if listing.whatsapp_url:
             return redirect(listing.whatsapp_url)
         messages.error(request, "No WhatsApp contact number is available for this listing.")
@@ -389,10 +423,18 @@ class MyCompanyListingsView(LoginRequiredMixin, UserPassesTestMixin, View):
                 return redirect("listings:listing_detail", code=match.code)
             messages.error(request, f"No listing with code {query} found for your company.")
 
+        # Rolling 7-day WhatsApp click aggregate across all company listings
+        weekly_clicks = WhatsAppClickEvent.objects.filter(
+            listing__company=request.user.company,
+            clicked_at__gte=timezone.now() - timedelta(days=7),
+        ).count()
+
         return render(request, self.template_name, {
             "listings": listings,
             "company": request.user.company,
             "search_query": query,
+            "weekly_clicks": weekly_clicks,
+            "quick_replies": request.user.company.quick_replies.all(),
         })
 
 
@@ -415,6 +457,110 @@ class ListingDeleteView(LoginRequiredMixin, CompanyListingMixin, View):
         listing.delete()  # pre_delete signal removes images from storage first
         messages.success(request, f"Listing '{title}' has been permanently deleted.")
         return redirect("company:my_listings")
+
+
+# ─── Quick Reply Templates (company self-service) ───────────────────────────
+
+class QuickReplyCreateView(LoginRequiredMixin, CompanyMemberRequiredMixin, View):
+    """Save a pre-written WhatsApp reply for the user's company."""
+
+    def post(self, request):
+        label = request.POST.get("label", "").strip()
+        message = request.POST.get("message", "").strip()
+        if label and message:
+            QuickReplyTemplate.objects.create(
+                company=request.user.company, label=label, message=message,
+            )
+            messages.success(request, "Quick reply saved.")
+        else:
+            messages.error(request, "Both a label and a message are required.")
+        return redirect("company:my_listings")
+
+
+class QuickReplyDeleteView(LoginRequiredMixin, CompanyMemberRequiredMixin, View):
+    """Delete one of the user's own company's quick replies."""
+
+    def post(self, request, pk):
+        template = get_object_or_404(QuickReplyTemplate, pk=pk)
+        if template.company != request.user.company:
+            from django.http import HttpResponseForbidden
+            return HttpResponseForbidden("You can only delete your own company's quick replies.")
+        template.delete()
+        messages.success(request, "Quick reply deleted.")
+        return redirect("company:my_listings")
+
+
+# ─── Public Company Profile (QR-code landing page) ──────────────────────────
+
+class PublicCompanyProfileView(View):
+    """
+    Public (no login) portfolio page showing all of a company's verified
+    listings — QR codes on physical signage point here so a hawker scanning
+    one vacant stall sees the company's entire portfolio.
+    """
+
+    template_name = "listings/company_profile.html"
+
+    def get(self, request, uen):
+        company = get_object_or_404(Company, uen__iexact=uen)
+        listings = (
+            Listing.objects.filter(company=company, status=Listing.Status.VERIFIED)
+            .prefetch_related("images", "amenities")
+            .order_by("-featured", "-created_at")
+        )
+
+        # Open Graph: use the first listing photo as the preview image
+        first_image = None
+        for listing in listings:
+            imgs = listing.images.all()
+            if imgs:
+                first_image = imgs[0]
+                break
+        og_image_url = (
+            request.build_absolute_uri(first_image.image.url)
+            if first_image
+            else request.build_absolute_uri(static("img/logo.png"))
+        )
+
+        return render(request, self.template_name, {
+            "company": company,
+            "listings": listings,
+            "og_image_url": og_image_url,
+            "og_url": request.build_absolute_uri(request.path),
+        })
+
+
+# ─── Stall Wanted (reverse listings) ─────────────────────────────────────────
+
+class WantedPostCreateView(View):
+    """Public 'stall wanted' form — no login required, matching the hawker model."""
+
+    template_name = "listings/wanted_post_form.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {"form": WantedPostForm()})
+
+    def post(self, request):
+        form = WantedPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                "Your stall-wanted post is live. Landlords will reach out to you on WhatsApp.",
+            )
+            return redirect("listings:listing_list")
+        return render(request, self.template_name, {"form": form})
+
+
+class WantedPostListView(LoginRequiredMixin, CompanyMemberRequiredMixin, View):
+    """Open stall-wanted posts, visible to logged-in company members."""
+
+    template_name = "listings/wanted_list.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {
+            "posts": WantedPost.objects.all(),
+        })
 
 
 # ─── Application Views (spec 4.1) ───────────────────────────────────────────

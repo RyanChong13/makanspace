@@ -6,6 +6,8 @@ Calls the same Django ORM query as the UI filters.
 
 import json
 import logging
+import os
+import tempfile
 
 from django.conf import settings
 from django.db import models
@@ -18,6 +20,49 @@ from listings.models import Listing
 from listings.services import SG_DISTRICT_MAP
 
 logger = logging.getLogger(__name__)
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def chatbot_transcribe(request):
+    """
+    POST /api/chatbot/transcribe/
+    Multipart body with an 'audio' blob. Returns {"text": "..."} transcribed
+    via the same Groq Whisper pipeline used for voice-to-listing.
+    """
+    audio_file = request.FILES.get("audio")
+    if not audio_file:
+        return Response({"error": "No audio file provided."}, status=status.HTTP_400_BAD_REQUEST)
+
+    if not getattr(settings, "GROQ_API_KEY", ""):
+        return Response(
+            {"error": "Voice input is not configured yet."},
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
+        )
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as tmp:
+        for chunk in audio_file.chunks():
+            tmp.write(chunk)
+        tmp_path = tmp.name
+
+    try:
+        from listings.tasks import transcribe_audio
+        text = transcribe_audio(tmp_path)
+    except Exception as e:
+        logger.error("Chatbot transcription failed: %s", e)
+        text = ""
+    finally:
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+
+    if not text.strip():
+        return Response(
+            {"error": "Sorry, I couldn't hear that. Please try again."},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+    return Response({"text": text.strip()})
 
 
 @api_view(["POST"])

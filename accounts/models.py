@@ -66,6 +66,16 @@ class Company(models.Model):
         help_text="Admin-visible reason when status is 'rejected'.",
     )
 
+    # Referral capture (schema only for now — reward logic not yet designed)
+    referred_by = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="referrals",
+        help_text="Company that referred this company at signup (optional).",
+    )
+
     # Automated ACRA UEN lookup results (data.gov.sg, advisory only — never
     # auto-approves/rejects; informs the admin's manual verification decision).
     acra_verified_name = models.CharField(

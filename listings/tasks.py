@@ -187,6 +187,29 @@ def send_whatsapp_notification(self, phone_number, template_name, params=None):
 
 # ─── Voice-to-Listing Extraction (spec 7.1) ─────────────────────────────────
 
+def transcribe_audio(audio_file_path):
+    """
+    Transcribe an audio clip via Groq Whisper (free tier).
+    Shared by voice-to-listing and the chatbot voice input.
+    Returns the transcript text, or '' when GROQ_API_KEY is not configured.
+    """
+    groq_key = getattr(settings, "GROQ_API_KEY", "")
+    if not groq_key:
+        logger.warning("GROQ_API_KEY not set; skipping transcription")
+        return ""
+
+    from groq import Groq
+    groq_client = Groq(api_key=groq_key)
+
+    with open(audio_file_path, "rb") as audio_file:
+        transcript = groq_client.audio.transcriptions.create(
+            model="whisper-large-v3",
+            file=audio_file,
+        )
+
+    return transcript.text
+
+
 @shared_task
 def transcribe_and_extract(audio_file_path):
     """
@@ -194,23 +217,11 @@ def transcribe_and_extract(audio_file_path):
     listing fields using Claude.
     Returns dict: {cost_min, cost_max, lease_duration, amenities, location, description_notes}.
     """
-    groq_key = getattr(settings, "GROQ_API_KEY", "")
-    if not groq_key:
-        logger.warning("GROQ_API_KEY not set; skipping voice extraction")
-        return {}
-
     try:
         # Step 1: Transcribe audio using Groq's Whisper API (free tier)
-        from groq import Groq
-        groq_client = Groq(api_key=groq_key)
-
-        with open(audio_file_path, "rb") as audio_file:
-            transcript = groq_client.audio.transcriptions.create(
-                model="whisper-large-v3",
-                file=audio_file,
-            )
-
-        text = transcript.text
+        text = transcribe_audio(audio_file_path)
+        if not text:
+            return {}
 
         # Step 2: Extract structured fields using Claude
         client = _get_anthropic_client()

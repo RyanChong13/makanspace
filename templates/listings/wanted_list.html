@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Stall Wanted Posts" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="max-width: 750px; margin: 0 auto;">
+    <div class="flex justify-between items-center mb-2" style="flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+            <h1 style="font-size: 1.5rem; margin-bottom: 0.2rem;">{% trans "Stall Wanted Posts" %}</h1>
+            <p class="text-secondary text-sm" style="margin: 0;">
+                {% trans "Hawkers looking for a stall. Reply directly on WhatsApp if one of your spaces fits." %}
+            </p>
+        </div>
+        <a href="{% url 'company:my_listings' %}" class="btn btn--secondary btn--sm">
+            ← {% trans "My Company Listings" %}
+        </a>
+    </div>
+
+    {% for post in posts %}
+    <div class="card mb-2" style="padding: 1rem;">
+        <div class="flex justify-between items-center" style="flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+                <strong>{{ post.contact_name }}</strong>
+                <span class="text-secondary text-sm"> · {{ post.created_at|date:"j M Y" }}</span>
+            </div>
+            {% if post.whatsapp_url %}
+            <a href="{{ post.whatsapp_url }}" target="_blank" rel="noopener"
+               class="btn btn--whatsapp btn--sm">
+                💬 {% trans "Reply on WhatsApp" %}
+            </a>
+            {% endif %}
+        </div>
+        <div class="text-sm mt-1" style="display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem;">
+            {% if post.preferred_town %}
+            <span>📍 {{ post.preferred_town }}{% if post.preferred_district %} ({{ post.preferred_district }}){% endif %}</span>
+            {% elif post.preferred_district %}
+            <span>📍 {{ post.preferred_district }}</span>
+            {% endif %}
+            {% if post.cuisine_type %}<span>🍜 {{ post.cuisine_type }}</span>{% endif %}
+            {% if post.budget_display %}<span>💰 {{ post.budget_display }}</span>{% endif %}
+            {% if post.lease_duration %}<span>📅 {{ post.get_lease_duration_display }}</span>{% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert--info">
+        {% trans "No stall-wanted posts yet. Check back later!" %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

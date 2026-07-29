@@ -10,6 +10,65 @@
         {{ company.name }} — {{ listings|length }} listing{{ listings|length|pluralize }}
     </p>
 
+    <!-- Rolling 7-day WhatsApp enquiry stat -->
+    <div class="card mb-2" style="background: var(--color-accent); color: #fff;">
+        <div class="card__body" style="display: flex; align-items: center; gap: 1rem;">
+            <div style="font-size: 2rem; font-weight: 700;">{{ weekly_clicks }}</div>
+            <div style="font-size: 0.95rem;">
+                {% blocktrans count clicks=weekly_clicks %}person asked about your stalls this week{% plural %}people asked about your stalls this week{% endblocktrans %}
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp quick replies (copy-paste, never auto-sent) -->
+    <div class="card mb-2">
+        <div class="card__header">
+            <strong style="flex: 1;">{% trans "WhatsApp quick replies" %}</strong>
+            <a href="{% url 'company:wanted_list' %}" class="text-sm">{% trans "Stall wanted posts" %} &rarr;</a>
+        </div>
+        <div class="card__body">
+            {% if quick_replies %}
+            <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 0.75rem;">
+                {% for reply in quick_replies %}
+                <div style="display: flex; gap: 0.6rem; align-items: flex-start;">
+                    <div style="flex: 1;">
+                        <div class="text-sm" style="font-weight: 600;">{{ reply.label }}</div>
+                        <div class="text-sm text-secondary" style="white-space: pre-wrap;">{{ reply.message }}</div>
+                    </div>
+                    <button type="button" class="btn btn--secondary quick-reply-copy"
+                            data-message="{{ reply.message }}" style="padding: 0.3rem 0.8rem;">
+                        {% trans "Copy" %}
+                    </button>
+                    <form method="post" action="{% url 'company:quick_reply_delete' reply.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn" style="padding: 0.3rem 0.8rem; background: #FDE8E8; color: #C62828;">
+                            {% trans "Delete" %}
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-sm text--secondary mb-1" style="color: var(--color-text-secondary);">
+                {% trans "Save pre-written replies (e.g. 'Yes, still available — when would you like to view it?') so you can paste them into WhatsApp quickly." %}
+            </p>
+            {% endif %}
+            <details>
+                <summary class="text-sm" style="cursor: pointer; color: var(--color-accent); font-weight: 600;">
+                    + {% trans "Add a quick reply" %}
+                </summary>
+                <form method="post" action="{% url 'company:quick_reply_add' %}" class="mt-1">
+                    {% csrf_token %}
+                    <input type="text" name="label" maxlength="100" required class="form-input mb-1"
+                           placeholder="{% trans 'Label, e.g. Still available' %}">
+                    <textarea name="message" rows="3" required class="form-textarea mb-1"
+                              placeholder="{% trans 'Message text to copy into WhatsApp' %}"></textarea>
+                    <button type="submit" class="btn btn--secondary" style="padding: 0.4rem 1rem;">{% trans "Save" %}</button>
+                </form>
+            </details>
+        </div>
+    </div>
+
     <!-- Code search: BOOTH-XXXXXX (hawker-facing) or SG-XXXXXX -->
     <form method="get" class="flex gap-1 mb-2" style="align-items: center;">
         <input type="text" name="code" value="{{ search_query }}"
@@ -66,4 +125,28 @@
     </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Copy a quick reply to the clipboard with a transient "Copied!" state
+    document.querySelectorAll('.quick-reply-copy').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+            try {
+                await navigator.clipboard.writeText(btn.dataset.message);
+            } catch (err) {
+                // Legacy fallback for non-secure contexts
+                const tmp = document.createElement('textarea');
+                tmp.value = btn.dataset.message;
+                document.body.appendChild(tmp);
+                tmp.select();
+                document.execCommand('copy');
+                tmp.remove();
+            }
+            const original = btn.textContent;
+            btn.textContent = '{% trans "Copied!" %}';
+            setTimeout(function () { btn.textContent = original; }, 1500);
+        });
+    });
+</script>
 {% endblock %}
