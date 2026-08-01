@@ -70,6 +70,11 @@ class DashboardOverviewView(CreatorRequiredMixin, View):
             or 0
         )
 
+        # Listings needing audit (auto-verified but not yet reviewed)
+        needs_audit_count = Listing.objects.filter(
+            status=Listing.Status.VERIFIED, needs_audit=True
+        ).count()
+
         context = {
             "total_leasing_managers": total_leasing_managers,
             "total_companies": total_companies,
@@ -81,6 +86,7 @@ class DashboardOverviewView(CreatorRequiredMixin, View):
             "whatsapp_clicks_this_week": whatsapp_clicks_this_week,
             "whatsapp_clicks_this_month": whatsapp_clicks_this_month,
             "revenue_this_month": revenue_this_month,
+            "needs_audit_count": needs_audit_count,
         }
         return render(request, self.template_name, context)
 
@@ -316,3 +322,61 @@ class DashboardListingsMapView(CreatorRequiredMixin, View):
             .order_by("-created_at")
         )
         return render(request, self.template_name, {"listings": listings})
+
+
+class DashboardAuditView(CreatorRequiredMixin, View):
+    """Post-launch audit queue for auto-verified listings (spec 7a)."""
+
+    template_name = "dashboard/audit_queue.html"
+
+    def get(self, request):
+        show_all = request.GET.get("all") == "1"
+
+        qs = Listing.objects.filter(status=Listing.Status.VERIFIED).select_related(
+            "company", "posted_by"
+        )
+        if not show_all:
+            qs = qs.filter(needs_audit=True)
+        qs = qs.order_by("-created_at")
+
+        query = request.GET.get("q", "").strip()
+        if query:
+            qs = qs.filter(
+                Q(code__icontains=query)
+                | Q(title__icontains=query)
+                | Q(company__name__icontains=query)
+            )
+
+        return render(request, self.template_name, {
+            "listings": qs,
+            "search_query": query,
+            "show_all": show_all,
+        })
+
+    def post(self, request):
+        listing_id = request.POST.get("listing_id")
+        action = request.POST.get("action")
+
+        try:
+            listing = Listing.objects.get(pk=listing_id)
+        except Listing.DoesNotExist:
+            messages.error(request, "Listing not found.")
+            return redirect("dashboard:audit_queue")
+
+        if action == "mark_audited":
+            listing.needs_audit = False
+            listing.save(update_fields=["needs_audit"])
+            messages.success(request, f"Listing {listing.code} marked as audited.")
+        elif action == "take_down":
+            listing.status = Listing.Status.TAKEN
+            listing.needs_audit = False
+            listing.save(update_fields=["status", "needs_audit"])
+            messages.warning(request, f"Listing {listing.code} taken down.")
+        elif action == "reject":
+            listing.status = Listing.Status.REJECTED
+            listing.rejection_reason = request.POST.get("reason", "Removed during audit.").strip()
+            listing.needs_audit = False
+            listing.save(update_fields=["status", "rejection_reason", "needs_audit"])
+            messages.warning(request, f"Listing {listing.code} rejected during audit.")
+
+        return redirect("dashboard:audit_queue")

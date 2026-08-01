@@ -47,7 +47,7 @@
             {% for err in form.price_display.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
-        <div class="flex gap-2">
+        <div class="flex gap-2" id="cost-fields-row">
             <div class="form-group" style="flex: 1;">
                 <label class="form-label" for="{{ form.cost_min.id_for_label }}">Monthly Rent (SGD)</label>
                 {{ form.cost_min }}
@@ -220,4 +220,24 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var costRow = document.getElementById('cost-fields-row');
+    if (!costRow) return;
+    var radios = document.querySelectorAll('input[name="price_display"]');
+    function toggleCostFields() {
+        var selected = document.querySelector('input[name="price_display"]:checked');
+        if (selected && selected.value === 'on_request') {
+            costRow.style.display = 'none';
+        } else {
+            costRow.style.display = '';
+        }
+    }
+    radios.forEach(function(r) { r.addEventListener('change', toggleCostFields); });
+    toggleCostFields();
+})();
+</script>
 {% endblock %}

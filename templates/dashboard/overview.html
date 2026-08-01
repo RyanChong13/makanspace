@@ -29,6 +29,13 @@
         <div class="text-sm text-secondary">Revenue This Month</div>
         <div style="font-size: 1.8rem; font-weight: 700;">${{ revenue_this_month|default:"0.00" }}</div>
     </div>
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">Needs Audit</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">{{ needs_audit_count }}</div>
+        {% if needs_audit_count %}
+        <a href="{% url 'dashboard:audit_queue' %}" class="text-sm" style="color: var(--color-accent);">Review now →</a>
+        {% endif %}
+    </div>
 </div>
 
 <h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Companies by Status</h2>

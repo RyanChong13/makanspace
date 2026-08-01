@@ -19,13 +19,23 @@
             <span class="badge badge--verified" title="{% trans 'Business verified' %}">&#10003; {% trans "Verified" %}</span>
             {% endif %}
         </div>
-        {% if listing.featured %}
-        <span style="font-size: 0.7rem; color: var(--color-accent); font-weight: 600;">{% trans "FEATURED" %}</span>
-        {% endif %}
+        <!-- Mobile-only inline price (hidden on desktop, shown in header row on mobile) -->
+        <span class="mobile-price-inline">{{ listing.cost_display }}</span>
     </div>
 
     <!-- Image carousel (CSS scroll-snap) -->
     <div style="position: relative;">
+        {% if listing.featured %}
+        <span style="position: absolute; top: 8px; right: 8px; z-index: 2; width: 28px; height: 28px;
+                     border-radius: 50%; background: #4B2E83; color: #fff; display: flex;
+                     align-items: center; justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,0.3);"
+              title="{% trans 'Featured' %}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
+        </span>
+        {% endif %}
         <a href="{% url 'listings:listing_detail' listing.code %}">
             {% if listing.images.all %}
             <div style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; aspect-ratio: 16/10;"
@@ -61,7 +71,7 @@
                 {% if translation %}{{ translation.title }}{% else %}{{ listing.title }}{% endif %}
             </div>
         </a>
-        <div style="color: var(--color-accent); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">
+        <div class="desktop-price-block" style="color: var(--color-accent); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">
             {{ listing.cost_display }}
         </div>
         <div class="flex gap-1 text-sm text-secondary" style="flex-wrap: wrap;">

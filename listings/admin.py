@@ -64,11 +64,13 @@ class ListingAdmin(admin.ModelAdmin):
         "title",
         "cost_display",
         "status",
+        "needs_audit",
         "featured",
         "created_at",
     )
     list_filter = (
         "status",
+        "needs_audit",
         "featured",
         "lease_duration",
         "nea_attestation",
@@ -82,7 +84,7 @@ class ListingAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            "fields": ("code", "company", "posted_by", "status", "rejection_reason"),
+            "fields": ("code", "company", "posted_by", "status", "needs_audit", "rejection_reason"),
         }),
         ("Listing Details", {
             "fields": (
@@ -115,7 +117,7 @@ class ListingAdmin(admin.ModelAdmin):
         }),
     )
 
-    actions = ["approve_listings", "reject_listings", "mark_taken", "toggle_featured"]
+    actions = ["approve_listings", "reject_listings", "mark_taken", "toggle_featured", "mark_audited"]
 
     def cost_display(self, obj):
         return obj.cost_display
@@ -165,6 +167,11 @@ class ListingAdmin(admin.ModelAdmin):
             listing.featured = not listing.featured
             listing.save(update_fields=["featured"])
         self.message_user(request, f"Toggled featured for {queryset.count()} listing(s).")
+
+    @admin.action(description="Mark selected listings as audited")
+    def mark_audited(self, request, queryset):
+        count = queryset.filter(needs_audit=True).update(needs_audit=False)
+        self.message_user(request, f"{count} listing(s) marked as audited.", messages.SUCCESS)
 
 
 # ─── Application Admin ───────────────────────────────────────────────────────

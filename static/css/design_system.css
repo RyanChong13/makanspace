@@ -503,3 +503,187 @@ img {
 .flex-between { display: flex; justify-content: space-between; align-items: center; }
 .gap-1 { gap: 0.5rem; }
 .gap-2 { gap: 1rem; }
+
+/* ─── Mobile-only helpers ─────────────────────────────────────────────── */
+
+.mobile-only { display: none; }
+.desktop-only { display: initial; }
+.mobile-price-inline { display: none; }
+
+/* ─── Mobile Bottom Nav with Floating Filter Button ─────────────────────── */
+
+.mobile-bottom-nav {
+    display: none;
+}
+
+/* ─── Mobile Responsive (≤768px) ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .mobile-only { display: revert; }
+    .desktop-only { display: none; }
+
+    /* Body: add bottom padding so the fixed bottom nav doesn't cover the footer */
+    body {
+        padding-bottom: 56px;
+    }
+
+    /* Container: add bottom padding so the fixed bottom nav doesn't cover content */
+    .container {
+        padding-bottom: 5rem;
+    }
+
+    /* ── Quick-action icon grid (company dashboard) ── */
+    .quick-action-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+    }
+    .quick-action-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        padding: 0.9rem 0.5rem;
+        background: var(--color-bg-primary);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-card);
+        text-decoration: none;
+        color: var(--color-text-primary);
+        transition: border-color 0.15s, background-color 0.15s;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .quick-action-tile:active {
+        border-color: var(--color-accent);
+        background-color: #F8F5FF;
+    }
+    .quick-action-tile svg,
+    .quick-action-tile i[data-lucide] {
+        width: 24px;
+        height: 24px;
+        color: var(--color-accent);
+    }
+    .quick-action-tile span {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    /* ── Compact listing card header (avatar — name — badge — price in one row) ── */
+    .card__header {
+        padding: 0.5rem 0.65rem;
+        gap: 0.4rem;
+    }
+    .card__header > div:first-child {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 0.75rem !important;
+    }
+    .card__body {
+        padding: 0.65rem;
+    }
+    .card__footer {
+        padding: 0.5rem 0.65rem;
+    }
+    /* Inline price in header on mobile */
+    .mobile-price-inline {
+        display: inline-flex !important;
+        align-items: center;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--color-accent);
+        white-space: nowrap;
+        margin-left: auto;
+    }
+    /* Hide the body price block on mobile (it's in the header instead) */
+    .desktop-price-block {
+        display: none;
+    }
+
+    /* ── Bottom navigation bar with floating center button ── */
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 56px;
+        background: var(--color-bg-primary);
+        border-top: 1px solid var(--color-border);
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+        z-index: 999;
+        align-items: flex-end;
+        justify-content: space-around;
+        padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+    .mobile-bottom-nav__btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.1rem;
+        flex: 1;
+        height: 56px;
+        border: none;
+        background: none;
+        color: var(--color-text-secondary);
+        text-decoration: none;
+        font-size: 0.65rem;
+        font-weight: 500;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-bottom-nav__btn svg,
+    .mobile-bottom-nav__btn i[data-lucide] {
+        width: 22px;
+        height: 22px;
+    }
+    .mobile-bottom-nav__btn:active {
+        color: var(--color-accent);
+    }
+    /* Floating center filter button */
+    .mobile-bottom-nav__fab {
+        position: relative;
+        top: -18px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--color-accent);
+        color: #fff;
+        border: 3px solid var(--color-bg-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(75, 46, 131, 0.35);
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transition: transform 0.15s;
+    }
+    .mobile-bottom-nav__fab:active {
+        transform: scale(0.92);
+    }
+    .mobile-bottom-nav__fab svg,
+    .mobile-bottom-nav__fab i[data-lucide] {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Move chatbot FAB above the bottom nav on mobile */
+    #chatbot-fab {
+        bottom: 4.5rem !important;
+    }
+    #chatbot-panel {
+        bottom: 8.5rem !important;
+    }
+
+    /* Smaller hero on mobile */
+    .hero-banner {
+        height: 180px !important;
+    }
+    .hero-banner h1 {
+        font-size: 1.2rem !important;
+    }
+}

@@ -51,7 +51,7 @@
         </div>
 
         <!-- Cost + Size row -->
-        <div class="flex gap-2">
+        <div class="flex gap-2" id="cost-fields-row">
             <div class="form-group" style="flex: 1;">
                 <label class="form-label" for="{{ form.cost_min.id_for_label }}">{% trans "Monthly Rent (SGD)" %}</label>
                 {{ form.cost_min }}
@@ -201,10 +201,30 @@
         </div>
 
         <button type="submit" class="btn btn--primary btn--full mt-2" style="padding: 0.8rem;">
-            Submit Listing for Review
+            Submit Listing
         </button>
     </form>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var costRow = document.getElementById('cost-fields-row');
+    if (!costRow) return;
+    var radios = document.querySelectorAll('input[name="price_display"]');
+    function toggleCostFields() {
+        var selected = document.querySelector('input[name="price_display"]:checked');
+        if (selected && selected.value === 'on_request') {
+            costRow.style.display = 'none';
+        } else {
+            costRow.style.display = '';
+        }
+    }
+    radios.forEach(function(r) { r.addEventListener('change', toggleCostFields); });
+    toggleCostFields();
+})();
+</script>
 {% endblock %}
 
 

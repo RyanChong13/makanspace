@@ -107,6 +107,45 @@
 
     {% block extra_js %}{% endblock %}
 
+    <!-- Mobile bottom navigation with floating filter button -->
+    <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+        <a href="{% url 'listings:listing_list' %}" class="mobile-bottom-nav__btn">
+            <i data-lucide="home"></i>
+            <span>Home</span>
+        </a>
+        <button class="mobile-bottom-nav__fab" id="mobile-filter-fab" aria-label="Open filters">
+            <i data-lucide="sliders-horizontal"></i>
+        </button>
+        {% if user.is_authenticated %}
+        <a href="{% url 'accounts:profile' %}" class="mobile-bottom-nav__btn">
+            <i data-lucide="user"></i>
+            <span>Account</span>
+        </a>
+        {% else %}
+        <a href="{% url 'account_login' %}" class="mobile-bottom-nav__btn">
+            <i data-lucide="log-in"></i>
+            <span>Log In</span>
+        </a>
+        {% endif %}
+    </nav>
+    <script>
+        (function() {
+            var fab = document.getElementById('mobile-filter-fab');
+            if (!fab) return;
+            fab.addEventListener('click', function() {
+                var filterForm = document.getElementById('filter-form');
+                if (filterForm) {
+                    filterForm.scrollIntoView({behavior: 'smooth', block: 'start'});
+                    filterForm.style.transition = 'box-shadow 0.3s';
+                    filterForm.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    setTimeout(function() { filterForm.style.boxShadow = ''; }, 1500);
+                } else {
+                    window.location.href = '{% url "listings:listing_list" %}';
+                }
+            });
+        })();
+    </script>
+
     <style>
         #chatbot-panel.is-open{display:flex!important}
         .chatbot-result{background:var(--color-bg-secondary);border-radius:var(--radius-md);padding:0.6rem;

@@ -10,8 +10,30 @@
         {{ company.name }} — {{ listings|length }} listing{{ listings|length|pluralize }}
     </p>
 
+    <!-- Mobile quick-action grid (hidden on desktop) -->
+    <div class="mobile-only quick-action-grid">
+        <a href="#listings-section" class="quick-action-tile">
+            <i data-lucide="layout-list"></i>
+            <span>{% trans "My Listings" %}</span>
+        </a>
+        {% if user.can_post_listings %}
+        <a href="{% url 'listings:listing_create' %}" class="quick-action-tile">
+            <i data-lucide="plus-square"></i>
+            <span>{% trans "Post Stall" %}</span>
+        </a>
+        {% endif %}
+        <a href="#stat-section" class="quick-action-tile">
+            <i data-lucide="bar-chart-3"></i>
+            <span>{% trans "Analytics" %}</span>
+        </a>
+        <a href="{% url 'accounts:profile' %}" class="quick-action-tile">
+            <i data-lucide="settings"></i>
+            <span>{% trans "Settings" %}</span>
+        </a>
+    </div>
+
     <!-- Rolling 7-day WhatsApp enquiry stat -->
-    <div class="card mb-2" style="background: var(--color-accent); color: #fff;">
+    <div class="card mb-2" id="stat-section" style="background: var(--color-accent); color: #fff;">
         <div class="card__body" style="display: flex; align-items: center; gap: 1rem;">
             <div style="font-size: 2rem; font-weight: 700;">{{ weekly_clicks }}</div>
             <div style="font-size: 0.95rem;">
@@ -78,7 +100,7 @@
     </form>
 
     {% if listings %}
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <div id="listings-section" style="display: flex; flex-direction: column; gap: 1rem;">
         {% for listing in listings %}
         <div class="card">
             <div class="card__header">

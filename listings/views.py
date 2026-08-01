@@ -117,14 +117,14 @@ class ListingListView(View):
         if location and location in SG_DISTRICT_MAP:
             qs = qs.filter(postal_code__startswith=location)
 
-        # Sort
+        # Sort — featured listings always float to the top of any order.
         sort = self.request.GET.get("sort", "-featured")
         if sort == "cost_asc":
-            qs = qs.order_by("cost_min")
+            qs = qs.order_by("-featured", "cost_min")
         elif sort == "cost_desc":
-            qs = qs.order_by("-cost_min")
+            qs = qs.order_by("-featured", "-cost_min")
         elif sort == "newest":
-            qs = qs.order_by("-created_at")
+            qs = qs.order_by("-featured", "-created_at")
         else:
             qs = qs.order_by("-featured", "-created_at")
 
@@ -280,7 +280,8 @@ class ListingCreateView(LoginRequiredMixin, LeasingManagerRequiredMixin, View):
             listing = form.save(commit=False)
             listing.company = request.user.company
             listing.posted_by = request.user
-            listing.status = Listing.Status.PENDING
+            listing.status = Listing.Status.VERIFIED
+            listing.needs_audit = True
             listing.save()
             form.save_m2m()
 
@@ -299,9 +300,9 @@ class ListingCreateView(LoginRequiredMixin, LeasingManagerRequiredMixin, View):
 
             listing.save(update_fields=["status"])
             if ref_result["needs_review"]:
-                messages.info(request, "Listing submitted. It will be reviewed manually because the location could not be cross-checked.")
+                messages.info(request, "Listing is live. The location could not be auto-cross-checked and has been flagged for audit.")
             else:
-                messages.success(request, "Listing submitted and is pending verification.")
+                messages.success(request, "Listing submitted and is now live!")
 
             # Process image uploads with compression (spec 3.4)
             for i, img_form in enumerate(formset.forms):

@@ -33,7 +33,6 @@
     <form hx-get="{% url 'listings:listing_list' %}" hx-target="#results" hx-swap="innerHTML" style="display: inline;">
         <select name="sort" class="form-select" style="width: auto; padding: 0.3rem 0.5rem; font-size: 0.8rem;"
                 onchange="this.form.submit()">
-            <option value="-featured">{% trans "Featured first" %}</option>
             <option value="newest">{% trans "Newest" %}</option>
             <option value="cost_asc">{% trans "Price: Low to High" %}</option>
             <option value="cost_desc">{% trans "Price: High to Low" %}</option>

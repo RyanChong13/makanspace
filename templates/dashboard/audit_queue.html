@@ -1,0 +1,118 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<div class="flex justify-between items-center mb-2" style="flex-wrap: wrap; gap: 0.5rem;">
+    <h1 style="font-size: 1.4rem; margin-bottom: 0;">Audit Queue</h1>
+    <a href="{% if show_all %}?all=1{% else %}?{% endif %}" class="btn btn--secondary btn--sm">
+        {% if show_all %}Show needs-audit only{% else %}Show all verified{% endif %}
+    </a>
+</div>
+<p class="text-secondary text-sm mb-2">
+    Listings are auto-verified on submission. Use this queue to retroactively
+    review newly live listings — mark them as audited or take down problematic ones.
+</p>
+
+<!-- Search -->
+<form method="get" class="flex gap-1 mb-2" style="align-items: center;">
+    <input type="text" name="q" value="{{ search_query }}" placeholder="Search by code, title or company..."
+           class="form-input" style="max-width: 320px;">
+    {% if show_all %}<input type="hidden" name="all" value="1">{% endif %}
+    <button type="submit" class="btn btn--secondary" style="padding: 0.5rem 1rem;">Search</button>
+    <a href="{% url 'dashboard:audit_queue' %}{% if show_all %}?all=1{% endif %}" class="btn btn--secondary" style="padding: 0.5rem 1rem;">Clear</a>
+</form>
+
+<p class="text-secondary text-sm mb-2">
+    {{ listings|length }} listing{{ listings|length|pluralize }}.
+</p>
+
+{% if listings %}
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+    {% for listing in listings %}
+    <div class="card">
+        <div class="card__header">
+            <div style="flex: 1;">
+                <strong>{{ listing.code }}</strong> —
+                <a href="{% url 'listings:listing_detail' listing.code %}" target="_blank">{{ listing.title }}</a>
+                {% if listing.needs_audit %}
+                <span class="badge badge--pending">Needs Audit</span>
+                {% else %}
+                <span class="badge badge--verified">&#10003; Audited</span>
+                {% endif %}
+            </div>
+            <span class="text-sm text-secondary">{{ listing.created_at|date:"d M Y" }}</span>
+        </div>
+        <div class="card__body">
+            <div class="flex gap-2 mb-1">
+                <div>
+                    <div class="text-sm text-secondary">Company</div>
+                    <div>{{ listing.company.name }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Posted By</div>
+                    <div>{{ listing.posted_by.email|default:"—" }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Cost</div>
+                    <div>{{ listing.cost_display }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Postal Code</div>
+                    <div>{{ listing.postal_code }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">Views</div>
+                    <div>{{ listing.view_count }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-secondary">WhatsApp Clicks</div>
+                    <div>{{ listing.whatsapp_click_count }}</div>
+                </div>
+            </div>
+
+            {% if listing.images.all %}
+            <div class="flex gap-1 mt-1">
+                {% for img in listing.images.all %}
+                <img src="{{ img.image.url }}" style="width: 80px; height: 60px; object-fit: cover; border-radius: var(--radius-sm);">
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Audit actions -->
+            <div class="flex gap-1 mt-1" style="align-items: center; flex-wrap: wrap;">
+                {% if listing.needs_audit %}
+                <form method="post" style="display: contents;">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.pk }}">
+                    <button type="submit" name="action" value="mark_audited"
+                            class="btn btn--primary" style="padding: 0.4rem 0.8rem;">
+                        Mark as Audited
+                    </button>
+                </form>
+                {% endif %}
+                <form method="post" style="display: contents;" onsubmit="return confirm('Take down this listing? It will be marked as Taken.');">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.pk }}">
+                    <button type="submit" name="action" value="take_down"
+                            class="btn btn--secondary" style="padding: 0.4rem 0.8rem;">
+                        Take Down
+                    </button>
+                </form>
+                <form method="post" style="display: contents;" onsubmit="return confirm('Reject this listing during audit?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.pk }}">
+                    <input type="hidden" name="action" value="reject">
+                    <input type="text" name="reason" placeholder="Reason (optional)..."
+                           class="form-input" style="width: 200px; padding: 0.3rem 0.5rem;">
+                    <button type="submit" class="btn" style="background: #C62828; color: #fff; padding: 0.4rem 0.8rem;">
+                        Reject
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert--success">No listings need audit. All caught up!</div>
+{% endif %}
+{% endblock %}

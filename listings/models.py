@@ -112,7 +112,9 @@ class Listing(models.Model):
     cost_min = models.DecimalField(
         max_digits=8,
         decimal_places=2,
-        help_text="Minimum monthly rent in SGD.",
+        blank=True,
+        null=True,
+        help_text="Minimum monthly rent in SGD. Not required when 'Rental on request' is selected.",
     )
     cost_max = models.DecimalField(
         max_digits=8,
@@ -220,6 +222,14 @@ class Listing(models.Model):
         blank=True,
         null=True,
         help_text="Reserved for future AI fraud detection. Unused in v1.",
+    )
+
+    # Auto-verification audit flag: every listing is now auto-verified on
+    # submission (no manual queue). This flag lets creators retroactively
+    # audit newly live listings. Set to True on creation; cleared when audited.
+    needs_audit = models.BooleanField(
+        default=True,
+        help_text="True for newly auto-verified listings; cleared after a creator audits them.",
     )
 
     # Timestamps

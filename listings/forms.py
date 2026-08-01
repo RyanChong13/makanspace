@@ -88,6 +88,14 @@ class ListingForm(forms.ModelForm):
             }),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # cost_min/cost_max are only required when price_display == "exact".
+        # The requirement is enforced in clean() so the fields themselves are
+        # never hard-required at the widget level.
+        self.fields["cost_min"].required = False
+        self.fields["cost_max"].required = False
+
     def clean_postal_code(self):
         code = self.cleaned_data.get("postal_code", "").strip()
         if code and (len(code) != 6 or not code.isdigit()):
@@ -96,10 +104,17 @@ class ListingForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        price_display = cleaned_data.get("price_display")
         cost_min = cleaned_data.get("cost_min")
         cost_max = cleaned_data.get("cost_max")
+
+        # Only require cost_min when exact pricing is selected.
+        if price_display == "exact" and not cost_min:
+            self.add_error("cost_min", "Minimum rent is required when exact pricing is selected.")
+
         if cost_min and cost_max and cost_max < cost_min:
             self.add_error("cost_max", "Maximum rent cannot be less than minimum rent.")
+
         return cleaned_data
 
 
