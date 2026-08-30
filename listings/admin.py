@@ -7,7 +7,7 @@ from .models import (
     Amenity, Listing, ListingImage, ListingTranslation,
     PropertyReference, Application, TastingSlot,
     WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
-    ListingReport,
+    ListingReport, SupplierListing,
 )
 
 
@@ -250,3 +250,12 @@ class ListingReportAdmin(admin.ModelAdmin):
     search_fields = ("listing__code", "listing__title", "details")
     readonly_fields = ("listing", "reason_category", "details", "reported_at")
     date_hierarchy = "reported_at"
+
+
+# ─── SupplierListing Admin (spec B9) ───────────────────────────────────────
+
+@admin.register(SupplierListing)
+class SupplierListingAdmin(admin.ModelAdmin):
+    list_display = ("name", "category", "contact_whatsapp", "is_active", "created_at")
+    list_filter = ("category", "is_active")
+    search_fields = ("name", "description", "contact_whatsapp")

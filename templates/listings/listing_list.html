@@ -24,6 +24,41 @@
     </div>
 </div>
 
+<!-- How It Works (3-step section, spec C) -->
+<div class="mb-2" style="padding: 2rem 0; text-align: center;">
+    <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem;">{% trans "How It Works" %}</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 800px; margin: 0 auto;"
+         class="how-it-works-grid">
+        <div style="text-align: center;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-bg-secondary);
+                        display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+                <i data-lucide="store" style="width: 28px; height: 28px; color: var(--color-accent);"></i>
+            </div>
+            <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Post Your Stall" %}</div>
+            <div class="text-sm text-secondary">{% trans "Landlords list vacant hawker stalls with photos, pricing, and location details." %}</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-bg-secondary);
+                        display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+                <i data-lucide="search" style="width: 28px; height: 28px; color: var(--color-accent);"></i>
+            </div>
+            <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Get Discovered" %}</div>
+            <div class="text-sm text-secondary">{% trans "Hawkers browse verified stalls by area, price, and amenities — no account needed." %}</div>
+        </div>
+        <div style="text-align: center;">
+            <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--color-bg-secondary);
+                        display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">
+                <i data-lucide="message-circle" style="width: 28px; height: 28px; color: var(--color-accent);"></i>
+            </div>
+            <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Connect Directly" %}</div>
+            <div class="text-sm text-secondary">{% trans "Contact landlords instantly via WhatsApp — no middlemen, no agent fees." %}</div>
+        </div>
+    </div>
+    <a href="{% url 'accounts:company_signup' %}" class="btn btn--primary" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem;">
+        {% trans "Register Your Company" %}
+    </a>
+</div>
+
 <!-- Filter panel (spec 3.3) -->
 {% include "includes/filter_panel.html" %}
 
@@ -55,6 +90,34 @@
     {% trans "Looking for a stall?" %}
     <a href="{% url 'listings:wanted_post' %}">{% trans "Tell landlords what you want" %} →</a>
 </p>
+
+<!-- Why MakanSpace (trust section, spec C) -->
+<div class="mb-2" style="padding: 2rem 0; background: var(--color-bg-secondary); margin: 1.5rem -1rem; padding-left: 1rem; padding-right: 1rem; border-radius: var(--radius-md);">
+    <h2 style="font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem;">{% trans "Why MakanSpace" %}</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; max-width: 900px; margin: 0 auto;"
+         class="why-makanspace-grid">
+        <div style="text-align: center;">
+            <i data-lucide="shield-check" style="width: 32px; height: 32px; color: var(--color-accent); margin-bottom: 0.5rem;"></i>
+            <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Verified Companies" %}</div>
+            <div class="text-sm text-secondary">{% trans "All landlords are ACRA-verified before listing." %}</div>
+        </div>
+        <div style="text-align: center;">
+            <i data-lucide="message-square" style="width: 32px; height: 32px; color: var(--color-accent); margin-bottom: 0.5rem;"></i>
+            <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Direct WhatsApp Contact" %}</div>
+            <div class="text-sm text-secondary">{% trans "Talk directly to landlords — no in-app messaging barriers." %}</div>
+        </div>
+        <div style="text-align: center;">
+            <i data-lucide="file-check" style="width: 32px; height: 32px; color: var(--color-accent); margin-bottom: 0.5rem;"></i>
+            <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Compliant by Design" %}</div>
+            <div class="text-sm text-secondary">{% trans "NEA-Direct centres are automatically excluded to protect hawkers." %}</div>
+        </div>
+        <div style="text-align: center;">
+            <i data-lucide="languages" style="width: 32px; height: 32px; color: var(--color-accent); margin-bottom: 0.5rem;"></i>
+            <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Multi-Language" %}</div>
+            <div class="text-sm text-secondary">{% trans "Browse in English, Chinese, Tamil, or Malay — fully translated." %}</div>
+        </div>
+    </div>
+</div>
 
 <!-- Map (always visible below results) -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">

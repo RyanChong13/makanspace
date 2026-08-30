@@ -18,6 +18,9 @@ urlpatterns = [
     # Public 'stall wanted' reverse listing form (no login)
     path("wanted/post/", views.WantedPostCreateView.as_view(), name="wanted_post"),
 
+    # Public supplier directory (no login, spec B9)
+    path("suppliers/", views.SupplierListView.as_view(), name="supplier_list"),
+
     # Leasing manager actions
     path("post/", views.ListingCreateView.as_view(), name="listing_create"),
     path("listing/<str:code>/edit/", views.ListingUpdateView.as_view(), name="listing_update"),

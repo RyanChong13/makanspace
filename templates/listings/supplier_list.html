@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Supplier Directory" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="padding: 1.5rem 0;">
+    <h1 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">{% trans "Supplier Directory" %}</h1>
+    <p class="text-secondary" style="margin-bottom: 1.5rem; font-size: 0.9rem;">
+        {% trans "Find trusted suppliers for your hawker business — kitchen equipment, furniture, and raw food ingredients." %}
+    </p>
+
+    <!-- Category tabs -->
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem;">
+        <a href="{% url 'listings:supplier_list' %}"
+           class="btn {% if not active_category %}btn--primary{% else %}btn--outline{% endif %}"
+           style="padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: var(--radius-pill);">
+            {% trans "All" %}
+        </a>
+        {% for cat_value, cat_label in category_choices %}
+        <a href="{% url 'listings:supplier_list' %}?category={{ cat_value }}"
+           class="btn {% if active_category == cat_value %}btn--primary{% else %}btn--outline{% endif %}"
+           style="padding: 0.4rem 1rem; font-size: 0.85rem; border-radius: var(--radius-pill);">
+            {{ cat_label }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Supplier cards grouped by category -->
+    {% if grouped %}
+        {% for cat_value, group in grouped.items %}
+        <div style="margin-bottom: 2.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem;
+                        padding-bottom: 0.5rem; border-bottom: 2px solid var(--color-accent);">
+                {{ group.label }}
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;"
+                 class="supplier-grid">
+                {% for supplier in group.suppliers %}
+                <div class="card" style="display: flex; flex-direction: column; padding: 1.25rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        {% if supplier.logo %}
+                        <img src="{{ supplier.logo.url }}" alt="{{ supplier.name }}"
+                             style="width: 48px; height: 48px; border-radius: var(--radius-sm); object-fit: cover;">
+                        {% else %}
+                        <div style="width: 48px; height: 48px; border-radius: var(--radius-sm);
+                                    background: var(--color-bg-secondary); display: flex;
+                                    align-items: center; justify-content: center; font-size: 1.3rem;">
+                            🏭
+                        </div>
+                        {% endif %}
+                        <div>
+                            <div style="font-weight: 600; font-size: 1rem;">{{ supplier.name }}</div>
+                        </div>
+                    </div>
+
+                    {% if supplier.description %}
+                    <div class="text-sm text-secondary" style="margin-bottom: 0.75rem; line-height: 1.5;
+                                display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+                                overflow: hidden;">
+                        {{ supplier.description }}
+                    </div>
+                    {% endif %}
+
+                    <div style="margin-top: auto; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        {% if supplier.whatsapp_url %}
+                        <a href="{{ supplier.whatsapp_url }}" target="_blank" rel="noopener"
+                           class="btn btn--primary"
+                           style="padding: 0.4rem 0.8rem; font-size: 0.8rem; flex: 1; text-align: center;">
+                            {% trans "WhatsApp" %}
+                        </a>
+                        {% endif %}
+                        {% if supplier.contact_website %}
+                        <a href="{{ supplier.contact_website }}" target="_blank" rel="noopener"
+                           class="btn btn--outline"
+                           style="padding: 0.4rem 0.8rem; font-size: 0.8rem; flex: 1; text-align: center;">
+                            {% trans "Website" %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div style="text-align: center; padding: 3rem 1rem; color: var(--color-text-secondary);">
+            <i data-lucide="package" style="width: 48px; height: 48px; margin-bottom: 1rem; opacity: 0.5;"></i>
+            <p>{% trans "No suppliers listed yet. Check back soon!" %}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

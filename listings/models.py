@@ -324,6 +324,9 @@ class Listing(models.Model):
         digits = "".join(ch for ch in raw if ch.isdigit())
         if not digits:
             return ""
+        # Auto-prepend Singapore country code if missing (8-digit local number)
+        if len(digits) == 8 and not digits.startswith("65"):
+            digits = "65" + digits
         suffix = self.code[3:] if self.code.startswith("SG-") else self.code
         message = f"Hi! I would like to enquire more about BOOTH-{suffix}."
         from urllib.parse import quote
@@ -578,6 +581,9 @@ class WantedPost(models.Model):
         digits = "".join(ch for ch in self.contact_whatsapp if ch.isdigit())
         if not digits:
             return ""
+        # Auto-prepend Singapore country code if missing (8-digit local number)
+        if len(digits) == 8 and not digits.startswith("65"):
+            digits = "65" + digits
         from urllib.parse import quote
         message = "Hi! I saw your stall-wanted post on MakanSpace."
         return f"https://wa.me/{digits}?text={quote(message)}"
@@ -623,3 +629,50 @@ class ListingReport(models.Model):
 
     def __str__(self):
         return f"Report on {self.listing.code} — {self.get_reason_category_display()}"
+
+
+# ─── SupplierListing (spec B9) ──────────────────────────────────────────────
+
+class SupplierListing(models.Model):
+    """
+    Supplier directory entry — admin-manied only.
+    Hawker-related suppliers (kitchen equipment, furniture, raw food ingredients).
+    """
+
+    class Category(models.TextChoices):
+        KITCHEN_AMENITIES = "kitchen_amenities", "Kitchen Amenities"
+        FURNITURE = "furniture", "Furniture"
+        RAW_FOOD = "raw_food", "Raw Food"
+
+    name = models.CharField(max_length=200)
+    category = models.CharField(max_length=30, choices=Category.choices)
+    description = models.TextField(blank=True)
+    contact_whatsapp = models.CharField(
+        max_length=20,
+        blank=True,
+        help_text="WhatsApp number with country code, e.g. +65 9123 4567.",
+    )
+    contact_website = models.URLField(blank=True)
+    logo = models.ImageField(upload_to="suppliers/", blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "Supplier Listing"
+        verbose_name_plural = "Supplier Listings"
+
+    def __str__(self):
+        return f"{self.name} ({self.get_category_display()})"
+
+    @property
+    def whatsapp_url(self):
+        """wa.me deep link for the supplier."""
+        digits = "".join(ch for ch in self.contact_whatsapp if ch.isdigit())
+        if not digits:
+            return ""
+        if len(digits) == 8 and not digits.startswith("65"):
+            digits = "65" + digits
+        from urllib.parse import quote
+        message = f"Hi! I found your business on MakanSpace and would like to enquire."
+        return f"https://wa.me/{digits}?text={quote(message)}"

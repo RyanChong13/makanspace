@@ -1,19 +1,81 @@
-{% load i18n %}
-<footer style="background-color: #1E1730; color: rgba(255,255,255,0.6); padding: 2rem 1rem; margin-top: 3rem;">
-    <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem;">
-        <div>
-            <div style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.5rem;">MakanSpace</div>
-            <div style="font-size: 0.85rem;">
-                {% trans "Connecting hawker stall owners with prospective hawkers across Singapore." %}
+{% load static i18n %}
+<footer style="background-color: #1E1730; color: rgba(255,255,255,0.6); padding: 2.5rem 1rem 1.5rem; margin-top: 3rem;">
+    <div class="container">
+        <div class="footer-grid" style="display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 2rem;">
+
+            <!-- Brand column -->
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                    <span style="width: 28px; height: 28px; color: var(--color-accent);">
+                        {% include "includes/logo_icon.html" %}
+                    </span>
+                    <span style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF;">MakanSpace</span>
+                </div>
+                <div style="font-size: 0.8rem; line-height: 1.5; max-width: 300px;">
+                    {% trans "Connecting hawker companies with aspiring hawkers across Singapore. Only NEA-directly-tendered centres are excluded — private coffee shops, food courts, and appointed-operator hawker centres are welcome." %}
+                </div>
+            </div>
+
+            <!-- About -->
+            <div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">{% trans "About" %}</div>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.8rem; line-height: 2;">
+                    <li><a href="{% url 'listings:listing_list' %}" style="color: inherit; text-decoration: none;">{% trans "What is MakanSpace" %}</a></li>
+                    <li><a href="{% url 'listings:listing_list' %}#how-it-works" style="color: inherit; text-decoration: none;">{% trans "How It Works" %}</a></li>
+                </ul>
+            </div>
+
+            <!-- For Companies -->
+            <div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">{% trans "For Companies" %}</div>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.8rem; line-height: 2;">
+                    <li><a href="{% url 'accounts:company_signup' %}" style="color: inherit; text-decoration: none;">{% trans "Register Company" %}</a></li>
+                    <li><a href="{% url 'listings:listing_create' %}" style="color: inherit; text-decoration: none;">{% trans "Post a Stall" %}</a></li>
+                    <li><a href="#" style="color: inherit; text-decoration: none;">{% trans "Pricing" %}</a></li>
+                </ul>
+            </div>
+
+            <!-- For Hawkers -->
+            <div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">{% trans "For Hawkers" %}</div>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.8rem; line-height: 2;">
+                    <li><a href="{% url 'listings:listing_list' %}" style="color: inherit; text-decoration: none;">{% trans "Browse Stalls" %}</a></li>
+                    <li><a href="{% url 'listings:wanted_post' %}" style="color: inherit; text-decoration: none;">{% trans "Stall Wanted" %}</a></li>
+                    <li><a href="{% url 'listings:supplier_list' %}" style="color: inherit; text-decoration: none;">{% trans "Suppliers" %}</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.75rem;">{% trans "Resources" %}</div>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.8rem; line-height: 2;">
+                    <li><a href="#" style="color: inherit; text-decoration: none;">{% trans "FAQ" %}</a></li>
+                    <li><a href="#" style="color: inherit; text-decoration: none;">{% trans "Contact" %}</a></li>
+                    <li><a href="#" style="color: inherit; text-decoration: none;">{% trans "Terms" %}</a></li>
+                </ul>
             </div>
         </div>
-        <div style="font-size: 0.8rem;">
-            <div style="max-width: 420px;">
-                {% trans "Connecting hawker companies with aspiring hawkers across Singapore. Only NEA-directly-tendered centres are excluded — private coffee shops, food courts, and appointed-operator hawker centres are welcome." %}
-            </div>
-            <div style="margin-top: 0.4rem;">
-                &copy; {% now "Y" %} MakanSpace. All rights reserved.
-            </div>
+
+        <!-- Copyright row -->
+        <div style="border-top: 1px solid rgba(255,255,255,0.08); margin-top: 2rem; padding-top: 1rem;
+                    text-align: center; font-size: 0.75rem;">
+            &copy; {% now "Y" %} MakanSpace. {% trans "All rights reserved." %}
         </div>
     </div>
 </footer>
+
+<style>
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    .footer-grid > div:first-child {
+        grid-column: 1 / -1;
+    }
+}
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>

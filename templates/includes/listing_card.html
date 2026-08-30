@@ -109,6 +109,11 @@
             {% endif %}
         </div>
         {% endif %}
+
+        <!-- Freshness indicator (spec C) -->
+        <div class="text-sm text-secondary mt-1" style="font-size: 0.78rem;">
+            {% trans "Listed" %} {{ listing.created_at|timesince }} {% trans "ago" %}
+        </div>
     </div>
 
     <!-- Connect via WhatsApp CTA (spec 8) -->

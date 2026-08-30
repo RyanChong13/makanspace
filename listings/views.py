@@ -20,7 +20,7 @@ from accounts.models import Company, SiteSettings
 from .models import (
     Amenity, Listing, Application, TastingSlot,
     WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
-    ListingReport,
+    ListingReport, SupplierListing,
 )
 from .services import compress_image, check_property_reference, geocode_listing, SG_DISTRICT_MAP
 
@@ -366,26 +366,15 @@ class ListingUpdateView(LoginRequiredMixin, CompanyListingMixin, View):
         if form.is_valid() and formset.is_valid():
             form.save()
 
-            # Capture old image filenames BEFORE formset.save() mutates them,
-            # otherwise replacement uploads are indistinguishable from unchanged files.
-            old_images = {}
-            for img_form in formset.forms:
-                instance = img_form.instance
-                if instance.pk:
-                    old_images[instance.pk] = instance.image.name if instance.image else ""
-
-            formset.save()
-
-            # Compress only genuinely new or replaced images.
+            # Compress new/replaced uploads BEFORE formset.save() writes to storage.
             for img_form in formset.forms:
                 if img_form.cleaned_data.get("DELETE"):
                     continue
-                instance = img_form.instance
-                if instance.pk and instance.image:
-                    old_name = old_images.get(instance.pk, "")
-                    if instance.image.name != old_name:
-                        instance.image = compress_image(instance.image)
-                        instance.save(update_fields=["image"])
+                raw_image = img_form.cleaned_data.get("image")
+                if raw_image:
+                    img_form.cleaned_data["image"] = compress_image(raw_image)
+
+            formset.save()
 
             return redirect("listings:listing_detail", code=listing.code)
 
@@ -782,3 +771,41 @@ class DraftDescriptionView(LoginRequiredMixin, View):
 
         from django.http import JsonResponse
         return JsonResponse({"description": description})
+
+
+# ─── Supplier Directory (public, spec B9) ────────────────────────────────────
+
+class SupplierListView(View):
+    """
+    Public supplier directory — groups suppliers by category.
+    No login required.
+    """
+
+    template_name = "listings/supplier_list.html"
+
+    def get(self, request):
+        from collections import OrderedDict
+
+        all_suppliers = SupplierListing.objects.filter(is_active=True)
+
+        # Optional category filter via query param
+        category = request.GET.get("category", "")
+        if category:
+            all_suppliers = all_suppliers.filter(category=category)
+
+        # Group by category for tabbed display
+        grouped = OrderedDict()
+        for cat_value, cat_label in SupplierListing.Category.choices:
+            suppliers = [s for s in all_suppliers if s.category == cat_value]
+            if suppliers:
+                grouped[cat_value] = {
+                    "label": cat_label,
+                    "suppliers": suppliers,
+                }
+
+        return render(request, self.template_name, {
+            "grouped": grouped,
+            "all_suppliers": all_suppliers,
+            "active_category": category,
+            "category_choices": SupplierListing.Category.choices,
+        })

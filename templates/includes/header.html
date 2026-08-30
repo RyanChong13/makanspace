@@ -7,7 +7,16 @@
         MakanSpace
     </a>
 
-    <nav class="bh-header__nav">
+    <!-- Hamburger button (mobile only, hidden above 640px) -->
+    <button class="bh-header__hamburger" id="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+    </button>
+
+    <nav class="bh-header__nav" id="header-nav">
         <!-- Language selector -->
         <div class="lang-selector">
             <button class="lang-selector__trigger" type="button" aria-label="Select language">
@@ -42,6 +51,9 @@
             </div>
         </div>
 
+        <!-- Public nav links (visible to all) -->
+        <a href="{% url 'listings:supplier_list' %}" class="bh-header__nav-btn">{% trans "Suppliers" %}</a>
+
         <!-- Auth links -->
         {% if user.is_authenticated %}
             {% if user.can_access_dashboard %}
@@ -69,3 +81,21 @@
         {% endif %}
     </nav>
 </header>
+<script>
+(function() {
+    var toggle = document.getElementById('mobile-menu-toggle');
+    var nav = document.getElementById('header-nav');
+    if (toggle && nav) {
+        toggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            nav.classList.toggle('is-open');
+        });
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+            if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+                nav.classList.remove('is-open');
+            }
+        });
+    }
+})();
+</script>

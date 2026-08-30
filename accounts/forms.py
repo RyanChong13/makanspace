@@ -73,6 +73,22 @@ class CompanySignupForm(forms.ModelForm):
             raise forms.ValidationError("A company with this UEN is already registered.")
         return uen
 
+    def clean_whatsapp_number(self):
+        number = self.cleaned_data.get("whatsapp_number", "").strip()
+        if number:
+            digits = "".join(ch for ch in number if ch.isdigit())
+            if len(digits) == 8:
+                # Accept bare 8-digit Singapore numbers (will be auto-prefixed with 65)
+                pass
+            elif number.startswith("+65") or number.startswith("65"):
+                pass
+            else:
+                raise forms.ValidationError(
+                    "Please enter a Singapore number: either 8 digits (e.g. 9123 4567) "
+                    "or with country code (e.g. +65 9123 4567)."
+                )
+        return number
+
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():

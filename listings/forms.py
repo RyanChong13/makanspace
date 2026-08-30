@@ -71,6 +71,7 @@ class ListingForm(forms.ModelForm):
             "contact_number": forms.TextInput(attrs={
                 "placeholder": "+65 9123 4567",
                 "class": "form-input",
+                "title": "Enter 8 digits (e.g. 91234567) or with country code (e.g. +65 9123 4567)",
             }),
             "grease_trap_fee": forms.NumberInput(attrs={
                 "placeholder": "Optional",
@@ -101,6 +102,21 @@ class ListingForm(forms.ModelForm):
         if code and (len(code) != 6 or not code.isdigit()):
             raise forms.ValidationError("Singapore postal codes must be exactly 6 digits.")
         return code
+
+    def clean_contact_number(self):
+        number = self.cleaned_data.get("contact_number", "").strip()
+        if number:
+            digits = "".join(ch for ch in number if ch.isdigit())
+            if len(digits) == 8:
+                pass  # Accept bare 8-digit SG numbers (auto-prefixed with 65)
+            elif number.startswith("+65") or number.startswith("65"):
+                pass
+            else:
+                raise forms.ValidationError(
+                    "Please enter a Singapore number: either 8 digits (e.g. 9123 4567) "
+                    "or with country code (e.g. +65 9123 4567)."
+                )
+        return number
 
     def clean(self):
         cleaned_data = super().clean()
