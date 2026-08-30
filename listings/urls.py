@@ -12,6 +12,9 @@ urlpatterns = [
     # Public WhatsApp contact (tracks click count)
     path("listing/<str:code>/whatsapp/", views.WhatsAppClickView.as_view(), name="whatsapp_click"),
 
+    # Public report / flag (no login required, spec 13.2)
+    path("listing/<str:code>/report/", views.ListingReportCreateView.as_view(), name="listing_report"),
+
     # Public 'stall wanted' reverse listing form (no login)
     path("wanted/post/", views.WantedPostCreateView.as_view(), name="wanted_post"),
 

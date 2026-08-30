@@ -241,6 +241,11 @@ class Listing(models.Model):
     view_count = models.PositiveIntegerField(default=0)
     whatsapp_click_count = models.PositiveIntegerField(default=0)
 
+    @property
+    def report_count(self):
+        """How many public reports exist for this listing."""
+        return self.reports.count()
+
     # Reserved dormant field (spec 7.2): future AI document pre-screening
     pre_screen_status = models.CharField(
         max_length=50,
@@ -576,3 +581,45 @@ class WantedPost(models.Model):
         from urllib.parse import quote
         message = "Hi! I saw your stall-wanted post on MakanSpace."
         return f"https://wa.me/{digits}?text={quote(message)}"
+
+
+# ─── ListingReport (public flagging, spec 13.2) ──────────────────────────────
+
+class ListingReport(models.Model):
+    """
+    Public report/flag submitted against a live listing — no login required.
+    A proper log of independent reports over time (multiple reports per listing
+    are allowed), distinct from the dormant flagged_reason CharField reserved
+    for future automated fraud-detection signals.
+    """
+
+    class ReasonCategory(models.TextChoices):
+        NEA_MANAGED = "nea_managed", "This looks like an NEA-managed centre"
+        SCAM = "scam", "Scam / fake listing"
+        INCORRECT = "incorrect", "Incorrect information"
+        OTHER = "other", "Other"
+
+    listing = models.ForeignKey(
+        Listing,
+        on_delete=models.CASCADE,
+        related_name="reports",
+        help_text="The listing being reported.",
+    )
+    reason_category = models.CharField(
+        max_length=20,
+        choices=ReasonCategory.choices,
+        default=ReasonCategory.OTHER,
+    )
+    details = models.TextField(
+        blank=True,
+        help_text="Optional free-text detail — no contact info required.",
+    )
+    reported_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-reported_at"]
+        verbose_name = "Listing Report"
+        verbose_name_plural = "Listing Reports"
+
+    def __str__(self):
+        return f"Report on {self.listing.code} — {self.get_reason_category_display()}"

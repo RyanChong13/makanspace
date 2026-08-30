@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Report Listing" %} — {{ listing.code }} — MakanSpace{% endblock %}
+
+{% block content %}
+<div style="max-width: 560px; margin: 0 auto;">
+    <a href="{% url 'listings:listing_detail' listing.code %}" class="text-sm text-secondary mb-2" style="display: inline-block;">
+        &larr; {% trans "Back to listing" %}
+    </a>
+
+    <div class="card">
+        <div class="card__body">
+            <h1 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.3rem;">
+                {% trans "Report this listing" %}
+            </h1>
+            <p class="text-sm text-secondary" style="margin-bottom: 1.5rem;">
+                <strong>{{ listing.title }}</strong> · {{ listing.code }}
+                <br>{% trans "No login or contact info required. Your report is anonymous." %}
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div style="margin-bottom: 1rem;">
+                    <label for="{{ form.reason_category.id_for_label }}"
+                           style="display: block; font-weight: 600; margin-bottom: 0.35rem;">
+                        {% trans "Reason for report" %} <span style="color: var(--color-danger);">*</span>
+                    </label>
+                    {{ form.reason_category }}
+                    {% if form.reason_category.errors %}
+                    <div class="text-sm" style="color: var(--color-danger); margin-top: 0.25rem;">
+                        {{ form.reason_category.errors.0 }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="{{ form.details.id_for_label }}"
+                           style="display: block; font-weight: 600; margin-bottom: 0.35rem;">
+                        {% trans "Additional details" %}
+                        <span class="text-sm text-secondary" style="font-weight: 400;">({% trans "optional" %})</span>
+                    </label>
+                    {{ form.details }}
+                    {% if form.details.errors %}
+                    <div class="text-sm" style="color: var(--color-danger); margin-top: 0.25rem;">
+                        {{ form.details.errors.0 }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full">
+                    {% trans "Submit Report" %}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

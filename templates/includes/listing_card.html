@@ -125,6 +125,13 @@
             {% trans "Contact unavailable" %}
         </button>
         {% endif %}
+        <!-- Report this listing (spec 13.2) -->
+        <a href="{% url 'listings:listing_report' listing.code %}"
+           style="display: block; padding: 0.4rem; text-align: center; font-size: 0.78rem;
+                  color: var(--color-text-secondary); text-decoration: none; border-top: 1px solid var(--color-border);"
+           title="{% trans 'Report this listing' %}">
+            &#9873; {% trans "Report" %}
+        </a>
     </div>
 </div>
 {% endwith %}

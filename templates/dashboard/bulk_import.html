@@ -1,0 +1,105 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 0.5rem;">CSV Bulk Import</h1>
+<p class="text-sm text-secondary" style="margin-bottom: 1.5rem;">
+    Upload a CSV file to create multiple listings at once. Each row goes through the same geocoding and NEA-Direct cross-check pipeline as a normal listing submission.
+</p>
+
+<div class="card" style="padding: 1.5rem; margin-bottom: 2rem;">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div style="margin-bottom: 1rem;">
+            <label for="{{ form.csv_file.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 0.35rem;">
+                CSV File
+            </label>
+            {{ form.csv_file }}
+            {% if form.csv_file.help_text %}
+            <div class="text-sm text-secondary" style="margin-top: 0.25rem;">{{ form.csv_file.help_text }}</div>
+            {% endif %}
+            {% if form.csv_file.errors %}
+            <div class="text-sm" style="color: var(--color-danger); margin-top: 0.25rem;">{{ form.csv_file.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn--primary" onclick="return confirm('Process and import all valid rows?');">
+            Upload &amp; Import
+        </button>
+    </form>
+</div>
+
+<!-- CSV format reference -->
+<div class="card" style="padding: 1.25rem; margin-bottom: 2rem; background: var(--color-bg-secondary);">
+    <div style="font-weight: 600; margin-bottom: 0.5rem;">Expected CSV Columns</div>
+    <div class="text-sm" style="font-family: monospace; line-height: 1.7;">
+        <strong>company_name</strong>*, uen, <strong>title</strong>*, description,
+        cost_min, cost_max, price_display, size_sqft, lease_duration,
+        <strong>postal_code</strong>*, <strong>contact_number</strong>*,
+        grease_trap_fee, dishwashing_cost, footfall_estimate
+    </div>
+    <div class="text-sm text-secondary" style="margin-top: 0.5rem;">
+        * Required fields. Price display defaults to "exact" if blank.
+        Accepted values for <code>price_display</code>: <code>exact</code>, <code>on_request</code>.
+    </div>
+</div>
+
+{% if results %}
+<!-- Import summary -->
+<h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Import Summary</h2>
+
+<div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+    <div class="card" style="padding: 1rem; min-width: 140px;">
+        <div class="text-sm text-secondary">Listings Created</div>
+        <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-success);">{{ results_created }}</div>
+    </div>
+    <div class="card" style="padding: 1rem; min-width: 140px;">
+        <div class="text-sm text-secondary">Rows Skipped</div>
+        <div style="font-size: 1.8rem; font-weight: 700; {% if results_skipped %}color: var(--color-danger);{% endif %}">
+            {{ results_skipped|length }}
+        </div>
+    </div>
+    <div class="card" style="padding: 1rem; min-width: 140px;">
+        <div class="text-sm text-secondary">Companies Auto-Created</div>
+        <div style="font-size: 1.8rem; font-weight: 700;">{{ results_companies_created|length }}</div>
+    </div>
+</div>
+
+{% if results_companies_created %}
+<div class="card" style="padding: 1rem; margin-bottom: 1.5rem;">
+    <div style="font-weight: 600; margin-bottom: 0.5rem;">New Companies Created</div>
+    <ul style="margin: 0; padding-left: 1.25rem;">
+        {% for name in results_companies_created %}
+        <li>{{ name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if results_skipped %}
+<div class="card" style="padding: 1rem;">
+    <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-danger);">Skipped Rows</div>
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--color-border);">
+                <th style="text-align: left; padding: 0.35rem;">Row #</th>
+                <th style="text-align: left; padding: 0.35rem;">Reason(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for skip in results_skipped %}
+            <tr style="border-bottom: 1px solid var(--color-border);">
+                <td style="padding: 0.35rem; font-family: monospace;">{{ skip.row }}</td>
+                <td style="padding: 0.35rem;">
+                    {% for reason in skip.reasons %}
+                    {{ reason }}{% if not forloop.last %}; {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}

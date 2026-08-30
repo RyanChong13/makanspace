@@ -216,6 +216,15 @@
                     &#128279; {% trans "Share this listing" %}
                 </button>
             </div>
+
+            <!-- Report this listing (spec 13.2) -->
+            <div style="padding: 0.75rem 1rem; border-top: 1px solid var(--color-border);">
+                <a href="{% url 'listings:listing_report' listing.code %}"
+                   class="btn btn--secondary btn--full"
+                   style="padding: 0.7rem; color: var(--color-text-secondary); text-decoration: none;">
+                    &#9873; {% trans "Report this listing" %}
+                </a>
+            </div>
         </div>
     </div>
 

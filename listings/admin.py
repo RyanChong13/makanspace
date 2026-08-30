@@ -7,6 +7,7 @@ from .models import (
     Amenity, Listing, ListingImage, ListingTranslation,
     PropertyReference, Application, TastingSlot,
     WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
+    ListingReport,
 )
 
 
@@ -34,6 +35,13 @@ class TastingSlotInline(admin.TabularInline):
     model = TastingSlot
     extra = 0
     readonly_fields = ("is_booked",)
+
+
+class ListingReportInline(admin.TabularInline):
+    model = ListingReport
+    extra = 0
+    readonly_fields = ("reason_category", "details", "reported_at")
+    can_delete = True
 
 
 # ─── Reject reason form ──────────────────────────────────────────────────────
@@ -80,7 +88,7 @@ class ListingAdmin(admin.ModelAdmin):
                        "nearest_bus_stop", "bus_walk_minutes",
                        "created_at", "updated_at", "taken_at")
     date_hierarchy = "created_at"
-    inlines = [ListingImageInline, ListingTranslationInline, ApplicationInline, TastingSlotInline]
+    inlines = [ListingImageInline, ListingTranslationInline, ApplicationInline, TastingSlotInline, ListingReportInline]
 
     fieldsets = (
         (None, {
@@ -231,3 +239,14 @@ class WantedPostAdmin(admin.ModelAdmin):
     def budget_display(self, obj):
         return obj.budget_display
     budget_display.short_description = "Budget"
+
+
+# ─── ListingReport Admin ──────────────────────────────────────────────────
+
+@admin.register(ListingReport)
+class ListingReportAdmin(admin.ModelAdmin):
+    list_display = ("listing", "reason_category", "reported_at")
+    list_filter = ("reason_category",)
+    search_fields = ("listing__code", "listing__title", "details")
+    readonly_fields = ("listing", "reason_category", "details", "reported_at")
+    date_hierarchy = "reported_at"

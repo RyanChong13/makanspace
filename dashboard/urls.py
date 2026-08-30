@@ -13,4 +13,6 @@ urlpatterns = [
     path("map/", views.DashboardListingsMapView.as_view(), name="listings_map"),
     path("users/", views.DashboardUsersView.as_view(), name="users"),
     path("audit/", views.DashboardAuditView.as_view(), name="audit_queue"),
+    path("reported/", views.DashboardReportedView.as_view(), name="reported"),
+    path("bulk-import/", views.DashboardBulkImportView.as_view(), name="bulk_import"),
 ]

@@ -1,0 +1,69 @@
+{% extends "dashboard/base_dashboard.html" %}
+
+{% block dashboard_content %}
+<h1 style="font-size: 1.4rem; margin-bottom: 0.5rem;">Flagged / Reported Listings</h1>
+<p class="text-sm text-secondary" style="margin-bottom: 1.5rem;">
+    Listings with public reports — most recently reported first. Reports are anonymous and require no login.
+</p>
+
+{% if listings %}
+<table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+    <thead>
+        <tr style="border-bottom: 2px solid var(--color-border);">
+            <th style="text-align: left; padding: 0.5rem;">Code</th>
+            <th style="text-align: left; padding: 0.5rem;">Title</th>
+            <th style="text-align: left; padding: 0.5rem;">Company</th>
+            <th style="text-align: center; padding: 0.5rem;">Reports</th>
+            <th style="text-align: left; padding: 0.5rem;">Latest Report</th>
+            <th style="text-align: left; padding: 0.5rem;">Reasons</th>
+            <th style="text-align: right; padding: 0.5rem;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for listing in listings %}
+        <tr style="border-bottom: 1px solid var(--color-border);">
+            <td style="padding: 0.5rem; font-family: monospace;">
+                <a href="{% url 'listings:listing_detail' listing.code %}">{{ listing.code }}</a>
+            </td>
+            <td style="padding: 0.5rem;">{{ listing.title }}</td>
+            <td style="padding: 0.5rem;">{{ listing.company.name }}</td>
+            <td style="padding: 0.5rem; text-align: center;">
+                <span style="background: #FDE8E8; color: #C62828; padding: 0.15rem 0.5rem; border-radius: var(--radius-pill); font-weight: 600;">
+                    {{ listing.total_reports }}
+                </span>
+            </td>
+            <td style="padding: 0.5rem;">{{ listing.latest_report_at|date:"d M Y H:i" }}</td>
+            <td style="padding: 0.5rem; font-size: 0.82rem;">
+                {% for report in listing.reports.all %}
+                <div style="margin-bottom: 0.25rem;">
+                    <strong>{{ report.get_reason_category_display }}</strong>
+                    {% if report.details %}<br><span style="color: var(--color-text-secondary);">{{ report.details|truncatewords:20 }}</span>{% endif %}
+                </div>
+                {% endfor %}
+            </td>
+            <td style="padding: 0.5rem; text-align: right;">
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{ listing.pk }}">
+                    <button type="submit" name="action" value="clear_reports" class="btn btn--secondary"
+                            style="font-size: 0.78rem; padding: 0.25rem 0.5rem;"
+                            onclick="return confirm('Clear all reports and mark as reviewed?');">
+                        Clear
+                    </button>
+                    <button type="submit" name="action" value="take_down" class="btn btn--secondary"
+                            style="font-size: 0.78rem; padding: 0.25rem 0.5rem; color: var(--color-danger);"
+                            onclick="return confirm('Take down this listing?');">
+                        Take Down
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="card" style="padding: 2rem; text-align: center;">
+    <p style="color: var(--color-text-secondary); font-size: 1rem;">No listings have been reported yet.</p>
+</div>
+{% endif %}
+{% endblock %}

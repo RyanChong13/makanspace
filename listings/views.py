@@ -14,11 +14,13 @@ import json
 from .forms import (
     ListingForm, ListingImage, ListingImageFormSet,
     ApplicationForm, TastingSlotForm, WantedPostForm,
+    ListingReportForm, BulkImportCSVForm,
 )
 from accounts.models import Company, SiteSettings
 from .models import (
     Amenity, Listing, Application, TastingSlot,
     WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
+    ListingReport,
 )
 from .services import compress_image, check_property_reference, geocode_listing, SG_DISTRICT_MAP
 
@@ -562,6 +564,37 @@ class WantedPostListView(LoginRequiredMixin, CompanyMemberRequiredMixin, View):
         return render(request, self.template_name, {
             "posts": WantedPost.objects.all(),
         })
+
+
+# ─── Listing Report (public flagging, spec 13.2) ────────────────────────────
+
+class ListingReportCreateView(View):
+    """Public 'Report this listing' form — no login required."""
+
+    template_name = "listings/listing_report.html"
+
+    def get(self, request, code):
+        listing = get_object_or_404(Listing, code=code, status=Listing.Status.VERIFIED)
+        form = ListingReportForm()
+        return render(request, self.template_name, {"form": form, "listing": listing})
+
+    def post(self, request, code):
+        listing = get_object_or_404(Listing, code=code, status=Listing.Status.VERIFIED)
+        form = ListingReportForm(request.POST)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.listing = listing
+            report.save()
+            # Bump the listing to the top of the audit queue
+            if not listing.needs_audit:
+                listing.needs_audit = True
+                listing.save(update_fields=["needs_audit"])
+            messages.success(
+                request,
+                "Thank you — your report has been submitted and the listing has been flagged for review.",
+            )
+            return redirect("listings:listing_detail", code=code)
+        return render(request, self.template_name, {"form": form, "listing": listing})
 
 
 # ─── Application Views (spec 4.1) ───────────────────────────────────────────

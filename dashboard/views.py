@@ -1,15 +1,18 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.db.models import Count, Q, Sum
+from django.db.models import Count, Q, Sum, Max
 from django.utils import timezone
 from django.views import View
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 
 from accounts.models import Company
-from listings.models import Listing
-from listings.services import check_property_reference
+from listings.models import Listing, ListingReport
+from listings.services import check_property_reference, geocode_listing
+from listings.forms import BulkImportCSVForm
 from payments.models import Payment
+
+import csv
 
 User = get_user_model()
 
@@ -75,6 +78,9 @@ class DashboardOverviewView(CreatorRequiredMixin, View):
             status=Listing.Status.VERIFIED, needs_audit=True
         ).count()
 
+        # Listings with public reports
+        reported_count = Listing.objects.filter(reports__isnull=False).distinct().count()
+
         context = {
             "total_leasing_managers": total_leasing_managers,
             "total_companies": total_companies,
@@ -87,6 +93,7 @@ class DashboardOverviewView(CreatorRequiredMixin, View):
             "whatsapp_clicks_this_month": whatsapp_clicks_this_month,
             "revenue_this_month": revenue_this_month,
             "needs_audit_count": needs_audit_count,
+            "reported_count": reported_count,
         }
         return render(request, self.template_name, context)
 
@@ -380,3 +387,220 @@ class DashboardAuditView(CreatorRequiredMixin, View):
             messages.warning(request, f"Listing {listing.code} rejected during audit.")
 
         return redirect("dashboard:audit_queue")
+
+
+# ─── Flagged / Reported Listings (spec 13.2) ────────────────────────────────
+
+class DashboardReportedView(CreatorRequiredMixin, View):
+    """Dashboard section showing all listings with public reports."""
+
+    template_name = "dashboard/reported.html"
+
+    def get(self, request):
+        # Listings with at least one report, annotated with the most recent
+        # report timestamp and total report count, most recently reported first.
+        reported = (
+            Listing.objects
+            .annotate(
+                total_reports=Count("reports"),
+                latest_report_at=Max("reports__reported_at"),
+            )
+            .filter(total_reports__gt=0)
+            .select_related("company", "posted_by")
+            .prefetch_related("reports")
+            .order_by("-latest_report_at")
+        )
+        return render(request, self.template_name, {"listings": reported})
+
+    def post(self, request):
+        listing_id = request.POST.get("listing_id")
+        action = request.POST.get("action")
+
+        try:
+            listing = Listing.objects.get(pk=listing_id)
+        except Listing.DoesNotExist:
+            messages.error(request, "Listing not found.")
+            return redirect("dashboard:reported")
+
+        if action == "clear_reports":
+            # Mark all reports as handled by deleting them and clearing audit flag
+            count = listing.reports.count()
+            listing.reports.all().delete()
+            listing.needs_audit = False
+            listing.save(update_fields=["needs_audit"])
+            messages.success(request, f"Cleared {count} report(s) for listing {listing.code}.")
+        elif action == "take_down":
+            listing.status = Listing.Status.TAKEN
+            listing.needs_audit = False
+            listing.save(update_fields=["status", "needs_audit"])
+            messages.warning(request, f"Listing {listing.code} taken down.")
+        elif action == "reject":
+            listing.status = Listing.Status.REJECTED
+            listing.rejection_reason = request.POST.get("reason", "Removed after public reports.").strip()
+            listing.needs_audit = False
+            listing.save(update_fields=["status", "rejection_reason", "needs_audit"])
+            messages.warning(request, f"Listing {listing.code} rejected.")
+
+        return redirect("dashboard:reported")
+
+
+# ─── CSV Bulk Import (spec 14) ──────────────────────────────────────────────
+
+class DashboardBulkImportView(CreatorRequiredMixin, View):
+    """Admin-only CSV upload tool for rapid listing creation."""
+
+    template_name = "dashboard/bulk_import.html"
+
+    def get(self, request):
+        return render(request, self.template_name, {"form": BulkImportCSVForm()})
+
+    def post(self, request):
+        form = BulkImportCSVForm(request.POST, request.FILES)
+        if not form.is_valid():
+            return render(request, self.template_name, {"form": form})
+
+        csv_file = request.FILES["csv_file"]
+        if not csv_file.name.endswith(".csv"):
+            messages.error(request, "Please upload a .csv file.")
+            return render(request, self.template_name, {"form": BulkImportCSVForm()})
+
+        # Decode and parse
+        try:
+            decoded = csv_file.read().decode("utf-8-sig")
+        except UnicodeDecodeError:
+            messages.error(request, "CSV must be UTF-8 encoded.")
+            return render(request, self.template_name, {"form": BulkImportCSVForm()})
+
+        reader = csv.DictReader(decoded.splitlines())
+
+        # Required columns
+        required_cols = {"company_name", "title", "postal_code", "contact_number"}
+        if not required_cols.issubset(set(reader.fieldnames or [])):
+            missing = required_cols - set(reader.fieldnames or [])
+            messages.error(request, f"Missing required columns: {', '.join(missing)}")
+            return render(request, self.template_name, {"form": BulkImportCSVForm()})
+
+        results = {"created": 0, "skipped": [], "companies_created": set()}
+
+        for row_num, row in enumerate(reader, start=2):  # row 1 is the header
+            errors = self._process_csv_row(row, results)
+            if errors:
+                results["skipped"].append({"row": row_num, "reasons": errors})
+
+        context = {
+            "form": BulkImportCSVForm(),
+            "results": results,
+            "results_created": results["created"],
+            "results_skipped": results["skipped"],
+            "results_companies_created": sorted(results["companies_created"]),
+        }
+        return render(request, self.template_name, context)
+
+    def _process_csv_row(self, row, results):
+        """Process a single CSV row. Returns a list of error strings (empty = success)."""
+        errors = []
+
+        # --- Required field validation ---
+        company_name = (row.get("company_name") or "").strip()
+        title = (row.get("title") or "").strip()
+        postal_code = (row.get("postal_code") or "").strip()
+        contact_number = (row.get("contact_number") or "").strip()
+
+        if not company_name:
+            errors.append("missing company_name")
+        if not title:
+            errors.append("missing title")
+        if not postal_code:
+            errors.append("missing postal_code")
+        elif len(postal_code) != 6 or not postal_code.isdigit():
+            errors.append(f"invalid postal_code '{postal_code}'")
+        if not contact_number:
+            errors.append("missing contact_number")
+        if errors:
+            return errors
+
+        # --- Resolve or create Company ---
+        uen = (row.get("uen") or "").strip()
+        company = None
+        if uen:
+            company = Company.objects.filter(uen__iexact=uen).first()
+        if not company:
+            company = Company.objects.filter(name__iexact=company_name).first()
+        if not company:
+            company = Company.objects.create(
+                name=company_name,
+                uen=uen or f"BULK-{company_name[:20].upper().replace(' ', '')}",
+                is_business_verified=True,
+                status=Company.Status.VERIFIED,
+            )
+            results["companies_created"].add(company.name)
+
+        # --- Optional numeric fields ---
+        def safe_decimal(value):
+            v = (value or "").strip()
+            if not v:
+                return None
+            try:
+                from decimal import Decimal
+                return Decimal(v)
+            except Exception:
+                return None
+
+        def safe_int(value):
+            v = (value or "").strip()
+            if not v:
+                return None
+            try:
+                return int(float(v))
+            except Exception:
+                return None
+
+        cost_min = safe_decimal(row.get("cost_min"))
+        cost_max = safe_decimal(row.get("cost_max"))
+        size_sqft = safe_int(row.get("size_sqft"))
+        grease_trap_fee = safe_decimal(row.get("grease_trap_fee"))
+        dishwashing_cost = safe_decimal(row.get("dishwashing_cost"))
+
+        price_display = (row.get("price_display") or "exact").strip()
+        if price_display not in ("exact", "on_request"):
+            price_display = "exact"
+
+        lease_duration = (row.get("lease_duration") or "").strip()
+        description = (row.get("description") or "").strip()
+        footfall_estimate = (row.get("footfall_estimate") or "").strip() or None
+
+        # --- Create Listing ---
+        listing = Listing(
+            company=company,
+            title=title,
+            description=description or title,
+            cost_min=cost_min,
+            cost_max=cost_max,
+            price_display=price_display,
+            size_sqft=size_sqft,
+            lease_duration=lease_duration,
+            postal_code=postal_code,
+            contact_number=contact_number,
+            grease_trap_fee=grease_trap_fee,
+            dishwashing_cost=dishwashing_cost,
+            footfall_estimate=footfall_estimate,
+            status=Listing.Status.VERIFIED,
+            needs_audit=True,
+            nea_attestation=True,  # admin vouches for this data
+        )
+        listing.save()
+
+        # Geocode postal code (OneMap → Nominatim fallback)
+        geocode_listing(listing)
+        listing.save(update_fields=["lat", "lng", "nearest_mrt", "mrt_walk_minutes"])
+
+        # PropertyReference cross-check (NEA-Direct hard-block — no exceptions)
+        ref_result = check_property_reference(listing.title, listing.postal_code)
+        if ref_result["blocked"]:
+            listing.status = Listing.Status.REJECTED
+            listing.rejection_reason = ref_result["message"]
+            listing.save(update_fields=["status", "rejection_reason"])
+            return [f"blocked — {ref_result['message']}"]
+
+        results["created"] += 1
+        return []

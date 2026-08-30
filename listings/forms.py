@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 
-from .models import Amenity, Listing, ListingImage, Application, TastingSlot, WantedPost
+from .models import Amenity, Listing, ListingImage, Application, TastingSlot, WantedPost, ListingReport
 
 
 class ListingForm(forms.ModelForm):
@@ -255,3 +255,38 @@ class WantedPostForm(forms.ModelForm):
         if len(digits) < 8:
             raise forms.ValidationError("Please enter a valid WhatsApp number with country code.")
         return number
+
+
+# ─── ListingReport Form (spec 13.2) ──────────────────────────────────────────
+
+class ListingReportForm(forms.ModelForm):
+    """Public report form — no login required, minimal friction."""
+
+    class Meta:
+        model = ListingReport
+        fields = ["reason_category", "details"]
+        widgets = {
+            "reason_category": forms.Select(attrs={"class": "form-select"}),
+            "details": forms.Textarea(attrs={
+                "placeholder": "Optional: any extra detail that helps us review this listing...",
+                "rows": 3,
+                "class": "form-textarea",
+            }),
+        }
+
+
+# ─── CSV Bulk Import Form (spec 14) ─────────────────────────────────────────
+
+class BulkImportCSVForm(forms.Form):
+    """Admin-only CSV upload for bulk listing creation."""
+
+    csv_file = forms.FileField(
+        label="CSV File",
+        help_text=(
+            "Columns: company_name, uen (optional), title, description, "
+            "cost_min, cost_max, price_display, size_sqft, lease_duration, "
+            "postal_code, contact_number, grease_trap_fee, dishwashing_cost, "
+            "footfall_estimate"
+        ),
+        widget=forms.FileInput(attrs={"accept": ".csv"}),
+    )

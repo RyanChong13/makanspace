@@ -36,6 +36,13 @@
         <a href="{% url 'dashboard:audit_queue' %}" class="text-sm" style="color: var(--color-accent);">Review now →</a>
         {% endif %}
     </div>
+    <div class="card" style="padding: 1rem;">
+        <div class="text-sm text-secondary">Reported Listings</div>
+        <div style="font-size: 1.8rem; font-weight: 700; {% if reported_count %}color: #C62828;{% endif %}">{{ reported_count }}</div>
+        {% if reported_count %}
+        <a href="{% url 'dashboard:reported' %}" class="text-sm" style="color: var(--color-accent);">View reports →</a>
+        {% endif %}
+    </div>
 </div>
 
 <h2 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Companies by Status</h2>
