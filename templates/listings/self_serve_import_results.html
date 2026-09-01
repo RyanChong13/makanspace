@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Import Complete" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div class="container--narrow" style="max-width: 650px; margin: 0 auto;">
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "Import Complete" %}</h1>
+
+    {% if created > 0 %}
+    <div class="alert alert--success mb-2">
+        {% blocktrans count n=created %}1 listing created and is now live.{% plural %}{{ n }} listings created and are now live.{% endblocktrans %}
+    </div>
+    {% else %}
+    <div class="alert alert--error mb-2">{% trans "No listings were created." %}</div>
+    {% endif %}
+
+    {% if skipped %}
+    <div class="card mb-2">
+        <div class="card__header"><strong>{% trans "Skipped rows" %}</strong></div>
+        <div class="card__body">
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                    <thead>
+                        <tr style="text-align: left; border-bottom: 1px solid var(--color-border);">
+                            <th style="padding: 0.5rem 0.75rem;">{% trans "CSV row" %}</th>
+                            <th style="padding: 0.5rem 0.75rem;">{% trans "Reason" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in skipped %}
+                        <tr style="border-bottom: 1px solid var(--color-border);">
+                            <td style="padding: 0.5rem 0.75rem; font-weight: 600;">{{ s.row }}</td>
+                            <td class="text-secondary" style="padding: 0.5rem 0.75rem;">{{ s.reasons|join:", " }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="card__body text-sm text-secondary">
+            {% trans "Your new listings are live. Photos aren't included in CSV uploads — add them by opening each listing from My Listings → Edit." %}
+        </div>
+    </div>
+
+    <div class="flex gap-2 mt-2">
+        <a href="{% url 'company:my_listings' %}" class="btn btn--primary" style="flex: 1; text-align: center;">{% trans "Go to My Listings" %}</a>
+        <a href="{% url 'listings:self_serve_import' %}" class="btn btn--secondary">{% trans "Upload Another CSV" %}</a>
+    </div>
+</div>
+{% endblock %}

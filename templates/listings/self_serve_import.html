@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Bulk Upload Stalls" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div class="container--narrow" style="max-width: 650px; margin: 0 auto;">
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "Bulk Upload Stalls (CSV)" %}</h1>
+    <p class="text-secondary text-sm mb-2">
+        {% trans "Upload a spreadsheet of your vacant stalls — we'll read the columns for you and confirm the mapping before creating anything." %}
+    </p>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert--{{ message.tags }} mb-2">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="card mb-2">
+        <div class="card__body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label" for="id_csv_file">{% trans "CSV File" %}</label>
+                    <input type="file" name="csv_file" id="id_csv_file" accept=".csv" class="form-input" required>
+                    <p class="text-secondary text-sm mt-1" style="margin-bottom: 0;">
+                        {% trans "UTF-8, up to 500 rows. Any reasonable column headers work — e.g. 'Stall Name', 'Rent', 'Size (sqft)'." %}
+                    </p>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full">{% trans "Upload &amp; Preview Mapping" %}</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card__header"><strong>{% trans "What we can read" %}</strong></div>
+        <div class="card__body text-sm text-secondary">
+            {% trans "Recognised columns (loose names are fine):" %}
+            <ul style="margin: 0.5rem 0 0 1.2rem;">
+                <li>title, description</li>
+                <li>cost_min, cost_max (monthly rent)</li>
+                <li>size_sqft, lease_duration</li>
+                <li>postal_code, contact_number</li>
+                <li>price_display (exact / on request)</li>
+                <li>grease_trap_fee, dishwashing_cost, footfall_estimate</li>
+            </ul>
+            <p class="mt-1" style="margin-bottom: 0;">
+                {% trans "Photos are not included in CSV uploads — after importing, add photos to each listing from My Listings → Edit." %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

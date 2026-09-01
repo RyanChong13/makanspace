@@ -12,7 +12,10 @@
     </p>
 
     {% if form.errors or formset.errors %}
-    <div class="alert alert--error mb-2">Please correct the errors below.</div>
+    <div class="alert alert--error mb-2">
+        {% trans "Please correct the errors below." %}
+        {{ form.non_field_errors }}
+    </div>
     {% endif %}
 
     <form method="post" enctype="multipart/form-data" novalidate>
@@ -51,10 +54,12 @@
             <div class="form-group" style="flex: 1;">
                 <label class="form-label" for="{{ form.cost_min.id_for_label }}">Monthly Rent (SGD)</label>
                 {{ form.cost_min }}
+                {% for err in form.cost_min.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
             <div class="form-group" style="flex: 1;">
                 <label class="form-label" for="{{ form.cost_max.id_for_label }}">Max Rent (optional)</label>
                 {{ form.cost_max }}
+                {% for err in form.cost_max.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
         </div>
 
@@ -62,21 +67,25 @@
             <div class="form-group" style="flex: 1;">
                 <label class="form-label" for="{{ form.size_sqft.id_for_label }}">Size (sqft)</label>
                 {{ form.size_sqft }}
+                {% for err in form.size_sqft.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
             <div class="form-group" style="flex: 1;">
                 <label class="form-label" for="{{ form.lease_duration.id_for_label }}">Lease Duration</label>
                 {{ form.lease_duration }}
+                {% for err in form.lease_duration.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
         </div>
 
         <div class="form-group">
             <label class="form-label" for="{{ form.postal_code.id_for_label }}">Postal Code</label>
             {{ form.postal_code }}
+            {% for err in form.postal_code.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
         <div class="form-group">
             <label class="form-label" for="{{ form.contact_number.id_for_label }}">WhatsApp Contact Number</label>
             {{ form.contact_number }}
+            {% for err in form.contact_number.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
         <!-- F&B-specific fields -->
@@ -86,15 +95,18 @@
                 <div class="form-group" style="flex: 1;">
                     <label class="form-label" for="{{ form.grease_trap_fee.id_for_label }}">Grease Trap Fee ($/mo)</label>
                     {{ form.grease_trap_fee }}
+                    {% for err in form.grease_trap_fee.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label class="form-label" for="{{ form.dishwashing_cost.id_for_label }}">Dishwashing Cost ($/mo)</label>
                     {{ form.dishwashing_cost }}
+                    {% for err in form.dishwashing_cost.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
                 </div>
             </div>
             <div class="form-group">
                 <label class="form-label" for="{{ form.footfall_estimate.id_for_label }}">Estimated Daily Footfall</label>
                 {{ form.footfall_estimate }}
+                {% for err in form.footfall_estimate.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
         </div>
 
@@ -122,6 +134,9 @@
                 Photos are automatically compressed. Tap a slot to replace or remove it.
             </p>
             {{ formset.management_form }}
+            {% if formset.non_form_errors %}
+            <div class="form-error mb-1">{{ formset.non_form_errors|join:", " }}</div>
+            {% endif %}
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
                 {% for img_form in formset %}
                 <div class="photo-slot" style="position: relative; aspect-ratio: 1; border-radius: var(--radius-md);

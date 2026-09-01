@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Confirm Column Mapping" %} — MakanSpace{% endblock %}
+
+{% block content %}
+<div class="container--narrow" style="max-width: 750px; margin: 0 auto;">
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "Confirm Column Mapping" %}</h1>
+    <p class="text-secondary text-sm mb-2">
+        {% trans "We've matched your spreadsheet's columns to MakanSpace listing fields. Check each one — nothing is created until you confirm below." %}
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Column → field mapping table -->
+        <div class="card mb-2">
+            <div class="card__header">
+                <strong>{% trans "Your columns" %}</strong>
+                <span class="text-sm text-secondary">{{ total_rows }} {% trans "data rows" %}</span>
+            </div>
+            <div class="card__body">
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid var(--color-border);">
+                                <th style="padding: 0.5rem 0.75rem;">{% trans "CSV column" %}</th>
+                                <th style="padding: 0.5rem 0.75rem;">{% trans "Sample values" %}</th>
+                                <th style="padding: 0.5rem 0.75rem;">{% trans "Maps to" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for col in columns %}
+                            <tr style="border-bottom: 1px solid var(--color-border);">
+                                <td style="padding: 0.5rem 0.75rem; font-weight: 600; white-space: nowrap;">{{ col.header }}</td>
+                                <td class="text-secondary" style="padding: 0.5rem 0.75rem; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{ col.values|join:" · "|default:"—" }}
+                                </td>
+                                <td style="padding: 0.5rem 0.75rem;">
+                                    <select name="column_map" class="form-select" style="width: auto;">
+                                        <option value="">({% trans "ignore" %})</option>
+                                        {% for f in importable_fields %}
+                                        <option value="{{ f }}" {% if col.mapped == f %}selected{% endif %}>{{ f }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview of the first data rows under the proposed mapping -->
+        <div class="card mb-2">
+            <div class="card__header"><strong>{% trans "Preview (first rows)" %}</strong></div>
+            <div class="card__body">
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid var(--color-border);">
+                                {% for col in columns %}
+                                <th style="padding: 0.4rem 0.6rem; white-space: nowrap;">{{ col.mapped|default:col.header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in preview_rows %}
+                            <tr>
+                                {% for cell in row %}
+                                <td class="text-secondary" style="padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--color-border);">
+                                    {{ cell|truncatechars:40|default:"—" }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEA attestation (bulk equivalent of the create-page checkbox) -->
+        <div class="form-group" style="background: #FFF8E1; padding: 1rem; border-radius: var(--radius-md); border: 1px solid #FFE082;">
+            <label style="display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" name="nea_attestation" required style="margin-top: 0.2rem;">
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">{% trans "I confirm none of these stalls are part of an NEA Direct-managed hawker centre." %}</div>
+                    <div class="text-sm text-secondary">{% trans "NEA's directly-tendered centres (~32) are excluded from MakanSpace. SEHC and private centres are fine." %}</div>
+                </div>
+            </label>
+            {% if attestation_error %}<div class="form-error">{{ attestation_error }}</div>{% endif %}
+        </div>
+
+        <div class="flex gap-2 mt-2">
+            <button type="submit" name="confirm_import" value="1" class="btn btn--primary" style="flex: 1; padding: 0.8rem;">
+                {% blocktrans count rows=total_rows %}Import 1 listing{% plural %}Import {{ rows }} listings{% endblocktrans %}
+            </button>
+            <a href="{% url 'listings:self_serve_import' %}" class="btn btn--secondary" style="padding: 0.8rem;">{% trans "Start Over" %}</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

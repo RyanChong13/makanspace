@@ -21,6 +21,10 @@
             <i data-lucide="plus-square"></i>
             <span>{% trans "Post Stall" %}</span>
         </a>
+        <a href="{% url 'listings:self_serve_import' %}" class="quick-action-tile">
+            <i data-lucide="upload"></i>
+            <span>{% trans "Bulk Upload" %}</span>
+        </a>
         {% endif %}
         <a href="#stat-section" class="quick-action-tile">
             <i data-lucide="bar-chart-3"></i>
@@ -97,6 +101,12 @@
                placeholder="{% trans 'Jump to code, e.g. BOOTH-A1B2C3 or SG-A1B2C3' %}"
                class="form-input" style="max-width: 340px;">
         <button type="submit" class="btn btn--secondary" style="padding: 0.5rem 1rem;">{% trans "Find" %}</button>
+        {% if user.can_post_listings %}
+        <a href="{% url 'listings:self_serve_import' %}" class="btn btn--secondary" style="padding: 0.5rem 1rem; margin-left: auto;">
+            <i data-lucide="upload" style="width:16px;height:16px;vertical-align:middle;"></i>
+            {% trans "Bulk Upload CSV" %}
+        </a>
+        {% endif %}
     </form>
 
     {% if listings %}

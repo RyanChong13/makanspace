@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.files.uploadedfile import UploadedFile
 from django.db.models import Q
 from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
@@ -9,7 +10,9 @@ from django.templatetags.static import static
 from django.utils import timezone
 from django.views import View
 from datetime import timedelta
+import csv
 import json
+import re
 
 from .forms import (
     ListingForm, ListingImage, ListingImageFormSet,
@@ -20,9 +23,10 @@ from accounts.models import Company, SiteSettings
 from .models import (
     Amenity, Listing, Application, TastingSlot,
     WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
-    ListingReport, SupplierListing,
+    ListingReport, SupplierListing, LEASE_DURATION_CHOICES,
 )
 from .services import compress_image, check_property_reference, geocode_listing, SG_DISTRICT_MAP
+from .tasks import IMPORTABLE_FIELDS, propose_csv_mapping
 
 User = get_user_model()
 
@@ -199,7 +203,7 @@ class ListingDetailView(View):
         og_image_url = (
             request.build_absolute_uri(images[0].image.url)
             if images
-            else request.build_absolute_uri(static("img/logo.png"))
+            else request.build_absolute_uri(static("img/og-default.png"))
         )
         og_parts = [listing.cost_display]
         if listing.size_display:
@@ -265,7 +269,7 @@ class ListingCreateView(LoginRequiredMixin, LeasingManagerRequiredMixin, View):
         return ImageFormSet
 
     def get(self, request):
-        form = ListingForm()
+        form = ListingForm(require_nea_attestation=True)
         formset = self.get_formset()()
         amenities = Amenity.objects.all()
         return render(request, self.template_name, {
@@ -275,7 +279,7 @@ class ListingCreateView(LoginRequiredMixin, LeasingManagerRequiredMixin, View):
         })
 
     def post(self, request):
-        form = ListingForm(request.POST, request.FILES)
+        form = ListingForm(request.POST, request.FILES, require_nea_attestation=True)
         formset = self.get_formset()(request.POST, request.FILES)
 
         if form.is_valid() and formset.is_valid():
@@ -367,12 +371,20 @@ class ListingUpdateView(LoginRequiredMixin, CompanyListingMixin, View):
             form.save()
 
             # Compress new/replaced uploads BEFORE formset.save() writes to storage.
+            # construct_instance (run during is_valid()) has already bound the raw
+            # upload to img_form.instance.image, so the compressed file must be
+            # assigned to the instance too — rewriting cleaned_data alone would
+            # still persist the uncompressed original. Untouched file fields
+            # resolve to the existing FieldFile (not an UploadedFile) and are
+            # skipped so text-only edits never re-compress stored photos.
             for img_form in formset.forms:
                 if img_form.cleaned_data.get("DELETE"):
                     continue
                 raw_image = img_form.cleaned_data.get("image")
-                if raw_image:
-                    img_form.cleaned_data["image"] = compress_image(raw_image)
+                if raw_image and isinstance(raw_image, UploadedFile):
+                    compressed = compress_image(raw_image)
+                    img_form.cleaned_data["image"] = compressed
+                    img_form.instance.image = compressed
 
             formset.save()
 
@@ -511,7 +523,7 @@ class PublicCompanyProfileView(View):
         og_image_url = (
             request.build_absolute_uri(first_image.image.url)
             if first_image
-            else request.build_absolute_uri(static("img/logo.png"))
+            else request.build_absolute_uri(static("img/og-default.png"))
         )
 
         return render(request, self.template_name, {
@@ -809,3 +821,268 @@ class SupplierListView(View):
             "active_category": category,
             "category_choices": SupplierListing.Category.choices,
         })
+
+
+# ─── Self-Serve CSV Mass Upload (spec B11) ──────────────────────────────────
+
+SELF_SERVE_IMPORT_SESSION_KEY = "self_serve_import"
+SELF_SERVE_IMPORT_MAX_ROWS = 500
+SELF_SERVE_IMPORT_MAX_BYTES = 2 * 1024 * 1024  # 2MB
+
+
+def _import_safe_decimal(value):
+    """Parse a CSV numeric cell ('$1,500', '1500.50') into a Decimal or None."""
+    v = (value or "").strip().replace("$", "").replace(",", "")
+    if not v:
+        return None
+    try:
+        from decimal import Decimal
+        return Decimal(v)
+    except Exception:
+        return None
+
+
+def _import_safe_int(value):
+    """Parse a CSV integer cell ('$200', '200.0') into an int or None."""
+    v = (value or "").strip().replace("$", "").replace(",", "")
+    if not v:
+        return None
+    try:
+        return int(float(v))
+    except Exception:
+        return None
+
+
+def _normalize_lease_duration(value):
+    """Map a free-text lease term to the model's choice value, or '' if unmatched."""
+    v = (value or "").strip().lower()
+    if not v:
+        return ""
+    for choice_val, choice_label in LEASE_DURATION_CHOICES:
+        if v in (choice_val, choice_label.lower()):
+            return choice_val
+    m = re.match(r"^(\d+)", v)
+    if not m:
+        if "less than" in v or "under" in v or "short" in v:
+            return "<6mo"
+        if "more than" in v or "over" in v or "long" in v:
+            return "2yr+"
+        return ""
+    n = int(m.group(1))
+    in_months = "month" in v or "mth" in v or v.endswith("mo")
+    if in_months:
+        if n < 6:
+            return "<6mo"
+        if n <= 12:
+            return "6-12mo"
+        return "1-2yr"
+    # Years (or a bare number, assumed months below)
+    if "year" in v or "yr" in v:
+        if n < 1:
+            return "<6mo"
+        if n == 1:
+            return "6-12mo"
+        if n == 2:
+            return "1-2yr"
+        return "2yr+"
+    if n < 6:
+        return "<6mo"
+    if n <= 12:
+        return "6-12mo"
+    if n <= 24:
+        return "1-2yr"
+    return "2yr+"
+
+
+class SelfServeImportView(LoginRequiredMixin, LeasingManagerRequiredMixin, View):
+    """
+    Self-serve AI-assisted CSV mass upload for leasing managers (spec B11).
+
+    Three-step flow with the parsed CSV held in the session:
+      1. Upload a CSV (any reasonable column headers).
+      2. AI proposes a header→field mapping; the owner confirms/edits it —
+         nothing is created before confirmation.
+      3. Every confirmed row runs the exact same pipeline as a manual
+         submission: OneMap geocoding, PropertyReference NEA-Direct
+         hard-block (never skipped), status=VERIFIED + needs_audit=True.
+    Company is fixed to the logged-in user's own company for every row.
+    """
+
+    upload_template = "listings/self_serve_import.html"
+    review_template = "listings/self_serve_import_review.html"
+    results_template = "listings/self_serve_import_results.html"
+
+    def get(self, request):
+        # Fresh visit: drop any stale upload state
+        request.session.pop(SELF_SERVE_IMPORT_SESSION_KEY, None)
+        return render(request, self.upload_template)
+
+    def post(self, request):
+        if request.POST.get("confirm_import"):
+            return self._process_confirmed(request)
+        return self._parse_upload(request)
+
+    # ── Step 2: parse the uploaded CSV and propose a mapping ──────────────
+
+    def _parse_upload(self, request):
+        def fail(msg):
+            messages.error(request, msg)
+            return render(request, self.upload_template)
+
+        csv_file = request.FILES.get("csv_file")
+        if not csv_file:
+            return fail("Please choose a CSV file to upload.")
+        if not csv_file.name.lower().endswith(".csv"):
+            return fail("Please upload a .csv file.")
+        if csv_file.size > SELF_SERVE_IMPORT_MAX_BYTES:
+            return fail("CSV file is too large (maximum 2MB).")
+
+        try:
+            decoded = csv_file.read().decode("utf-8-sig")
+        except UnicodeDecodeError:
+            return fail("CSV must be UTF-8 encoded.")
+
+        rows = [row for row in csv.reader(decoded.splitlines()) if any(cell.strip() for cell in row)]
+        if len(rows) < 2:
+            return fail("The CSV needs a header row and at least one data row.")
+
+        headers = [h.strip() for h in rows[0]]
+        data_rows = rows[1:]
+        if len(data_rows) > SELF_SERVE_IMPORT_MAX_ROWS:
+            return fail(f"CSV has too many rows (maximum {SELF_SERVE_IMPORT_MAX_ROWS}).")
+
+        # AI proposes the header→field mapping (alias fallback if unavailable)
+        mapping = propose_csv_mapping(headers, data_rows[:5])
+
+        request.session[SELF_SERVE_IMPORT_SESSION_KEY] = {
+            "headers": headers,
+            "rows": data_rows,
+            "mapping": mapping,
+        }
+
+        return render(request, self.review_template, self._review_context(data_rows, mapping))
+
+    def _review_context(self, data_rows, mapping):
+        """Build template context for the mapping-confirmation screen."""
+        headers = self._session_headers()
+        columns = []
+        for i, header in enumerate(headers):
+            columns.append({
+                "header": header,
+                "mapped": mapping.get(header, ""),
+                "values": [r[i] for r in data_rows[:3] if i < len(r) and r[i].strip()],
+            })
+        return {
+            "columns": columns,
+            "preview_rows": data_rows[:3],
+            "importable_fields": IMPORTABLE_FIELDS,
+            "total_rows": len(data_rows),
+        }
+
+    def _session_headers(self):
+        data = self.request.session.get(SELF_SERVE_IMPORT_SESSION_KEY, {})
+        return data.get("headers", [])
+
+    # ── Step 3: confirmed mapping → create listings ────────────────────────
+
+    def _process_confirmed(self, request):
+        data = request.session.get(SELF_SERVE_IMPORT_SESSION_KEY)
+        if not data:
+            messages.error(request, "Your upload session expired. Please upload the CSV again.")
+            return redirect("listings:self_serve_import")
+
+        headers = data["headers"]
+        data_rows = data["rows"]
+        mapping = data["mapping"]
+
+        # Adopt the user-confirmed mapping from the review screen's selects.
+        selected = request.POST.getlist("column_map")
+        if len(selected) == len(headers):
+            mapping = {h: (s if s in IMPORTABLE_FIELDS else "") for h, s in zip(headers, selected)}
+
+        context = self._review_context(data_rows, mapping)
+
+        # Bulk NEA attestation — the create-page checkbox, applied per batch
+        if not request.POST.get("nea_attestation"):
+            context["attestation_error"] = (
+                "You must confirm none of these stalls are part of an NEA Direct-managed hawker centre."
+            )
+            return render(request, self.review_template, context)
+
+        results = {"created": 0, "skipped": []}
+        for row_num, row in enumerate(data_rows, start=2):  # row 1 is the header
+            errors = self._process_row(request, row, headers, mapping, results)
+            if errors:
+                results["skipped"].append({"row": row_num, "reasons": errors})
+
+        request.session.pop(SELF_SERVE_IMPORT_SESSION_KEY, None)
+
+        return render(request, self.results_template, {
+            "created": results["created"],
+            "skipped": results["skipped"],
+            "total_rows": len(data_rows),
+        })
+
+    def _process_row(self, request, row, headers, mapping, results):
+        """Create one Listing from a mapped CSV row. Returns a list of error strings."""
+        record = {}
+        for i, header in enumerate(headers):
+            field = mapping.get(header, "")
+            if field:
+                record[field] = row[i].strip() if i < len(row) else ""
+
+        errors = []
+        title = record.get("title", "")
+        postal_code = record.get("postal_code", "")
+        if not title:
+            errors.append("missing title")
+        if not postal_code:
+            errors.append("missing postal_code")
+        elif len(postal_code) != 6 or not postal_code.isdigit():
+            errors.append(f"invalid postal_code '{postal_code}'")
+        if errors:
+            return errors
+
+        # Fall back to the company's own WhatsApp number for contactless rows
+        contact_number = record.get("contact_number", "") or (request.user.company.whatsapp_number or "")
+        if not contact_number:
+            return ["missing contact_number"]
+
+        price_display_raw = (record.get("price_display") or "").strip().lower()
+        price_display = "on_request" if ("request" in price_display_raw or price_display_raw == "poa") else "exact"
+
+        listing = Listing(
+            company=request.user.company,
+            posted_by=request.user,
+            title=title,
+            description=record.get("description") or title,
+            cost_min=_import_safe_decimal(record.get("cost_min")),
+            cost_max=_import_safe_decimal(record.get("cost_max")),
+            price_display=price_display,
+            size_sqft=_import_safe_int(record.get("size_sqft")),
+            lease_duration=_normalize_lease_duration(record.get("lease_duration")),
+            postal_code=postal_code,
+            contact_number=contact_number,
+            grease_trap_fee=_import_safe_decimal(record.get("grease_trap_fee")),
+            dishwashing_cost=_import_safe_decimal(record.get("dishwashing_cost")),
+            footfall_estimate=record.get("footfall_estimate") or None,
+            status=Listing.Status.VERIFIED,
+            needs_audit=True,
+            nea_attestation=True,  # owner attested to the whole batch on the review screen
+        )
+        listing.save()
+
+        # Geocode postal code (OneMap → Nominatim fallback) — same as manual flow
+        geocode_listing(listing)
+        listing.save(update_fields=["lat", "lng", "nearest_mrt", "mrt_walk_minutes"])
+
+        # PropertyReference cross-check (NEA-Direct hard-block — no exceptions)
+        ref_result = check_property_reference(listing.title, listing.postal_code)
+        if ref_result["blocked"]:
+            listing.status = Listing.Status.REJECTED
+            listing.rejection_reason = ref_result["message"]
+            listing.save(update_fields=["status", "rejection_reason"])
+            return [f"blocked — {ref_result['message']}"]
+
+        results["created"] += 1
+        return []

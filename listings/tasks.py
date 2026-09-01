@@ -300,6 +300,95 @@ def draft_listing_description(fields_json):
         return ""
 
 
+# ─── Self-Serve CSV Import Mapping (spec B11) ──────────────────────────────
+
+# Listing fields a leasing manager's CSV can be mapped to (spec B11).
+IMPORTABLE_FIELDS = [
+    "title", "description", "cost_min", "cost_max", "size_sqft",
+    "lease_duration", "postal_code", "contact_number", "price_display",
+    "grease_trap_fee", "dishwashing_cost", "footfall_estimate",
+]
+
+# Loose-header alias table used when the AI mapping service is unavailable.
+_CSV_HEADER_ALIASES = {
+    "title": ["title", "stallname", "stall", "name", "listingtitle", "unit"],
+    "description": ["description", "details", "notes", "remarks", "about"],
+    "cost_min": ["rent", "price", "askingrent", "monthlyrent", "rentfrom", "rentmin", "cost", "costmin"],
+    "cost_max": ["maxrent", "rentmax", "rentto", "rentupto", "costmax", "maxprice"],
+    "size_sqft": ["size", "sqft", "area", "sizesqft", "floorspace", "squarefeet"],
+    "lease_duration": ["lease", "leaseduration", "tenure", "leaselength", "term"],
+    "postal_code": ["postalcode", "postcode", "zip", "zipcode", "singaporepostalcode"],
+    "contact_number": ["contact", "contactnumber", "whatsapp", "phone", "phonenumber", "mobile", "hp"],
+    "price_display": ["pricedisplay", "pricing", "pricingdisplay", "priceoption"],
+    "grease_trap_fee": ["greasetrap", "greasetrapfee", "greasetrapcost"],
+    "dishwashing_cost": ["dishwashing", "dishwashingcost", "dishwashingfee"],
+    "footfall_estimate": ["footfall", "footfallestimate", "traffic", "humantraffic"],
+}
+
+
+def _fallback_csv_mapping(headers):
+    """Deterministic alias-based header mapping when Claude is unavailable."""
+    mapping = {}
+    for header in headers:
+        normalized = "".join(ch for ch in header.lower() if ch.isalnum())
+        mapping[header] = ""
+        for field_name, aliases in _CSV_HEADER_ALIASES.items():
+            if normalized in aliases:
+                mapping[header] = field_name
+                break
+    return mapping
+
+
+def propose_csv_mapping(headers, sample_rows):
+    """
+    Ask Claude to map CSV columns to Listing fields (spec B11).
+    Accepts loose headers (e.g. "Rent", "Size (sqft)") rather than a rigid
+    template. Returns {header: field_name or ""} — never trusted blindly;
+    the owner confirms the mapping on a review screen before anything is saved.
+    Falls back to alias matching when the API is unavailable or fails.
+    """
+    if not headers:
+        return {}
+
+    system_prompt = (
+        "You map spreadsheet columns to fields of a hawker stall rental listing. "
+        f"Map each column header to exactly one of these field names: {', '.join(IMPORTABLE_FIELDS)}. "
+        "If a column does not correspond to any field, map it to an empty string. "
+        "Column headers may be loosely named (e.g. 'Rent', 'Size (sqft)', 'Address'). "
+        "Return ONLY a JSON object mapping each header (as given) to its field name. No markdown."
+    )
+
+    user_prompt = (
+        "Map these CSV columns to listing fields.\n\n"
+        f"Headers: {json.dumps(headers)}\n\n"
+        f"Sample data rows (first few): {json.dumps(sample_rows[:5])}"
+    )
+
+    try:
+        result = _claude_json(system_prompt, user_prompt, max_tokens=1024)
+    except Exception as e:
+        logger.warning("CSV mapping AI call failed: %s", e)
+        result = None
+
+    if not isinstance(result, dict):
+        return _fallback_csv_mapping(headers)
+
+    # Post-process: keep only known field names, cover every header.
+    mapping = {}
+    for header in headers:
+        value = result.get(header)
+        if isinstance(value, str) and value in IMPORTABLE_FIELDS:
+            mapping[header] = value
+        else:
+            mapping[header] = ""
+    # Fill any column the AI missed using the alias fallback.
+    fallback = _fallback_csv_mapping(headers)
+    for header, value in mapping.items():
+        if not value and fallback.get(header):
+            mapping[header] = fallback[header]
+    return mapping
+
+
 # ─── Photo-Based Amenity Detection (spec 7.1) ───────────────────────────────
 
 @shared_task

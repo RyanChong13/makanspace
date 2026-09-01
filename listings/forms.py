@@ -7,9 +7,12 @@ from .models import Amenity, Listing, ListingImage, Application, TastingSlot, Wa
 class ListingForm(forms.ModelForm):
     """Form for creating/editing a hawker stall listing (spec 3.4)."""
 
-    # NEA attestation checkbox (spec 9) — required at creation time
+    # NEA attestation checkbox (spec 9) — required at creation time only.
+    # The requirement is enforced via the require_nea_attestation form kwarg
+    # (see __init__), so the edit form — which never renders this checkbox —
+    # never fails validation on a hidden required field (spec A0).
     nea_attestation = forms.BooleanField(
-        required=True,
+        required=False,
         label="I confirm this stall is NOT part of an NEA Direct-managed hawker centre.",
         help_text=(
             "NEA's directly-tendered centres (~32) are excluded from MakanSpace. "
@@ -89,8 +92,13 @@ class ListingForm(forms.ModelForm):
             }),
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, require_nea_attestation=False, **kwargs):
         super().__init__(*args, **kwargs)
+        self.require_nea_attestation = require_nea_attestation
+        if not require_nea_attestation:
+            # Edit form never renders this checkbox — remove the field entirely
+            # so form.save() can't silently clear an existing attestation.
+            self.fields.pop("nea_attestation", None)
         # cost_min/cost_max are only required when price_display == "exact".
         # The requirement is enforced in clean() so the fields themselves are
         # never hard-required at the widget level.
@@ -123,6 +131,13 @@ class ListingForm(forms.ModelForm):
         price_display = cleaned_data.get("price_display")
         cost_min = cleaned_data.get("cost_min")
         cost_max = cleaned_data.get("cost_max")
+
+        # NEA attestation is mandatory on the create flow only (spec 9 / A0).
+        if self.require_nea_attestation and not cleaned_data.get("nea_attestation"):
+            self.add_error(
+                "nea_attestation",
+                "You must confirm this stall is not part of an NEA Direct-managed hawker centre.",
+            )
 
         # Only require cost_min when exact pricing is selected.
         if price_display == "exact" and not cost_min:

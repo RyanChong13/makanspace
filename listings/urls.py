@@ -23,6 +23,9 @@ urlpatterns = [
 
     # Leasing manager actions
     path("post/", views.ListingCreateView.as_view(), name="listing_create"),
+
+    # Self-serve AI-assisted CSV mass upload (leasing managers, spec B11)
+    path("import/", views.SelfServeImportView.as_view(), name="self_serve_import"),
     path("listing/<str:code>/edit/", views.ListingUpdateView.as_view(), name="listing_update"),
     path("listing/<str:code>/delete/", views.ListingDeleteView.as_view(), name="listing_delete"),
 ]
