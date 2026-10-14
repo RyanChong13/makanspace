@@ -9,7 +9,7 @@
 
     {% if created > 0 %}
     <div class="alert alert--success mb-2">
-        {% blocktrans count n=created %}1 listing created and is now live.{% plural %}{{ n }} listings created and are now live.{% endblocktrans %}
+        {% blocktrans count n=created trimmed %}{{ n }} listing created and is now live.{% plural %}{{ n }} listings created and are now live.{% endblocktrans %}
     </div>
     {% else %}
     <div class="alert alert--error mb-2">{% trans "No listings were created." %}</div>

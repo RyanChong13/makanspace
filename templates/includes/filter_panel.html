@@ -75,19 +75,19 @@
                     <input type="radio" name="size" value="<200"
                            {% if filters.size == '<200' %}checked{% endif %}
                            onchange="applyFilter()">
-                    <span>&lt;200 sqft</span>
+                    <span>{% trans "<200 sqft" %}</span>
                 </label>
                 <label class="filter-option">
                     <input type="radio" name="size" value="200-400"
                            {% if filters.size == '200-400' %}checked{% endif %}
                            onchange="applyFilter()">
-                    <span>200–400 sqft</span>
+                    <span>{% trans "200–400 sqft" %}</span>
                 </label>
                 <label class="filter-option">
                     <input type="radio" name="size" value="400+"
                            {% if filters.size == '400+' %}checked{% endif %}
                            onchange="applyFilter()">
-                    <span>400+ sqft</span>
+                    <span>{% trans "400+ sqft" %}</span>
                 </label>
             </div>
         </details>

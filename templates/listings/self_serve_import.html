@@ -10,11 +10,8 @@
         {% trans "Upload a spreadsheet of your vacant stalls — we'll read the columns for you and confirm the mapping before creating anything." %}
     </p>
 
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert--{{ message.tags }} mb-2">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
+    <!-- base.html already renders flash messages; a second loop here showed every
+         alert twice on this page. -->
 
     <div class="card mb-2">
         <div class="card__body">
@@ -27,7 +24,7 @@
                         {% trans "UTF-8, up to 500 rows. Any reasonable column headers work — e.g. 'Stall Name', 'Rent', 'Size (sqft)'." %}
                     </p>
                 </div>
-                <button type="submit" class="btn btn--primary btn--full">{% trans "Upload &amp; Preview Mapping" %}</button>
+                <button type="submit" class="btn btn--primary btn--full">{% trans "Upload & Preview Mapping" %}</button>
             </form>
         </div>
     </div>
@@ -37,12 +34,12 @@
         <div class="card__body text-sm text-secondary">
             {% trans "Recognised columns (loose names are fine):" %}
             <ul style="margin: 0.5rem 0 0 1.2rem;">
-                <li>title, description</li>
-                <li>cost_min, cost_max (monthly rent)</li>
-                <li>size_sqft, lease_duration</li>
-                <li>postal_code, contact_number</li>
-                <li>price_display (exact / on request)</li>
-                <li>grease_trap_fee, dishwashing_cost, footfall_estimate</li>
+                <li>{{ import_field_labels.title }}, {{ import_field_labels.description }}</li>
+                <li>{{ import_field_labels.cost_min }}, {{ import_field_labels.cost_max }}</li>
+                <li>{{ import_field_labels.size_sqft }}, {{ import_field_labels.lease_duration }}</li>
+                <li>{{ import_field_labels.postal_code }}, {{ import_field_labels.contact_number }}</li>
+                <li>{{ import_field_labels.price_display }} ({% trans "exact or on request" %})</li>
+                <li>{{ import_field_labels.grease_trap_fee }}, {{ import_field_labels.dishwashing_cost }}, {{ import_field_labels.footfall_estimate }}</li>
             </ul>
             <p class="mt-1" style="margin-bottom: 0;">
                 {% trans "Photos are not included in CSV uploads — after importing, add photos to each listing from My Listings → Edit." %}

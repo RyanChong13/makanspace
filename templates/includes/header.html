@@ -8,7 +8,7 @@
     </a>
 
     <!-- Hamburger button (mobile only, hidden above 640px) -->
-    <button class="bh-header__hamburger" id="mobile-menu-toggle" type="button" aria-label="Toggle menu">
+    <button class="bh-header__hamburger" id="mobile-menu-toggle" type="button" aria-label="{% trans 'Toggle menu' %}">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="6" x2="21" y2="6"/>
             <line x1="3" y1="12" x2="21" y2="12"/>
@@ -19,7 +19,7 @@
     <nav class="bh-header__nav" id="header-nav">
         <!-- Language selector -->
         <div class="lang-selector">
-            <button class="lang-selector__trigger" type="button" aria-label="Select language">
+            <button class="lang-selector__trigger" type="button" aria-label="{% trans 'Select language' %}">
                 {{ current_language_display|default:"EN" }}
                 <span style="font-size: 0.7rem;">&#9660;</span>
             </button>

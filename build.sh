@@ -13,3 +13,6 @@ python manage.py collectstatic --no-input
 
 # Compile translation files (.po -> .mo)
 python build_translations.py
+
+# Report untranslated strings (warn only; never fail the Render deploy)
+python scripts/check_translations.py || true

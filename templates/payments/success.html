@@ -1,17 +1,18 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Payment Successful — MakanSpace{% endblock %}
+{% block title %}{% trans "Payment Successful" %} — MakanSpace{% endblock %}
 
 {% block content %}
 <div class="text-center" style="padding: 3rem 1rem;">
     <div style="font-size: 3rem; margin-bottom: 1rem;">&#10003;</div>
-    <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Payment Successful!</h1>
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.5rem;">{% trans "Payment Successful!" %}</h1>
     <p class="text-secondary mb-2">
-        Your listing has been boosted and will now appear at the top of search results.
+        {% trans "Your listing has been boosted and will now appear at the top of search results." %}
     </p>
     {% if listing_code %}
     <a href="{% url 'listings:listing_detail' listing_code %}" class="btn btn--primary">
-        View Your Boosted Listing
+        {% trans "View Your Boosted Listing" %}
     </a>
     {% endif %}
 </div>

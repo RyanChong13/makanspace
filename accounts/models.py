@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 LANG_CHOICES = [
@@ -10,12 +11,12 @@ LANG_CHOICES = [
 ]
 
 REGION_CHOICES = [
-    ("north", "North"),
-    ("south", "South"),
-    ("east", "East"),
-    ("west", "West"),
-    ("central", "Central"),
-    ("north-east", "North-East"),
+    ("north", _("North")),
+    ("south", _("South")),
+    ("east", _("East")),
+    ("west", _("West")),
+    ("central", _("Central")),
+    ("north-east", _("North-East")),
 ]
 
 
@@ -28,33 +29,33 @@ class Company(models.Model):
     """
 
     class Status(models.TextChoices):
-        PENDING = "pending_verification", "Pending Verification"
-        VERIFIED = "verified", "Verified"
-        REJECTED = "rejected", "Rejected"
+        PENDING = "pending_verification", _("Pending Verification")
+        VERIFIED = "verified", _("Verified")
+        REJECTED = "rejected", _("Rejected")
 
-    name = models.CharField(max_length=200, help_text="Company legal name.")
+    name = models.CharField(max_length=200, help_text=_("Company legal name."))
     uen = models.CharField(
         max_length=50,
         unique=True,
-        help_text="Unique Entity Number (ACRA business registration).",
+        help_text=_("Unique Entity Number (ACRA business registration)."),
     )
     region = models.CharField(
         max_length=20,
         choices=REGION_CHOICES,
         blank=True,
-        help_text="Primary operating region (matches landlord leasing-team structures).",
+        help_text=_("Primary operating region (matches landlord leasing-team structures)."),
     )
     whatsapp_number = models.CharField(
         max_length=20,
         blank=True,
-        help_text="Company WhatsApp number for the Connect via WhatsApp button (with country code, e.g. +65).",
+        help_text=_("Company WhatsApp number for the Connect via WhatsApp button (with country code, e.g. +65)."),
     )
     is_business_verified = models.BooleanField(default=False)
     business_reg_doc = models.FileField(
         upload_to="company_docs/",
         blank=True,
         null=True,
-        help_text="ACRA/UEN business registration proof (PDF or image).",
+        help_text=_("ACRA/UEN business registration proof (PDF or image)."),
     )
     status = models.CharField(
         max_length=25,
@@ -73,7 +74,7 @@ class Company(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="referrals",
-        help_text="Company that referred this company at signup (optional).",
+        help_text=_("Company that referred this company at signup (optional)."),
     )
 
     # Automated ACRA UEN lookup results (data.gov.sg, advisory only — never
@@ -152,8 +153,8 @@ class User(AbstractUser):
     """Custom user model for MakanSpace B2B marketplace."""
 
     class Role(models.TextChoices):
-        LEASING_MANAGER = "leasing_manager", "Leasing Manager"
-        ADMIN = "admin", "Admin"
+        LEASING_MANAGER = "leasing_manager", _("Leasing Manager")
+        ADMIN = "admin", _("Admin")
 
     class AuthProvider(models.TextChoices):
         EMAIL = "email", "Email"
@@ -181,7 +182,7 @@ class User(AbstractUser):
         null=True,
         blank=True,
         related_name="users",
-        help_text="Company this user belongs to (leasing managers only).",
+        help_text=_("Company this user belongs to (leasing managers only)."),
     )
 
     # Dashboard access (spec 7a): separate from is_staff so co-creators

@@ -27,19 +27,19 @@
             {% if post.whatsapp_url %}
             <a href="{{ post.whatsapp_url }}" target="_blank" rel="noopener"
                class="btn btn--whatsapp btn--sm">
-                💬 {% trans "Reply on WhatsApp" %}
+                <i data-lucide="message-circle" style="width:14px;height:14px;vertical-align:middle;"></i> {% trans "Reply on WhatsApp" %}
             </a>
             {% endif %}
         </div>
         <div class="text-sm mt-1" style="display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem;">
             {% if post.preferred_town %}
-            <span>📍 {{ post.preferred_town }}{% if post.preferred_district %} ({{ post.preferred_district }}){% endif %}</span>
+            <span><i data-lucide="map-pin" style="width:14px;height:14px;vertical-align:middle;"></i> {{ post.preferred_town }}{% if post.preferred_district %} ({{ post.preferred_district }}){% endif %}</span>
             {% elif post.preferred_district %}
-            <span>📍 {{ post.preferred_district }}</span>
+            <span><i data-lucide="map-pin" style="width:14px;height:14px;vertical-align:middle;"></i> {{ post.preferred_district }}</span>
             {% endif %}
-            {% if post.cuisine_type %}<span>🍜 {{ post.cuisine_type }}</span>{% endif %}
-            {% if post.budget_display %}<span>💰 {{ post.budget_display }}</span>{% endif %}
-            {% if post.lease_duration %}<span>📅 {{ post.get_lease_duration_display }}</span>{% endif %}
+            {% if post.cuisine_type %}<span><i data-lucide="utensils" style="width:14px;height:14px;vertical-align:middle;"></i> {{ post.cuisine_type }}</span>{% endif %}
+            {% if post.budget_display %}<span><i data-lucide="banknote" style="width:14px;height:14px;vertical-align:middle;"></i> {{ post.budget_display }}</span>{% endif %}
+            {% if post.lease_duration %}<span><i data-lucide="calendar-days" style="width:14px;height:14px;vertical-align:middle;"></i> {{ post.get_lease_duration_display }}</span>{% endif %}
         </div>
     </div>
     {% empty %}

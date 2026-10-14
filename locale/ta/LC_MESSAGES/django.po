@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MakanSpace VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-28 00:24+0800\n"
+"POT-Creation-Date: 2026-10-14 00:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ta\n"
@@ -19,14 +19,137 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
+#, python-format
+msgid "$%(fee)s/mo"
+msgstr "$%(fee)s/மாதம்"
+
+#, python-format
+msgid "%(clicks)s person asked about your stalls this week"
+msgid_plural "%(clicks)s people asked about your stalls this week"
+msgstr[0] "இந்த வாரம் உங்கள் கடைகள் குறித்து %(clicks)s நபர் கேட்டார்"
+msgstr[1] "இந்த வாரம் உங்கள் கடைகள் குறித்து %(clicks)s நபர்கள் கேட்டனர்"
+
+#, python-format
+msgid "%(count)s stall found"
+msgid_plural "%(count)s stalls found"
+msgstr[0] "%(count)s கடை காணப்பட்டது"
+msgstr[1] "%(count)s கடைகள் காணப்பட்டன"
+
+#, python-format
+msgid "%(listing_count)s hawker stall available for rent"
+msgid_plural "%(listing_count)s hawker stalls available for rent"
+msgstr[0] "வாடகைக்கு %(listing_count)s ஹாக்கர் கடை கிடைக்கிறது"
+msgstr[1] "வாடகைக்கு %(listing_count)s ஹாக்கர் கடைகள் கிடைக்கின்றன"
+
+#, python-format
+msgid "%(listing_count)s stall available"
+msgid_plural "%(listing_count)s stalls available"
+msgstr[0] "%(listing_count)s கடை கிடைக்கிறது"
+msgstr[1] "%(listing_count)s கடைகள் கிடைக்கின்றன"
+
+#, python-format
+msgid "%(min)s–%(max)s/mo"
+msgstr "%(min)s–%(max)s/மாதம்"
+
+#, python-format
+msgid "%(n)d min walk to %(station)s"
+msgstr "%(station)s-க்கு நடைத்தில் %(n)d நிமிடம்"
+
+#, python-format
+msgid "%(n)s listing"
+msgid_plural "%(n)s listings"
+msgstr[0] "%(n)s கடை பட்டியல்"
+msgstr[1] "%(n)s கடை பட்டியல்கள்"
+
+#, python-format
+msgid "%(n)s listing created and is now live."
+msgid_plural "%(n)s listings created and are now live."
+msgstr[0] "%(n)s பட்டியல் உருவாக்கப்பட்டு இப்போது வெளியிடப்பட்டது."
+msgstr[1] "%(n)s பட்டியல்கள் உருவாக்கப்பட்டு இப்போது வெளியிடப்பட்டன."
+
+#, python-format
+msgid "%(n)s stall matching your search."
+msgid_plural "%(n)s stalls matching your search."
+msgstr[0] "உங்கள் தேடலுக்கு %(n)s கடை பொருந்தியது."
+msgstr[1] "உங்கள் தேடலுக்கு %(n)s கடைகள் பொருந்தியுள்ளன."
+
+#, python-format
+msgid "%(price)s/mo"
+msgstr "%(price)s/மாதம்"
+
+#, python-format
+msgid "%(size)s sqft"
+msgstr "%(size)s சதுர அடி"
+
 msgid "1 to 2 years"
 msgstr "1 முதல் 2 ஆண்டுகள்"
+
+msgid "200–400 sqft"
+msgstr "200–400 சதுர அடி"
+
+msgid "400+ sqft"
+msgstr "400+ சதுர அடி"
 
 msgid "6 to 12 months"
 msgstr "6 முதல் 12 மாதங்கள்"
 
+msgid "6-digit Singapore postal code. Location will be auto-geocoded."
+msgstr "6-இலக்க சிங்கப்பூர் அஞ்சல் குறியீடு. இடம் தானாக ஜியோகோட் செய்யப்படும்."
+
+msgid "<200 sqft"
+msgstr "<200 சதுர அடி"
+
+msgid "A company with this UEN is already registered."
+msgstr "இந்த UEN-உடன் நிறுவனம் ஏற்கனவே பதிவு செய்யப்பட்டுள்ளது."
+
+msgid "ACRA/UEN business registration proof (PDF or image)."
+msgstr "ACRA/UEN வணிக பதிவு ஆதாரம் (PDF அல்லது படம்)."
+
+msgid "AI search is not configured yet."
+msgstr "AI தேடல் இன்னும் அமைக்கப்படவில்லை."
+
+msgid "AI search returned an unexpected response."
+msgstr "AI தேடல் எதிர்பார்க்கப்படாத பதிலை வழங்கியது."
+
+msgid "About"
+msgstr "எங்களைப் பற்றி"
+
+msgid "Account"
+msgstr "கணக்கு"
+
 msgid "Account Settings"
 msgstr "கணக்கு அமைப்புகள்"
+
+msgid "Add Photo"
+msgstr "படம் சேர்"
+
+#, python-format
+msgid ""
+"Add a colleague to your company (%(name)s). They'll be able to create and"
+" manage listings."
+msgstr ""
+"உங்கள் நிறுவனத்திற்கு (%(name)s) ஒரு சக ஊழியரை சேர்க்கவும். அவர்கள் "
+"பட்டியல்களை உருவாக்கி நிர்வகிக்கலாம்."
+
+msgid "Add a quick reply"
+msgstr "விரைவு பதிலை சேர்"
+
+msgid "Additional details"
+msgstr "கூடுதல் விவரங்கள்"
+
+msgid "Admin"
+msgstr "நிர்வாகி"
+
+msgid "All"
+msgstr "அனைத்தும்"
+
+msgid "All landlords are ACRA-verified before listing."
+msgstr ""
+"பட்டியலிடும் முன் அனைத்து நிலஉரிமையாளர்களும் ACRA-ஆல் "
+"சரிபார்க்கப்படுகிறார்."
+
+msgid "All rights reserved."
+msgstr "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
 
 msgid "Already have an account?"
 msgstr "ஏற்கனவே கணக்கு உள்ளதா?"
@@ -34,26 +157,87 @@ msgstr "ஏற்கனவே கணக்கு உள்ளதா?"
 msgid "Amenities"
 msgstr "வசதிகள்"
 
+msgid "An account with this email already exists."
+msgstr "இந்த மின்னஞ்சலுடன் கணக்கு ஏற்கனவே உள்ளது."
+
+msgid "Analytics"
+msgstr "பகுப்பாய்வு"
+
+msgid "Any cost"
+msgstr "எந்த செலவும்"
+
 msgid "Any distance"
 msgstr "எந்த தூரமும்"
 
 msgid "Any duration"
 msgstr "எந்த காலமும்"
 
-msgid "Apply Now"
-msgstr "இப்போது விண்ணப்பி"
+msgid "Any location"
+msgstr "எந்த இடமும்"
 
-msgid "Available Tasting / Viewing Slots"
-msgstr "கிடைக்கும் சுவைப்பு / பார்வை நேரங்கள்"
+msgid "Any size"
+msgstr "எந்த அளவும்"
+
+msgid "Are you sure you want to sign out?"
+msgstr "உறுதியாக வெளியேற வேண்டுமா?"
+
+msgid "Back to Account Settings"
+msgstr "கணக்கு அமைப்புகளுக்கு திரும்பு"
+
+msgid "Back to Sign In"
+msgstr "உள்நுழைவுக்கு திரும்பு"
+
+msgid "Back to listing"
+msgstr "பட்டியலுக்கு திரும்பு"
 
 msgid "Back to listings"
 msgstr "பட்டியலுக்கு திரும்பு"
 
-msgid "Boost this Listing"
-msgstr "இந்த பட்டியலை ஊக்குவி"
+#, python-format
+msgid ""
+"Blocked: '%(name)s' is an NEA Direct-managed centre, so it cannot be "
+"listed on MakanSpace. %(reason)s"
+msgstr ""
+"தடுக்கப்பட்டது: '%(name)s' என்பது NEA நேரடியாக நிர்வகிக்கும் மையம், எனவே "
+"அதை MakanSpace-இல் பட்டியலிட முடியாது. %(reason)s"
+
+msgid "Both a label and a message are required."
+msgstr "லேபிள் மற்றும் செய்தி இரண்டும் தேவை."
 
 msgid "Browse Hawker Stalls"
 msgstr "ஹாக்கர் கடைகளை உலாவு"
+
+msgid "Browse Stalls"
+msgstr "கடைகளை உலாவு"
+
+msgid "Browse all listings"
+msgstr "அனைத்து பட்டியல்களையும் உலாவு"
+
+msgid "Browse in English, Chinese, Tamil, or Malay."
+msgstr "ஆங்கிலம், சீனம், தமிழ் அல்லது மலாய் ஆகியவற்றில் உலாவுங்கள்."
+
+msgid "Browse verified hawker and coffee-shop stalls for rent across Singapore."
+msgstr ""
+"சிங்கப்பூர் முழுவதும் சரிபார்க்கப்பட்ட ஹாக்கர் மற்றும் காபிஸ்டால் கடைகளை "
+"வாடகைக்கு உலாவுங்கள்."
+
+msgid "Budget From ($/mo)"
+msgstr "பட்ஜெட் தொடக்கம் ($/மாதம்)"
+
+msgid "Budget Up To ($/mo)"
+msgstr "பட்ஜெட் அதிகபட்சம் ($/மாதம்)"
+
+msgid "Bulk Upload"
+msgstr "மொத்த பதிவேற்றம்"
+
+msgid "Bulk Upload CSV"
+msgstr "CSV மொத்த பதிவேற்றம்"
+
+msgid "Bulk Upload Stalls"
+msgstr "கடைகளை மொத்தமாக பதிவேற்று"
+
+msgid "Bulk Upload Stalls (CSV)"
+msgstr "கடைகளை மொத்தமாக பதிவேற்று (CSV)"
 
 msgid "Business Registration Document"
 msgstr "வணிக பதிவு ஆவணம்"
@@ -61,11 +245,93 @@ msgstr "வணிக பதிவு ஆவணம்"
 msgid "Business verified"
 msgstr "வணிகம் சரிபார்க்கப்பட்டது"
 
-msgid "Clear all filters"
-msgstr "அனைத்து வடிகட்டிகளையும் அழி"
+msgid "CSV File"
+msgstr "CSV கோப்பு"
+
+msgid "CSV column"
+msgstr "CSV நிரல்"
+
+msgid "CSV file is too large (maximum 2MB)."
+msgstr "CSV கோப்பு பெரியது (அதிகபட்சம் 2MB)."
+
+#, python-format
+msgid "CSV has too many rows (maximum %(max)s)."
+msgstr "CSV-இல் வரிகள் அதிகம் (அதிகபட்சம் %(max)s)."
+
+msgid "CSV must be UTF-8 encoded."
+msgstr "CSV UTF-8 ஆக்கவத்தில் இருக்க வேண்டும்."
+
+msgid "CSV row"
+msgstr "CSV வரிசை"
+
+msgid "Cancel"
+msgstr "ரத்து"
+
+msgid "Central"
+msgstr "மத்திய"
+
+msgid "Change Password"
+msgstr "கடவுச்சொல்லை மாற்று"
+
+msgid "Choose a username"
+msgstr "பயனர் பெயரை தேர்ந்தெடுக்கவும்"
+
+msgid "Clear all"
+msgstr "அனைத்தையும் அழி"
+
+#, python-format
+msgid ""
+"Company '%(name)s' registered. Your account is pending business "
+"verification by our admin team."
+msgstr ""
+"நிறுவனம் '%(name)s' பதிவு செய்யப்பட்டது. உங்கள் கணக்கு நிர்வாக குழுவால் "
+"வணிக சரிபார்ப்புக்கு காத்திருக்கிறது."
 
 msgid "Company Legal Name"
 msgstr "நிறுவன சட்டபூர்வ பெயர்"
+
+msgid ""
+"Company WhatsApp number for the Connect via WhatsApp button (with country"
+" code, e.g. +65)."
+msgstr ""
+"'WhatsApp மூலம் தொடர்பு கொள்' பொத்தானுக்கு பயன்படும் நிறுவன WhatsApp எண் "
+"(நாட்டு குறியீட்டுடன், எ.கா. +65)."
+
+msgid "Company legal name."
+msgstr "நிறுவனத்தின் சட்டபூர்வ பெயர்."
+
+msgid "Company that referred this company at signup (optional)."
+msgstr "பதிவின்போது இந்த நிறுவனத்தை பரிந்துரைத்த நிறுவனம் (விருப்பம்)."
+
+msgid "Company this user belongs to (leasing managers only)."
+msgstr "இந்த பயனர் சேர்ந்த நிறுவனம் (குத்தகை மேலாளர்களுக்கு மட்டும்)."
+
+msgid "Compliant by Design"
+msgstr "வடிவமைப்பிலேயே இணக்கம்"
+
+msgid "Confirm Column Mapping"
+msgstr "நிரல் பொருத்தத்தை உறுதிப்படுத்து"
+
+msgid "Confirm New Password"
+msgstr "புதிய கடவுச்சொல்லை உறுதிப்படுத்து"
+
+msgid "Confirm Password"
+msgstr "கடவுச்சொல்லை உறுதிப்படுத்து"
+
+msgid "Confirm new password"
+msgstr "புதிய கடவுச்சொல்லை உறுதிப்படுத்து"
+
+msgid "Confirm password"
+msgstr "கடவுச்சொல்லை உறுதிப்படுத்து"
+
+msgid "Confirm your password"
+msgstr "உங்கள் கடவுச்சொல்லை உறுதிப்படுத்தவும்"
+
+msgid "Connect Directly"
+msgstr "நேரடியாக தொடர்பு"
+
+msgid "Connect via WhatsApp"
+msgstr "WhatsApp மூலம் தொடர்பு கொள்"
 
 msgid ""
 "Connecting hawker companies with aspiring hawkers across Singapore. Only "
@@ -77,25 +343,130 @@ msgstr ""
 "விலக்கப்பட்டுள்ளன — தனியார் காபி கடைகள், உணவு மண்டபங்கள் மற்றும் "
 "நியமிக்கப்பட்ட இயக்குநர் ஹாக்கர் மையங்கள் வரவேற்கப்படுகின்றன."
 
-msgid "Connecting hawker stall owners with prospective hawkers across Singapore."
-msgstr ""
-"சிங்கப்பூர் முழுவதும் ஹாக்கர் கடை உரிமையாளர்களை எதிர்கால ஹாக்கர்களுடன் "
-"இணைக்கிறது."
+msgid "Contact"
+msgstr "தொடர்பு"
 
-msgid "Cost Range (SGD/month)"
-msgstr "விலை வரம்பு (SGD/மாதம்)"
+msgid "Contact landlords instantly via WhatsApp — no middlemen, no agent fees."
+msgstr ""
+"WhatsApp மூலம் நிலஉரிமையாளர்களுடன் உடனடியாக பேசுங்கள் — இடைத்தரகர் இல்லை,"
+" முக்கியஸ்தர் கட்டணம் இல்லை."
+
+msgid "Contact unavailable"
+msgstr "தொடர்பு சாத்தியமில்லை"
+
+msgid "Copied!"
+msgstr "நகலெடுக்கப்பட்டது!"
+
+msgid "Copy"
+msgstr "நகலெடு"
+
+msgid "Cost Range"
+msgstr "விலை வரம்பு"
+
+msgid "Create Account"
+msgstr "கணக்கை உருவாக்கு"
+
+msgid "Create Your Account"
+msgstr "உங்கள் கணக்கை உருவாக்குங்கள்"
+
+msgid "Create a password"
+msgstr "கடவுச்சொல்லை உருவாக்கு"
+
+msgid "Create an account to manage your company's stalls"
+msgstr "உங்கள் நிறுவனத்தின் கடைகளை நிர்வகிக்க கணக்கை உருவாக்குங்கள்"
+
+msgid "Cuisine Type"
+msgstr "உணவு வகை"
+
+msgid "Current Password"
+msgstr "தற்போதைய கடவுச்சொல்"
+
+msgid "Dashboard"
+msgstr "முகப்புப் பலகை"
+
+msgid "Delete"
+msgstr "நீக்கு"
+
+msgid "Delete Listing"
+msgstr "பட்டியலை நீக்கு"
+
+msgid "Delete this listing?"
+msgstr "இந்த பட்டியலை நீக்க வேண்டுமா?"
+
+msgid ""
+"Describe your stall — location highlights, foot traffic, what makes it "
+"special..."
+msgstr ""
+"உங்கள் கடையை விவரிக்கவும் — இட சிறப்புகள், தினசரி வருகை, அதை "
+"சிறப்பானதாக்குவது..."
 
 msgid "Description"
 msgstr "விவரம்"
 
+msgid "Direct WhatsApp Contact"
+msgstr "நேரடி WhatsApp தொடர்பு"
+
 msgid "Dishwashing Cost"
 msgstr "பாத்திரம் கழுவும் செலவு"
+
+msgid "Dishwashing Cost ($/mo)"
+msgstr "பாத்திரம் கழுவும் செலவு ($/மாதம்)"
+
+msgid "Don't have an account?"
+msgstr "கணக்கு இல்லையா?"
+
+msgid "East"
+msgstr "கிழக்கு"
+
+msgid "Edit"
+msgstr "திருத்து"
+
+#, python-format
+msgid "Edit %(title)s"
+msgstr "%(title)s ஐத் திருத்து"
 
 msgid "Edit Listing"
 msgstr "பட்டியலைத் திருத்து"
 
+msgid "Edit Your Listing"
+msgstr "உங்கள் பட்டியலைத் திருத்துங்கள்"
+
+msgid "Email Address"
+msgstr "மின்னஞ்சல் முகவரி"
+
+msgid "Email or Username"
+msgstr "மின்னஞ்சல் அல்லது பயனர் பெயர்"
+
+msgid "Enter 8 digits (e.g. 91234567) or with country code (e.g. +65 9123 4567)"
+msgstr ""
+"8 இலக்கங்களை உள்ளிடவும் (எ.கா. 91234567) அல்லது நாட்டு குறியீட்டுடன் "
+"(எ.கா. +65 9123 4567)"
+
+msgid "Enter current password"
+msgstr "தற்போதைய கடவுச்சொல்லை உள்ளிடவும்"
+
+msgid "Enter new password"
+msgstr "புதிய கடவுச்சொல்லை உள்ளிடவும்"
+
+msgid "Enter your email and we'll send you a reset link."
+msgstr "உங்கள் மின்னஞ்சலை உள்ளிடவும், மீட்டமைப்பு இணைப்பை அனுப்புகிறோம்."
+
 msgid "Est. Daily Footfall"
 msgstr "மதிப்பிடப்பட்ட தினசரி காலடி"
+
+msgid "Estimated Daily Footfall"
+msgstr "மதிப்பிடப்பட்ட தினசரி காலடி"
+
+msgid "Exact price"
+msgstr "துல்லியமான விலை"
+
+msgid ""
+"Exact pricing helps hawkers compare stalls quickly. Only choose 'Rental "
+"on request' if your pricing truly needs to be discussed privately."
+msgstr ""
+"துல்லியமான விலை ஹாக்கர்களுக்கு கடைகளை விரைவாக ஒப்பிட உதவுகிறது. விலையை "
+"தனியாக பேச வேண்டுமென்றால் மட்டுமே 'வாடகை பேச்சுவார்த்தைக்கு' என்பதை "
+"தேர்ந்தெடுக்கவும்."
 
 msgid "F&B Operational Costs"
 msgstr "உணவு மற்றும் பானம் செயல்பாட்டு செலவுகள்"
@@ -103,27 +474,75 @@ msgstr "உணவு மற்றும் பானம் செயல்பா
 msgid "F&B Operational Costs (optional)"
 msgstr "உணவு செயல்பாட்டு செலவுகள் (விருப்பம்)"
 
-msgid "FEATURED"
+msgid "FAQ"
+msgstr "அடிக்கடி கேட்கப்படும் கேள்விகள்"
+
+msgid "Featured"
 msgstr "சிறப்பு"
 
-msgid "Featured first"
-msgstr "சிறப்பு முதலில்"
+msgid ""
+"Fill in your stall details. Your listing goes live immediately and may be"
+" reviewed afterwards."
+msgstr ""
+"உங்கள் கடை விவரங்களை நிரப்பவும். உங்கள் பட்டியல் உடனடியாக வெளியிடப்படும்,"
+" பின்னர் எங்கள் குழு மதிப்பாய்வு செய்யலாம்."
+
+msgid "Find"
+msgstr "கண்டுபிடி"
 
 msgid ""
-"Fill in your stall details. Your listing will be reviewed by our team "
-"before going live."
+"Find trusted suppliers for your hawker business — kitchen equipment, "
+"furniture, and raw food ingredients."
 msgstr ""
-"உங்கள் கடை விவரங்களை நிரப்பவும். நேரலையாகும் முன் எங்கள் குழு மதிப்பாய்வு"
-" செய்யும்."
+"உங்கள் ஹாக்கர் வணிகத்திற்கு நம்பகமான விநியோகஸ்தர்களை கண்டறியுங்கள் — "
+"சமையலறை உபகரணங்கள், தளபாடங்கள், மூல உணவுப் பொருட்கள்."
+
+msgid "Find your next hawker stall"
+msgstr "உங்கள் அடுத்த ஹாக்கர் கடையை கண்டறியுங்கள்"
 
 msgid "First Name"
 msgstr "முதல் பெயர்"
 
+msgid "First name"
+msgstr "முதல் பெயர்"
+
+msgid "For Companies"
+msgstr "நிறுவனங்களுக்கு"
+
+msgid "For Hawkers"
+msgstr "ஹாக்கர்களுக்கு"
+
+msgid "For WhatsApp contact. Include country code, e.g. +65 9123 4567"
+msgstr "WhatsApp தொடர்புக்கு. நாட்டு குறியீட்டை சேர்க்கவும், எ.கா. +65 9123 4567"
+
+msgid "Forgot Password"
+msgstr "கடவுச்சொல்லை மறந்துவிட்டீர்களா"
+
+msgid "Forgot password?"
+msgstr "கடவுச்சொல்லை மறந்துவிட்டீர்களா?"
+
+#, python-format
+msgid "Found %(n)s match(es):"
+msgstr "%(n)s பொருத்தம் காணப்பட்டது:"
+
+msgid "Furniture"
+msgstr "தளபாடங்கள்"
+
+msgid "Get Discovered"
+msgstr "கண்டறியப்படுங்கள்"
+
+msgid "Go to My Listings"
+msgstr "என் பட்டியல்களுக்குச் செல்"
+
 msgid "Grease Trap Fee"
 msgstr "கொழுப்பு பொறி கட்டணம்"
 
-msgid "Grease trap"
-msgstr "கொழுப்பு பொறி"
+msgid "Grease Trap Fee ($/mo)"
+msgstr "கொழுப்பு பொறி கட்டணம் ($/மாதம்)"
+
+#, python-format
+msgid "Grease trap: $%(fee)s/mo"
+msgstr "கொழுப்பு பொறி: $%(fee)s/மாதம்"
 
 msgid "Has Grease Trap"
 msgstr "கொழுப்பு பொறி உள்ளது"
@@ -131,20 +550,175 @@ msgstr "கொழுப்பு பொறி உள்ளது"
 msgid "Hawker Stalls for Rent"
 msgstr "வாடகைக்கு ஹாக்கர் கடைகள்"
 
+msgid ""
+"Hawkers browse verified stalls by area, price, and amenities — no account"
+" needed."
+msgstr ""
+"ஹாக்கர்கள் பகுதி, விலை, வசதிகள் அடிப்படையில் சரிபார்க்கப்பட்ட கடைகளை "
+"உலாவுகிறார்கள் — கணக்கு தேவையில்லை."
+
+msgid ""
+"Hawkers looking for a stall. Reply directly on WhatsApp if one of your "
+"spaces fits."
+msgstr ""
+"கடை தேடும் ஹாக்கர்கள். உங்கள் இடம் பொருந்தினால் WhatsApp-ல் நேரடியாக "
+"பதிலுங்கள்."
+
+msgid ""
+"Hi! Describe the hawker stall you're looking for — I'll find matches for "
+"you."
+msgstr ""
+"வணக்கம்! நீங்கள் தேடும் ஹாக்கர் கடையை விவரிக்கவும் — நான் பொருந்துவற்றை "
+"கண்டறிவேன்."
+
+msgid "Home"
+msgstr "முகப்பு"
+
+msgid "How It Works"
+msgstr "எப்படி வேலை செய்கிறது"
+
+msgid ""
+"I confirm none of these stalls are part of an NEA Direct-managed hawker "
+"centre."
+msgstr ""
+"இந்த கடைகள் எதுவும் NEA நேரடியாக நிர்வகிக்கும் ஹாக்கர் மையமாக இல்லை "
+"என்பதை உறுதிப்படுத்துகிறேன்."
+
+msgid "I confirm this stall is NOT part of an NEA Direct-managed hawker centre."
+msgstr ""
+"இந்த கடை NEA நேரடியாக நிர்வகிக்கும் ஹாக்கர் மையமாக இல்லை என்பதை "
+"உறுதிப்படுத்துகிறேன்."
+
+#, python-format
+msgid "Import %(rows)s listing"
+msgid_plural "Import %(rows)s listings"
+msgstr[0] "%(rows)s பட்டியலை இறக்குமதி செய்"
+msgstr[1] "%(rows)s பட்டியல்களை இறக்குமதி செய்"
+
+msgid "Import Complete"
+msgstr "இறக்குமதி முடிந்தது"
+
+msgid "Include country code, e.g. +65 9123 4567"
+msgstr "நாட்டு குறியீட்டை சேர்க்கவும், எ.கா. +65 9123 4567"
+
+msgid "Incorrect information"
+msgstr "தவறான தகவல்"
+
+#, python-format
+msgid "Invalid %(field)s: %(value)s"
+msgstr "தவறான %(field)s: %(value)s"
+
+msgid "Invalid username or password. Please try again."
+msgstr "தவறான பயனர் பெயர் அல்லது கடவுச்சொல். மீண்டும் முயற்சிக்கவும்."
+
+#, python-format
+msgid ""
+"Invitation created for %(email)s. They can sign up using the standard "
+"signup with this email."
+msgstr ""
+"%(email)s-க்கு அழைப்பு உருவாக்கப்பட்டது. அவர்கள் இந்த மின்னஞ்சலை கொண்டு "
+"நிலையான பதிவு மூலம் இணைக்கலாம்."
+
+msgid "Invite Leasing Manager"
+msgstr "குத்தகை மேலாளரை அழைக்கவும்"
+
+msgid "Invite a Leasing Manager"
+msgstr "ஒரு குத்தகை மேலாளரை அழைக்கவும்"
+
+msgid "Jump to code, e.g. BOOTH-A1B2C3 or SG-A1B2C3"
+msgstr "குறியீட்டிற்கு செல்ல, எ.கா. BOOTH-A1B2C3 அல்லது SG-A1B2C3"
+
+msgid "Kitchen Amenities"
+msgstr "சமையலறை வசதிகள்"
+
+msgid "Label, e.g. Still available"
+msgstr "லேபிள், எ.கா. இனும் கிடைக்கிறது"
+
+msgid ""
+"Landlords list vacant hawker stalls with photos, pricing, and location "
+"details."
+msgstr ""
+"நிலஉரிமையாளர்கள் படங்கள், விலை, இட விவரங்களுடன் காலி கடைகளை "
+"பட்டியலிடுகிறார்கள்."
+
+msgid "Landlords will reply to you here. Include the country code."
+msgstr ""
+"நிலஉரிமையாளர்கள் இங்கே உங்களுக்கு பதில் அனுப்புவார்கள். நாட்டு குறியீட்டை"
+" சேர்க்கவும்."
+
 msgid "Last Name"
 msgstr "குடும்பப் பெயர்"
+
+msgid "Last changed: never"
+msgstr "கடைசி மாற்றம்: இதுவரை இல்லை"
+
+msgid "Last name (optional)"
+msgstr "கடைசி பெயர் (விருப்பம்)"
 
 msgid "Lease Duration"
 msgstr "குத்தகை காலம்"
 
+msgid "Leasing Manager"
+msgstr "குத்தகை மேலாளர்"
+
 msgid "Less than 6 months"
 msgstr "6 மாதங்களுக்கும் குறைவு"
 
-msgid "List"
-msgstr "பட்டியல்"
+msgid "Link copied!"
+msgstr "இணைப்பு நகலெடுக்கப்பட்டது!"
+
+#, python-format
+msgid "Listed %(n)s day ago"
+msgid_plural "Listed %(n)s days ago"
+msgstr[0] "%(n)s நாள் முன் பட்டியலிடப்பட்டது"
+msgstr[1] "%(n)s நாட்கள் முன் பட்டியலிடப்பட்டது"
+
+#, python-format
+msgid "Listed %(n)s hour ago"
+msgid_plural "Listed %(n)s hours ago"
+msgstr[0] "%(n)s மணி நேரம் முன் பட்டியலிடப்பட்டது"
+msgstr[1] "%(n)s மணி நேரம் முன் பட்டியலிடப்பட்டது"
+
+#, python-format
+msgid "Listed %(n)s minute ago"
+msgid_plural "Listed %(n)s minutes ago"
+msgstr[0] "%(n)s நிமிடம் முன் பட்டியலிடப்பட்டது"
+msgstr[1] "%(n)s நிமிடங்கள் முன் பட்டியலிடப்பட்டது"
+
+#, python-format
+msgid "Listed %(n)s month ago"
+msgid_plural "Listed %(n)s months ago"
+msgstr[0] "%(n)s மாதம் முன் பட்டியலிடப்பட்டது"
+msgstr[1] "%(n)s மாதங்கள் முன் பட்டியலிடப்பட்டது"
+
+#, python-format
+msgid "Listed %(n)s year ago"
+msgid_plural "Listed %(n)s years ago"
+msgstr[0] "%(n)s ஆண்டு முன் பட்டியலிடப்பட்டது"
+msgstr[1] "%(n)s ஆண்டுகள் முன் பட்டியலிடப்பட்டது"
+
+msgid "Listed just now"
+msgstr "சற்று முன் பட்டியலிடப்பட்டது"
+
+#, python-format
+msgid "Listing '%(title)s' has been permanently deleted."
+msgstr "'%(title)s' பட்டியல் நிரந்தரமாக நீக்கப்பட்டது."
 
 msgid "Listing code"
 msgstr "பட்டியல் குறியீடு"
+
+msgid ""
+"Listing is live. The location could not be auto-cross-checked and has "
+"been flagged for audit."
+msgstr ""
+"பட்டியல் வெளியிடப்பட்டது. இடத்தை தானாக சரிபார்க்க முடியவில்லை, "
+"ஆடிட்டுக்கு குறிக்கப்பட்டது."
+
+msgid "Listing submitted and is now live!"
+msgstr "பட்டியல் சமர்ப்பிக்கப்பட்டு இப்போது வெளியிடப்பட்டது!"
+
+msgid "Location"
+msgstr "இடம்"
 
 msgid "Log In"
 msgstr "உள்நுழை"
@@ -155,17 +729,58 @@ msgstr "வெளியேறு"
 msgid "Log in"
 msgstr "உள்நுழை"
 
+msgid "Login & Security"
+msgstr "உள்நுழைவு & பாதுகாப்பு"
+
+msgid "Looking for a stall?"
+msgstr "கடை தேடுகிறீர்களா?"
+
 msgid "MRT/Bus Distance"
 msgstr "MRT/பேருந்து தூரம்"
 
-msgid "Manage Tasting Slots"
-msgstr "சுவைப்பு நேரங்களை நிர்வகி"
+msgid "MakanSpace Assistant"
+msgstr "MakanSpace உதவியாளர்"
 
-msgid "Map"
-msgstr "வரைபடம்"
+msgid "MakanSpace banner"
+msgstr "MakanSpace பேனர்"
+
+msgid "MakanSpace — Hawker stall rentals in Singapore"
+msgstr "MakanSpace — சிங்கப்பூரில் ஹாக்கர் கடை வாடகை"
+
+msgid "Manage your profile and login details"
+msgstr "உங்கள் சுயவிவரம் மற்றும் உள்நுழைவு விவரங்களை நிர்வகிக்கவும்"
+
+msgid "Maps to"
+msgstr "பொருந்துவது"
 
 msgid "Max Rent (optional)"
 msgstr "அதிகபட்ச வாடகை (விருப்பம்)"
+
+msgid "Maximum budget cannot be less than minimum budget."
+msgstr "அதிகபட்ச பட்ஜெட் குறைந்தபட்ச பட்ஜெட்டை விட குறைவாக இருக்கக்கூடாது."
+
+msgid "Maximum rent cannot be less than minimum rent."
+msgstr "அதிகபட்ச வாடகை குறைந்தபட்ச வாடகையை விட குறைவாக இருக்கக்கூடாது."
+
+#, python-format
+msgid "Member since %(joined)s"
+msgstr "%(joined)s முதல் உறுப்பினர்"
+
+msgid "Message text to copy into WhatsApp"
+msgstr "WhatsApp-ல் ஒட்ட வேண்டிய செய்தி"
+
+msgid "Microphone access was denied."
+msgstr "மைக்ரோஃபோன் அனுமதி மறுக்கப்பட்டது."
+
+msgid "Minimum rent is required when exact pricing is selected."
+msgstr "துல்லியமான விலை தேர்ந்தெடுக்கப்பட்டால் குறைந்தபட்ச வாடகை தேவை."
+
+#, python-format
+msgid "Missing %(field)s"
+msgstr "%(field)s இல்லை"
+
+msgid "Mobile navigation"
+msgstr "மொபைல் வழிசெலுத்தல்"
 
 msgid "Monthly Rent (SGD)"
 msgstr "மாத வாடகை (SGD)"
@@ -173,38 +788,198 @@ msgstr "மாத வாடகை (SGD)"
 msgid "More than 2 years"
 msgstr "2 ஆண்டுகளுக்கு மேல்"
 
-msgid "Nearest MRT/Bus"
-msgstr "அருகில் MRT/பேருந்து"
+msgid "Multi-Language"
+msgstr "பன்மொழி"
+
+msgid "My Company Listings"
+msgstr "என் நிறுவன பட்டியல்கள்"
+
+msgid "My Listings"
+msgstr "என் பட்டியல்கள்"
+
+msgid ""
+"NEA's directly-tendered centres (~32) are excluded from MakanSpace. SEHC "
+"and private centres are fine."
+msgstr ""
+"NEA நேரடியாக டெண்டர் வழங்கும் மையங்கள் (~32) MakanSpace-லிருந்து "
+"விலக்கப்பட்டுள்ளன. SEHC மற்றும் தனியார் மையங்கள் சரி."
+
+msgid "NEA-Direct centres are automatically excluded to protect hawkers."
+msgstr "ஹாக்கர்களை பாதுகாக்க NEA-நேரடி மையங்கள் தானாக விலக்கப்படுகின்றன."
+
+msgid "Nearest Bus Stop"
+msgstr "அருகிலுள்ள பேருந்து நிறுத்தம்"
+
+msgid "Nearest MRT"
+msgstr "அருகிலுள்ள MRT"
+
+msgid "New Password"
+msgstr "புதிய கடவுச்சொல்"
 
 msgid "Newest"
 msgstr "புதியது"
 
+msgid "No WhatsApp contact number is available for this listing."
+msgstr "இந்த பட்டியலுக்கு WhatsApp தொடர்பு எண் இல்லை."
+
+msgid "No audio file provided."
+msgstr "ஒலி கோப்பு வழங்கப்படவில்லை."
+
+#, python-format
+msgid "No listing with code %(code)s found for your company."
+msgstr "%(code)s குறியீட்டுடன் உங்கள் நிறுவனத்திற்கு பட்டியல் இல்லை."
+
+msgid "No listings were created."
+msgstr "எந்த பட்டியலும் உருவாக்கப்படவில்லை."
+
+msgid "No login or contact info required. Your report is anonymous."
+msgstr "உள்நுழைவு அல்லது தொடர்பு விவரம் தேவையில்லை. உங்கள் புகார் அநாமதேயம்."
+
+msgid "No matches found. Try different criteria!"
+msgstr "பொருத்தங்கள் எதுவும் இல்லை. வேறு அளவுகோல்களை முயற்சிக்கவும்!"
+
+msgid "No stall-wanted posts yet. Check back later!"
+msgstr "இன்னும் கடை தேடல் அறிவிப்புகள் இல்லை. பின்னர் பாருங்கள்!"
+
 msgid "No stalls match your filters"
 msgstr "உங்கள் வடிகட்டிகளுக்கு பொருந்தும் கடைகள் இல்லை"
+
+msgid "No suppliers listed yet. Check back soon!"
+msgstr "இன்னும் விநியோகஸ்தர்கள் இல்லை. விரைவில் பாருங்கள்!"
+
+msgid "North"
+msgstr "வடக்கு"
+
+msgid "North-East"
+msgstr "வடகிழக்கு"
+
+msgid "Open filters"
+msgstr "வடிகட்டிகளை திற"
+
+msgid "Optional"
+msgstr "விருப்பம்"
+
+msgid "Optional — enter their company name or UEN."
+msgstr "விருப்பம் — அவர்களின் நிறுவன பெயர் அல்லது UEN-ஐ உள்ளிடவும்."
+
+msgid "Optional: any extra detail that helps us review this listing..."
+msgstr "விருப்பம்: இந்த பட்டியலை மதிப்பாய்வு செய்ய உதவும் கூடுதல் விவரங்கள்..."
+
+msgid "Other"
+msgstr "மற்றவை"
 
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
+msgid "Passwords do not match."
+msgstr "கடவுச்சொற்கள் பொருந்தவில்லை."
+
+msgid "Payment Successful"
+msgstr "கட்டணம் வெற்றி"
+
+msgid "Payment Successful!"
+msgstr "கட்டணம் வெற்றி!"
+
+msgid "Pending Verification"
+msgstr "சரிபார்ப்பு நிலுவை"
+
+msgid "Pending review — not yet visible to the public"
+msgstr "மதிப்பாய்வு நிலுவை — இன்னும் பொதுமக்களுக்கு தெரிவதில்லை"
+
+msgid "Personal Information"
+msgstr "தனிப்பட்ட தகவல்"
+
+msgid "Phone / HP Number"
+msgstr "தொலைபேசி / கைபேசி எண்"
+
 msgid "Phone Number"
 msgstr "தொலைபேசி எண்"
+
+msgid "Photos"
+msgstr "படங்கள்"
 
 msgid "Photos (up to 6)"
 msgstr "படங்கள் (6 வரை)"
 
+msgid "Photos are automatically compressed — just upload, we'll handle the rest."
+msgstr ""
+"படங்கள் தானாக சிறுமாக்கப்படும் — பதிவேற்று, மீதியை நாங்கள் "
+"பார்த்துக்கொள்கிறோம்."
+
+msgid "Photos are automatically compressed. Tap a slot to replace or remove it."
+msgstr "படங்கள் தானாக சிறுமாக்கப்படும். மாற்ற அல்லது நீக்க ஒரு இடத்தை தட்டவும்."
+
+msgid ""
+"Photos are not included in CSV uploads — after importing, add photos to "
+"each listing from My Listings → Edit."
+msgstr ""
+"CSV பதிவேற்றத்தில் படங்கள் இல்லை — இறக்குமதிக்கு பின், என் பட்டியல்கள் → "
+"திருத்து மூலம் ஒவ்வொரு பட்டியலுக்கும் படங்கள் சேர்க்கவும்."
+
+msgid "Please choose a CSV file to upload."
+msgstr "பதிவேற்ற CSV கோப்பை தேர்ந்தெடுக்கவும்."
+
 msgid "Please correct the errors below."
 msgstr "கீழே உள்ள பிழைகளை சரிசெய்யவும்."
+
+msgid ""
+"Please enter a Singapore number: either 8 digits (e.g. 9123 4567) or with"
+" country code (e.g. +65 9123 4567)."
+msgstr ""
+"சிங்கப்பூர் எண்ணை உள்ளிடவும்: 8 இலக்கங்கள் (எ.கா. 9123 4567) அல்லது "
+"நாட்டு குறியீட்டுடன் (எ.கா. +65 9123 4567)."
+
+msgid "Please enter a search query."
+msgstr "தேடல் வாக்கியத்தை உள்ளிடவும்."
+
+msgid "Please enter a valid WhatsApp number with country code."
+msgstr "நாட்டு குறியீட்டுடன் சரியான WhatsApp எண்ணை உள்ளிடவும்."
+
+msgid "Please upload a .csv file."
+msgstr ".csv கோப்பை பதிவேற்றவும்."
 
 msgid "Post Stall"
 msgstr "கடை பதிவிடு"
 
+msgid "Post Stall Wanted Ad"
+msgstr "கடை தேடல் அறிவிப்பை இடு"
+
 msgid "Post Your Hawker Stall"
 msgstr "உங்கள் ஹாக்கர் கடையை பதிவிடுங்கள்"
+
+msgid "Post Your Stall"
+msgstr "உங்கள் கடையை இடுங்கள்"
 
 msgid "Post a Hawker Stall"
 msgstr "ஹாக்கர் கடையை பதிவிடு"
 
+msgid "Post a Stall"
+msgstr "கடையை இடு"
+
+msgid "Post a Stall Wanted Ad"
+msgstr "கடை தேடல் அறிவிப்பை இடுங்கள்"
+
+msgid "Post your first stall"
+msgstr "உங்கள் முதல் கடையை இடுங்கள்"
+
 msgid "Postal Code"
 msgstr "அஞ்சல் குறியீடு"
+
+#, python-format
+msgid "Postal code %(code)s"
+msgstr "அஞ்சல் குறியீடு %(code)s"
+
+msgid "Preferred District"
+msgstr "விருப்ப மாவட்டம்"
+
+msgid "Preferred Town"
+msgstr "விருப்ப நகரம்"
+
+msgid "Preview (first rows)"
+msgstr "முன்னோட்டம் (முதல் வரிகள்)"
+
+msgid "Preview only — not yet visible to the public"
+msgstr "முன்னோட்டம் மட்டும் — இன்னும் பொதுமக்களுக்கு தெரிவதில்லை"
 
 msgid "Price: High to Low"
 msgstr "விலை: அதிகத்திலிருந்து குறைவு"
@@ -212,8 +987,40 @@ msgstr "விலை: அதிகத்திலிருந்து குற
 msgid "Price: Low to High"
 msgstr "விலை: குறைவிலிருந்து அதிகம்"
 
+msgid "Pricing"
+msgstr "விலை"
+
+msgid "Pricing Display"
+msgstr "விலை காட்சி"
+
 msgid "Primary Region"
 msgstr "முதன்மை பகுதி"
+
+msgid "Primary operating region (matches landlord leasing-team structures)."
+msgstr ""
+"முதன்மை செயல்பாட்டு பகுதி (நிலஉரிமையாளர் குத்தகைக் குழு அமைப்புடன் "
+"பொருந்துகிறது)."
+
+msgid "Profile updated successfully."
+msgstr "சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது."
+
+msgid "Quick reply deleted."
+msgstr "விரைவு பதில் நீக்கப்பட்டது."
+
+msgid "Quick reply saved."
+msgstr "விரைவு பதில் சேமிக்கப்பட்டது."
+
+msgid "Raw Food"
+msgstr "மூல உணவு"
+
+msgid "Reason"
+msgstr "காரணம்"
+
+msgid "Reason for report"
+msgstr "புகாருக்கான காரணம்"
+
+msgid "Recognised columns (loose names are fine):"
+msgstr "அங்கீகரிக்கப்பட்ட நிரல்கள் (தளர்வான பெயர்களும் சரி):"
 
 msgid "Register Company"
 msgstr "நிறுவனத்தை பதிவு செய்"
@@ -229,14 +1036,204 @@ msgstr ""
 "சரிபார்க்கப்பட்ட பிறகு, குத்தகை மேலாளர்களை அழைத்து கடை பட்டியல்களை "
 "உருவாக்கலாம்."
 
+msgid "Rejected"
+msgstr "நிராகரிக்கப்பட்டது"
+
+msgid "Remember me"
+msgstr "என்னை நினைவில் கொள்"
+
+msgid "Remove"
+msgstr "அகற்று"
+
+msgid "Rent"
+msgstr "வாடகை"
+
+msgid "Rental on Request"
+msgstr "வாடகை பேச்சுவார்த்தைக்கு"
+
+msgid "Replace"
+msgstr "மாற்று"
+
+msgid "Reply on WhatsApp"
+msgstr "WhatsApp-ல் பதில் அளி"
+
+msgid "Report"
+msgstr "புகாரளி"
+
+msgid "Report Listing"
+msgstr "பட்டியலைப் புகாரளி"
+
+msgid "Report this listing"
+msgstr "இந்த பட்டியலைப் புகாரளி"
+
+msgid "Reset Password"
+msgstr "கடவுச்சொல்லை மீட்டமை"
+
+msgid "Resources"
+msgstr "வளங்கள்"
+
+msgid "Sample values"
+msgstr "மாதிரி மதிப்புகள்"
+
+msgid "Save"
+msgstr "சேமி"
+
+msgid "Save Changes"
+msgstr "மாற்றங்களை சேமி"
+
+msgid ""
+"Save pre-written replies (e.g. 'Yes, still available — when would you "
+"like to view it?') so you can paste them into WhatsApp quickly."
+msgstr ""
+"முன்பே எழுதப்பட்ட பதில்களை சேமிக்கவும் (எ.கா. 'ஆம், இனும் கிடைக்கிறது — "
+"எப்போது பார்க்க விரும்புகிறீர்கள்?') — WhatsApp-ல் விரைவாக ஒட்ட."
+
+msgid "Scam / fake listing"
+msgstr "மோசடி / போலி பட்டியல்"
+
+msgid "Searching..."
+msgstr "தேடுகிறது..."
+
+msgid "Select language"
+msgstr "மொழியை தேர்ந்தெடு"
+
+msgid "Send Invite"
+msgstr "அழைப்பை அனுப்பு"
+
+msgid "Send Reset Link"
+msgstr "மீட்டமைப்பு இணைப்பை அனுப்பு"
+
+msgid "Settings"
+msgstr "அமைப்புகள்"
+
+msgid "Share this listing"
+msgstr "இந்த பட்டியலைப் பகிர்"
+
+msgid "Sign In"
+msgstr "உள்நுழை"
+
+msgid "Sign Out"
+msgstr "வெளியேறு"
+
+msgid "Sign Up"
+msgstr "பதிவு"
+
+msgid "Sign in to manage your landlord company listings"
+msgstr "உங்கள் நிலஉரிமையாளர் நிறுவன பட்டியல்களை நிர்வகிக்க உள்நுழைங்கள்"
+
+msgid "Singapore postal codes must be exactly 6 digits."
+msgstr "சிங்கப்பூர் அஞ்சல் குறியீடு சரியாக 6 இலக்கங்களாக இருக்க வேண்டும்."
+
 msgid "Size"
 msgstr "அளவு"
 
 msgid "Size (sqft)"
 msgstr "அளவு (சதுர அடி)"
 
+msgid "Skipped rows"
+msgstr "தவிர்க்கப்பட்ட வரிகள்"
+
+msgid "Sorry, I couldn't hear that. Please try again."
+msgstr "மன்னிக்கவும், அதை கேட்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
+
+msgid "Sorry, I couldn't process your search right now. Please try again."
+msgstr ""
+"மன்னிக்கவும், உங்கள் தேடலை இப்போது செயலாக்க முடியவில்லை. மீண்டும் "
+"முயற்சிக்கவும்."
+
+msgid "Sorry, something went wrong. Please try again."
+msgstr "மன்னிக்கவும், ஏதோ தவறு நடந்தது. மீண்டும் முயற்சிக்கவும்."
+
+msgid "South"
+msgstr "தெற்கு"
+
+msgid "Speak your search"
+msgstr "தேடலை சொல்லுங்கள்"
+
 msgid "Stall Title"
 msgstr "கடை தலைப்பு"
+
+msgid "Stall Wanted"
+msgstr "கடை தேடல்"
+
+msgid "Stall Wanted Posts"
+msgstr "கடை தேடல் அறிவிப்புகள்"
+
+msgid "Stall wanted posts"
+msgstr "கடை தேடல் அறிவிப்புகள்"
+
+msgid "Start Over"
+msgstr "மீண்டும் தொடங்கு"
+
+msgid "Submit Listing"
+msgstr "பட்டியலை சமர்ப்பி"
+
+msgid "Submit Report"
+msgstr "புகாரை சமர்ப்பி"
+
+msgid "Supplier Directory"
+msgstr "விநியோகஸ்தர் அடைவு"
+
+msgid "Suppliers"
+msgstr "விநியோகஸ்தர்கள்"
+
+msgid "Taken"
+msgstr "எடுத்துக்கப்பட்டது"
+
+msgid "Talk directly to landlords — no in-app messaging barriers."
+msgstr "நிலஉரிமையாளர்களுடன் நேரடியாக பேசுங்கள் — செயலிக்குள் செய்தி தடைகள் இல்லை."
+
+msgid "Tell landlords what you want"
+msgstr "நிலஉரிமையாளர்களுக்கு உங்கள் தேவையை சொல்லுங்கள்"
+
+msgid ""
+"Tell landlords what you're looking for — no account needed. Leasing teams"
+" will contact you directly on WhatsApp."
+msgstr ""
+"நீங்கள் தேடுவதை நிலஉரிமையாளர்களுக்கு சொல்லுங்கள் — கணக்கு தேவையில்லை. "
+"குத்தகைக் குழுக்கள் WhatsApp-ல் நேரடியாக தொடர்பு கொள்வார்கள்."
+
+msgid "Terms"
+msgstr "நியமங்கள்"
+
+msgid ""
+"Thank you — your report has been submitted and the listing has been "
+"flagged for review."
+msgstr ""
+"நன்றி — உங்கள் புகார் சமர்ப்பிக்கப்பட்டது, பட்டியல் மதிப்பாய்வுக்கு "
+"குறிக்கப்பட்டது."
+
+msgid "The CSV needs a header row and at least one data row."
+msgstr "CSV-க்கு தலைப்பு வரிசையும் குறைந்தது ஒரு தரவு வரிசையும் தேவை."
+
+msgid "This company has no available stalls right now. Check back soon!"
+msgstr "இந்த நிறுவனத்திடம் இப்போது காலி கடைகள் இல்லை. பின்னர் பாருங்கள்!"
+
+msgid "This looks like an NEA-managed centre"
+msgstr "இது NEA-ஆல் நிர்வகிக்கப்படும் மையமாக தெரிகிறது"
+
+#, python-format
+msgid ""
+"This will permanently remove the listing and its %(photo_count)s photo. "
+"This cannot be undone."
+msgid_plural ""
+"This will permanently remove the listing and its %(photo_count)s photos. "
+"This cannot be undone."
+msgstr[0] ""
+"இந்த பட்டியலையும் அதன் %(photo_count)s படத்தையும் நிரந்தரமாக நீக்கும். "
+"இதை மீட்டெடுக்க முடியாது."
+msgstr[1] ""
+"இந்த பட்டியலையும் அதன் %(photo_count)s படங்களையும் நிரந்தரமாக நீக்கும். "
+"இதை மீட்டெடுக்க முடியாது."
+
+msgid "Toggle menu"
+msgstr "மெனுவை திற/மூடு"
+
+msgid "Transcribing..."
+msgstr "எழுத்தாக்கம்..."
+
+msgid "Translated by AI"
+msgstr "AI மூலம் மொழிபெயர்க்கப்பட்டது"
 
 msgid "Try broadening your search or clearing some filters."
 msgstr "தேடலை விரிவுபடுத்தவும் அல்லது சில வடிகட்டிகளை அழிக்கவும்."
@@ -244,17 +1241,114 @@ msgstr "தேடலை விரிவுபடுத்தவும் அல�
 msgid "UEN (Business Registration)"
 msgstr "UEN (வணிக பதிவு)"
 
+msgid ""
+"UTF-8, up to 500 rows. Any reasonable column headers work — e.g. 'Stall "
+"Name', 'Rent', 'Size (sqft)'."
+msgstr ""
+"UTF-8, அதிகபட்சம் 500 வரிகள். நியாயமான எந்த நிரல் தலைப்புகளும் "
+"செல்லுபடியாகும் — எ.கா. 'Stall Name', 'Rent', 'Size (sqft)'."
+
+msgid "Unique Entity Number (ACRA business registration)."
+msgstr "தனித்துவ எண் (UEN) — ACRA வணிக பதிவு."
+
+msgid "Unique Entity Number from ACRA."
+msgstr "ACRA-விலிருந்து தனித்துவ எண் (UEN)."
+
+msgid "Update your stall details. Changes go live immediately."
+msgstr "உங்கள் கடை விவரங்களை புதுப்பிக்கவும். மாற்றங்கள் உடனடியாக வெளியிடப்படும்."
+
+msgid "Upload & Preview Mapping"
+msgstr "பதிவேற்றி பொருத்தத்தை முன்னோட்டமிடு"
+
+msgid "Upload ACRA certificate or UEN proof (PDF or image)."
+msgstr "ACRA சான்றிதழ் அல்லது UEN ஆதாரத்தை பதிவேற்றவும் (PDF அல்லது படம்)."
+
+msgid "Upload Another CSV"
+msgstr "மற்றொரு CSV பதிவேற்று"
+
+msgid ""
+"Upload a spreadsheet of your vacant stalls — we'll read the columns for "
+"you and confirm the mapping before creating anything."
+msgstr ""
+"உங்கள் காலி கடைகளின் ஷீட்டை பதிவேற்றுங்கள் — எதுவும் உருவாக்கும் முன் "
+"நிரல்களை நாங்கள் படித்து பொருத்தத்தை உறுதிப்படுத்துவோம்."
+
+msgid "Used for login and notifications."
+msgstr "உள்நுழைவு மற்றும் அறிவிப்புகளுக்கு பயன்படுகிறது."
+
+msgid "Username"
+msgstr "பயனர் பெயர்"
+
 msgid "Verified"
 msgstr "சரிபார்க்கப்பட்டது"
 
-msgid "Verified Landlord"
+msgid "Verified Companies"
+msgstr "சரிபார்க்கப்பட்ட நிறுவனங்கள்"
+
+msgid "Verified landlord"
 msgstr "சரிபார்க்கப்பட்ட நிலஉரிமையாளர்"
 
-msgid "View Applications"
-msgstr "விண்ணப்பங்களைப் பார்"
+msgid "View"
+msgstr "பார்"
+
+msgid "View Your Boosted Listing"
+msgstr "உங்கள் ஊக்குவிக்கப்பட்ட பட்டியலைப் பார்"
+
+msgid "Views"
+msgstr "பார்வைகள்"
+
+msgid "Voice input is not configured yet."
+msgstr "குரல் உள்ளீடு இன்னும் அமைக்கப்படவில்லை."
+
+msgid "Voice input is not supported in this browser."
+msgstr "இந்த உலாவியில் குரல் உள்ளீடு ஆதரிக்கப்படவில்லை."
+
+msgid ""
+"We've matched your spreadsheet's columns to MakanSpace listing fields. "
+"Check each one — nothing is created until you confirm below."
+msgstr ""
+"உங்கள் ஷீட் நிரல்களை MakanSpace பட்டியல் புலங்களுடன் பொருத்தியுள்ளோம். "
+"ஒவ்வொன்றையும் சரிபாருங்கள் — கீழே உறுதிப்படுத்தும் வரை எதுவும் "
+"உருவாக்கப்படாது."
+
+msgid "Website"
+msgstr "வலைத்தளம்"
+
+msgid "Welcome Back"
+msgstr "மீண்டும் வருக"
+
+msgid "Were you referred by another company?"
+msgstr "வேறு நிறுவனம் பரிந்துரைத்ததா?"
+
+msgid "Were you referred by another company? Enter their name or UEN"
+msgstr "வேறு நிறுவனம் பரிந்துரைத்ததா? அவர்களின் பெயர் அல்லது UEN-ஐ உள்ளிடவும்"
+
+msgid "West"
+msgstr "மேற்கு"
+
+msgid "What is MakanSpace"
+msgstr "MakanSpace என்றால் என்ன"
+
+msgid "What we can read"
+msgstr "நாங்கள் படிக்க முடிவது"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "WhatsApp Clicks"
+msgstr "WhatsApp கிளக்குகள்"
 
 msgid "WhatsApp Contact Number"
 msgstr "WhatsApp தொடர்பு எண்"
+
+msgid "WhatsApp Number"
+msgstr "WhatsApp எண்"
+
+msgid "WhatsApp quick replies"
+msgstr "WhatsApp விரைவு பதில்கள்"
+
+msgid "Why MakanSpace"
+msgstr "ஏன் MakanSpace"
 
 msgid "Within 10 min walk"
 msgstr "10 நிமிட நடைக்குள்"
@@ -265,18 +1359,113 @@ msgstr "15 நிமிட நடைக்குள்"
 msgid "Within 5 min walk"
 msgstr "5 நிமிட நடைக்குள்"
 
+msgid "Yes, delete listing"
+msgstr "ஆம், பட்டியலை நீக்கு"
+
+#, python-format
+msgid "You can upload at most %(max)d photos per listing."
+msgstr "ஒரு பட்டியலுக்கு அதிகபட்சம் %(max)d படங்கள் மட்டுமே பதிவேற்றலாம்."
+
+msgid ""
+"You must confirm this stall is not part of an NEA Direct-managed hawker "
+"centre."
+msgstr ""
+"இந்த கடை NEA நேரடியாக நிர்வகிக்கும் ஹாக்கர் மையமாக இல்லை என்பதை "
+"உறுதிப்படுத்த வேண்டும்."
+
 msgid "Your Account (First Leasing Manager)"
 msgstr "உங்கள் கணக்கு (முதல் குத்தகை மேலாளர்)"
 
 msgid "Your Email"
 msgstr "உங்கள் மின்னஞ்சல்"
 
-msgid "found"
-msgstr "காணப்பட்டது"
+msgid "Your Name"
+msgstr "உங்கள் பெயர்"
+
+msgid "Your columns"
+msgstr "உங்கள் நிரல்கள்"
+
+msgid "Your company has no listings yet."
+msgstr "உங்கள் நிறுவனத்திடம் இன்னும் பட்டியல்கள் இல்லை."
+
+msgid ""
+"Your listing has been boosted and will now appear at the top of search "
+"results."
+msgstr ""
+"உங்கள் பட்டியல் ஊக்குவிக்கப்பட்டது, இப்போது தேடல் முடிவுகளின் மேலே "
+"தெரியும்."
+
+msgid ""
+"Your new listings are live. Photos aren't included in CSV uploads — add "
+"them by opening each listing from My Listings → Edit."
+msgstr ""
+"உங்கள் புதிய பட்டியல்கள் வெளியிடப்பட்டன. CSV பதிவேற்றத்தில் படங்கள் இல்லை"
+" — என் பட்டியல்கள் → திருத்து மூலம் ஒவ்வொரு பட்டியலிலும் சேர்க்கவும்."
+
+msgid "Your password"
+msgstr "உங்கள் கடவுச்சொல்"
+
+msgid ""
+"Your stall-wanted post is live. Landlords will reach out to you on "
+"WhatsApp."
+msgstr ""
+"உங்கள் கடை தேடல் அறிவிப்பு வெளியிடப்பட்டது. நிலஉரிமையாளர்கள் WhatsApp-ல் "
+"தொடர்பு கொள்வார்கள்."
+
+msgid "Your upload session expired. Please upload the CSV again."
+msgstr "உங்கள் பதிவேற்றம் காலாவதியானது. CSV-ஐ மீண்டும் பதிவேற்றவும்."
+
+msgid "data rows"
+msgstr "தரவு வரிகள்"
+
+msgid "e.g. 201234567A"
+msgstr "எ.கா. 201234567A"
+
+msgid "e.g. 270001"
+msgstr "எ.கா. 270001"
+
+msgid "e.g. Ah Hock"
+msgstr "எ.கா. Ah Hock"
+
+msgid "e.g. Bright corner stall near Ghim Moh Market"
+msgstr "எ.கா. Ghim Moh Market அருகில் வெளிச்சமான மூலை கடை"
+
+msgid "e.g. Chicken rice, Western"
+msgstr "எ.கா. சிக்கன் ரைஸ், மேற்கத்திய"
+
+msgid "e.g. Jurong West"
+msgstr "எ.கா. ஜுரோங் வெஸ்ட்"
+
+msgid "e.g. Kimly Group Pte Ltd"
+msgstr "எ.கா. Kimly Group Pte Ltd"
+
+msgid "e.g. Kimly Group Pte Ltd or 201234567A"
+msgstr "எ.கா. Kimly Group Pte Ltd அல்லது 201234567A"
+
+msgid "e.g. West, Central"
+msgstr "எ.கா. மேற்கு, மத்திய"
+
+msgid "e.g. stall near MRT under $2000..."
+msgstr "எ.கா. MRT அருகில் $2000க்குள் கடை..."
+
+msgid "e.g. ~500/day"
+msgstr "எ.கா. ~500/நாள்"
+
+msgid "exact or on request"
+msgstr "துல்லியமான விலை அல்லது வாடகை பேச்சுவார்த்தைக்கு"
+
+msgid "ignore"
+msgstr "புறக்கணி"
 
 msgid "more"
 msgstr "மேலும்"
 
-msgid "stall"
-msgstr "கடை"
+msgid "optional"
+msgstr "விருப்பம்"
+
+msgid "or continue with"
+msgstr "அல்லது இவற்றால் தொடர"
+
+msgid "or sign up with"
+msgstr "அல்லது இவற்றால் பதிவு செய்ய"
 

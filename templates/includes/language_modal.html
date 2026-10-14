@@ -1,7 +1,9 @@
 <div class="lang-modal-overlay" id="languageModal">
     <div class="lang-modal">
-        <div class="lang-modal__title">Choose Your Language</div>
-        <div class="lang-modal__subtitle">Select your preferred language to browse stalls</div>
+        <!-- Shown before any language is chosen, so both lines carry all four
+             languages literally — deliberately not wrapped in a gettext tag. -->
+        <div class="lang-modal__title">Choose your language · 选择语言 · மொழியைத் தேர்ந்தெடுக்கவும் · Pilih bahasa</div>
+        <div class="lang-modal__subtitle">Select your preferred language to browse stalls · 选择您偏好的语言以浏览摊位 · உங்களுக்கு விருப்பமான மொழியைத் தேர்வுசெய்து கடைகளைப் பாருங்கள் · Pilih bahasa kegemaran anda untuk melihat gerai</div>
         <div class="lang-modal__options">
             <form method="post" action="{% url 'accounts:language_select' 'en' %}">
                 {% csrf_token %}

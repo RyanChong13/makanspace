@@ -94,8 +94,7 @@
 <!-- Why MakanSpace (trust section, spec C) -->
 <div class="mb-2" style="padding: 2rem 0; background: var(--color-bg-secondary); margin: 1.5rem -1rem; padding-left: 1rem; padding-right: 1rem; border-radius: var(--radius-md);">
     <h2 style="font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem;">{% trans "Why MakanSpace" %}</h2>
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; max-width: 900px; margin: 0 auto;"
-         class="why-makanspace-grid">
+    <div class="why-makanspace-grid">
         <div style="text-align: center;">
             <i data-lucide="shield-check" style="width: 32px; height: 32px; color: var(--color-accent); margin-bottom: 0.5rem;"></i>
             <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Verified Companies" %}</div>
@@ -114,7 +113,7 @@
         <div style="text-align: center;">
             <i data-lucide="languages" style="width: 32px; height: 32px; color: var(--color-accent); margin-bottom: 0.5rem;"></i>
             <div style="font-weight: 600; margin-bottom: 0.3rem;">{% trans "Multi-Language" %}</div>
-            <div class="text-sm text-secondary">{% trans "Browse in English, Chinese, Tamil, or Malay — fully translated." %}</div>
+            <div class="text-sm text-secondary">{% trans "Browse in English, Chinese, Tamil, or Malay." %}</div>
         </div>
     </div>
 </div>
@@ -134,10 +133,21 @@ let markerLayer = null;
 
 function initMap() {
     if (leafletMap) return;
-    leafletMap = L.map('map').setView([1.3521, 103.8198], 11);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        maxZoom: 18,
+    // Singapore-only viewport (spec A6): OneMap tiles cover Singapore alone.
+    leafletMap = L.map('map', {
+        maxBounds: [[1.1, 103.55], [1.5, 104.1]],
+        maxBoundsViscosity: 1.0,
+        minZoom: 11,
+        maxZoom: 19,
+    }).setView([1.3521, 103.8198], 12);
+    L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png', {
+        detectRetina: true,
+        minZoom: 11,
+        maxZoom: 19,
+        attribution: '<img src="https://www.onemap.gov.sg/web-assets/images/logo/om_logo.png" '
+                   + 'style="height:18px;width:auto;vertical-align:middle;" alt="OneMap"> '
+                   + '<a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener">OneMap</a> '
+                   + '| Map data &copy; <a href="https://www.sla.gov.sg/">Singapore Land Authority</a>',
     }).addTo(leafletMap);
     renderMapPins();
 }

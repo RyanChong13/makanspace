@@ -11,6 +11,8 @@ import tempfile
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
@@ -32,11 +34,11 @@ def chatbot_transcribe(request):
     """
     audio_file = request.FILES.get("audio")
     if not audio_file:
-        return Response({"error": "No audio file provided."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": _("No audio file provided.")}, status=status.HTTP_400_BAD_REQUEST)
 
     if not getattr(settings, "GROQ_API_KEY", ""):
         return Response(
-            {"error": "Voice input is not configured yet."},
+            {"error": _("Voice input is not configured yet.")},
             status=status.HTTP_503_SERVICE_UNAVAILABLE,
         )
 
@@ -59,7 +61,7 @@ def chatbot_transcribe(request):
 
     if not text.strip():
         return Response(
-            {"error": "Sorry, I couldn't hear that. Please try again."},
+            {"error": _("Sorry, I couldn't hear that. Please try again.")},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
     return Response({"text": text.strip()})
@@ -75,12 +77,12 @@ def chatbot_search(request):
     """
     message = request.data.get("message", "").strip()
     if not message:
-        return Response({"error": "Please enter a search query."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": _("Please enter a search query.")}, status=status.HTTP_400_BAD_REQUEST)
 
     api_key = getattr(settings, "ANTHROPIC_API_KEY", "")
     if not api_key:
         return Response(
-            {"error": "AI search is not configured yet."},
+            {"error": _("AI search is not configured yet.")},
             status=status.HTTP_503_SERVICE_UNAVAILABLE,
         )
 
@@ -109,7 +111,7 @@ def chatbot_search(request):
         text_block = next((block for block in response.content if getattr(block, "type", None) == "text"), None)
         if text_block is None:
             return Response(
-                {"error": "AI search returned an unexpected response."},
+                {"error": _("AI search returned an unexpected response.")},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         text = text_block.text.strip()
@@ -175,12 +177,21 @@ def chatbot_search(request):
             "filters_applied": filters,
             "count": len(results),
             "results": results,
-            "message": f"Found {len(results)} stall{'s' if len(results) != 1 else ''} matching your search.",
+            # ngettext() is deliberate: the count decides the plural form, so it
+            # cannot be a plain gettext() call. LocaleMiddleware has already
+            # activated the visitor's session language for this API request, so
+            # both this string and the listing display strings above come out
+            # in the visitor's language.
+            "message": ngettext(
+                "%(n)s stall matching your search.",
+                "%(n)s stalls matching your search.",
+                len(results),
+            ) % {"n": len(results)},
         })
 
     except Exception as e:
         logger.error("Chatbot search failed: %s", e)
         return Response(
-            {"error": "Sorry, I couldn't process your search right now. Please try again."},
+            {"error": _("Sorry, I couldn't process your search right now. Please try again.")},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )

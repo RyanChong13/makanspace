@@ -12,12 +12,18 @@ Covers:
 """
 
 import io
+import os
+import re
 import tempfile
 from unittest.mock import patch
 
+from django.conf import settings
+from django.template import Context, Template
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, Client, override_settings
 from django.urls import reverse
+from django.utils import translation
+from django.utils.translation import gettext, ngettext
 from PIL import Image
 
 from accounts.models import Company, User
@@ -336,7 +342,7 @@ class SelfServeImportVerificationTests(TestCase):
         })
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, "2 listings created and are now live.")
-        self.assertContains(resp, "invalid postal_code &#x27;12345&#x27;")
+        self.assertContains(resp, "Invalid Postal Code: 12345")
 
         # Exactly two listings created from the three data rows
         self.assertEqual(Listing.objects.count(), 2)
@@ -385,3 +391,130 @@ class SelfServeImportVerificationTests(TestCase):
         c.force_login(plain)
         resp = c.get(reverse("listings:self_serve_import"))
         self.assertEqual(resp.status_code, 403)  # UserPassesTest failure → forbidden
+
+
+class TranslationPluralBuildTests(TestCase):
+    """A7 / F1 — the plural build path.
+
+    build_translations.py stores a plural msgid as a ``(singular, plural)``
+    tuple; Babel then writes as many ``msgstr[n]`` slots as the locale has
+    plural forms. zh_Hans has one (so a second form would be dropped), ta and
+    ms have two. A missing msgstr[1] makes gettext fall back to the English
+    msgid_plural at runtime, so both the generated .po and the resolved .mo
+    are asserted here.
+    """
+
+    # A plural the catalogue must carry for every locale.
+    SINGULAR = "%(n)s listing"
+    PLURAL = "%(n)s listings"
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        import build_translations
+        build_translations.build()  # regenerate locale/**/django.{po,mo}
+
+    def _po_entry(self, lang):
+        po = os.path.join(settings.BASE_DIR, "locale", lang, "LC_MESSAGES", "django.po")
+        text = io.open(po, encoding="utf-8").read()
+        block = 'msgid "%s"\nmsgid_plural "%s"\n' % (self.SINGULAR, self.PLURAL)
+        self.assertIn(block, text, "no plural entry for %s" % lang)
+        return text[text.index(block) + len(block):].split("\n\n")[0]
+
+    def test_ta_po_has_both_plural_forms(self):
+        entry = self._po_entry("ta")
+        self.assertIn('msgstr[0] "', entry)
+        self.assertIn('msgstr[1] "', entry)
+
+    def test_ms_po_has_both_plural_forms(self):
+        entry = self._po_entry("ms")
+        self.assertIn('msgstr[0] "', entry)
+        self.assertIn('msgstr[1] "', entry)
+
+    def test_zh_hans_po_has_a_single_plural_form(self):
+        entry = self._po_entry("zh_Hans")
+        self.assertIn('msgstr[0] "', entry)
+        self.assertNotIn("msgstr[1]", entry)  # nplurals=1 — second form is dropped
+
+    def test_runtime_resolves_singular_and_plural(self):
+        """Django must serve a translated string for both forms in each locale."""
+        for lang in ("zh-hans", "ta", "ms"):
+            with translation.override(lang):
+                one = ngettext(self.SINGULAR, self.PLURAL, 1) % {"n": 1}
+                many = ngettext(self.SINGULAR, self.PLURAL, 5) % {"n": 5}
+            self.assertNotIn(self.SINGULAR, one, lang)
+            self.assertNotIn(self.PLURAL, many, lang)
+            self.assertIn("1", one)
+            self.assertIn("5", many)
+
+    def test_runtime_plurals_differ_where_the_locale_has_two_forms(self):
+        with translation.override("ta"):
+            ta_one = ngettext(self.SINGULAR, self.PLURAL, 1)
+            ta_many = ngettext(self.SINGULAR, self.PLURAL, 5)
+        self.assertNotEqual(ta_one, ta_many)
+        # A singular-only catalogue (Chinese) legitimately renders one form.
+        with translation.override("zh-hans"):
+            self.assertEqual(
+                ngettext(self.SINGULAR, self.PLURAL, 1),
+                ngettext(self.SINGULAR, self.PLURAL, 5),
+            )
+
+    def test_singular_gettext_reaches_the_catalogue(self):
+        with translation.override("zh-hans"):
+            self.assertEqual(gettext("Browse Stalls"), "浏览摊位")
+        with translation.override("ms"):
+            self.assertEqual(gettext("Browse Stalls"), "Layari Gerai")
+
+
+class JavascriptMessageTranslationTests(TestCase):
+    """A7 / F5 — the strings the chatbot writes into the page from JavaScript.
+
+    {% trans %} rewrites its argument before the lookup, so a msgid carrying a
+    printf-style placeholder ("Found %(n)s match(es):") never hits the catalogue
+    and ships English onto a Chinese, Tamil or Malay page. gettext() on the raw
+    string does hit, which is what the |msg filter in listing_extras does; the
+    number itself is substituted later, in the browser.
+    """
+
+    MSGIDS = [
+        "Found %(n)s match(es):",
+        "Searching...",
+        "No matches found. Try different criteria!",
+        "Sorry, something went wrong. Please try again.",
+        "Transcribing...",
+        "Voice input is not supported in this browser.",
+        "Microphone access was denied.",
+    ]
+
+    def test_msg_filter_resolves_every_chatbot_string(self):
+        source = "".join('{{ "%s"|msg }}|' % m for m in self.MSGIDS)
+        template = Template("{% load i18n listing_extras %}" + source)
+        for lang in ("zh-hans", "ta", "ms"):
+            with translation.override(lang):
+                rendered = template.render(Context({}))
+            for msgid in self.MSGIDS:
+                self.assertNotIn(msgid, rendered, "%s still English" % lang)
+
+    def test_placeholder_survives_for_javascript_substitution(self):
+        """JS replaces '%(n)s' itself, so the marker must reach the page intact."""
+        with translation.override("zh-hans"):
+            out = Template('{% load i18n listing_extras %}{{ x|msg }}').render(
+                Context({"x": "Found %(n)s match(es):"}))
+        self.assertIn("%(n)s", out)
+
+    def test_no_template_marks_a_placeholder_msgid_with_trans(self):
+        """Guard the whole bug class: trans/blocktrans cannot resolve %(...)s."""
+        pattern = re.compile(
+            r"\{%(?:trans|translate|blocktrans|blocktranslate)\b[^%]*%\(\w+\)[sd]")
+        root = os.path.join(settings.BASE_DIR, "templates")
+        offenders = []
+        for dirpath, _dirs, files in os.walk(root):
+            for name in sorted(files):
+                if not name.endswith(".html"):
+                    continue
+                path = os.path.join(dirpath, name)
+                with io.open(path, encoding="utf-8") as fh:
+                    for lineno, line in enumerate(fh, 1):
+                        if pattern.search(line):
+                            offenders.append("%s:%d" % (path, lineno))
+        self.assertEqual([], offenders)

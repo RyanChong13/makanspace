@@ -1,14 +1,14 @@
 {% extends "account/base.html" %}
-{% load static %}
+{% load static i18n %}
 {% load allauth account socialaccount %}
 
-{% block title %}Sign In — MakanSpace{% endblock %}
+{% block title %}{% trans "Sign In" %} — MakanSpace{% endblock %}
 
 {% block auth_content %}
 <!-- Company login header -->
 <div style="text-align: center; margin-bottom: 1.5rem;">
-    <h1 style="font-size: 1.4rem; font-weight: 700; color: var(--color-header);">Welcome Back</h1>
-    <p class="text-secondary text-sm">Sign in to manage your landlord company listings</p>
+    <h1 style="font-size: 1.4rem; font-weight: 700; color: var(--color-header);">{% trans "Welcome Back" %}</h1>
+    <p class="text-secondary text-sm">{% trans "Sign in to manage your landlord company listings" %}</p>
 </div>
 
 <!-- Login form card -->
@@ -19,35 +19,35 @@
 
             {% if form.errors %}
             <div class="alert alert--error mb-2">
-                Invalid username or password. Please try again.
+                {% trans "Invalid username or password. Please try again." %}
             </div>
             {% endif %}
 
             <div class="form-group">
-                <label class="form-label" for="id_login">Email or Username</label>
+                <label class="form-label" for="id_login">{% trans "Email or Username" %}</label>
                 <input type="text" name="login" id="id_login" class="form-input"
                        placeholder="you@example.com" autocomplete="username" required autofocus
                        value="{{ form.login.value|default:'' }}">
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="id_password">Password</label>
+                <label class="form-label" for="id_password">{% trans "Password" %}</label>
                 <input type="password" name="password" id="id_password" class="form-input"
-                       placeholder="Your password" autocomplete="current-password" required>
+                       placeholder="{% trans 'Your password' %}" autocomplete="current-password" required>
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                 <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; cursor: pointer;">
                     <input type="checkbox" name="remember" id="id_remember">
-                    Remember me
+                    {% trans "Remember me" %}
                 </label>
                 <a href="{% url 'account_reset_password' %}" class="text-sm" style="color: var(--color-accent);">
-                    Forgot password?
+                    {% trans "Forgot password?" %}
                 </a>
             </div>
 
             <button type="submit" class="btn btn--primary btn--full" style="padding: 0.75rem;">
-                Sign In
+                {% trans "Sign In" %}
             </button>
         </form>
     </div>
@@ -57,14 +57,15 @@
 {% get_providers as socialaccount_providers %}
 {% if socialaccount_providers %}
 <div style="text-align: center; margin: 1.2rem 0; color: var(--color-text-secondary); font-size: 0.85rem;">
-    or continue with
+    {% trans "or continue with" %}
 </div>
 <div style="display: flex; gap: 0.75rem;">
     {% for provider in socialaccount_providers %}
     <form method="post" action="{% provider_login_url provider.id %}" style="flex: 1;">
         {% csrf_token %}
         <button type="submit" class="btn btn--secondary btn--full" style="padding: 0.6rem; font-size: 0.85rem;">
-            {% if provider.id == "google" %}🔵 Google{% elif provider.id == "facebook" %}📘 Facebook{% else %}{{ provider.name }}{% endif %}
+            {# Lucide's CDN build dropped the chrome/facebook brand icons; a name it cannot resolve would leave an empty 16px gap, so the nearest available line icons are used. Must stay on one line: Django's comment tag regex has no DOTALL. #}
+            {% if provider.id == "google" %}<i data-lucide="search" style="width:16px;height:16px;vertical-align:middle;"></i> Google{% elif provider.id == "facebook" %}<i data-lucide="message-circle" style="width:16px;height:16px;vertical-align:middle;"></i> Facebook{% else %}{{ provider.name }}{% endif %}
         </button>
     </form>
     {% endfor %}
@@ -73,7 +74,7 @@
 
 <!-- Sign up link -->
 <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
-    Don't have an account?
-    <a href="{% url 'account_signup' %}" style="color: var(--color-accent); font-weight: 600;">Sign Up</a>
+    {% trans "Don't have an account?" %}
+    <a href="{% url 'account_signup' %}" style="color: var(--color-accent); font-weight: 600;">{% trans "Sign Up" %}</a>
 </div>
 {% endblock %}

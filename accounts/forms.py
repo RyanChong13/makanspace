@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 from .models import Company, REGION_CHOICES
 
@@ -32,7 +33,7 @@ class CompanySignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-input"}))
     password_confirm = forms.CharField(
         widget=forms.PasswordInput(attrs={"class": "form-input"}),
-        label="Confirm password",
+        label=_("Confirm password"),
     )
     email = forms.EmailField(widget=forms.EmailInput(attrs={"class": "form-input"}))
     phone = forms.CharField(
@@ -41,10 +42,10 @@ class CompanySignupForm(forms.ModelForm):
     )
     referrer = forms.CharField(
         required=False,
-        label="Were you referred by another company? Enter their name or UEN",
+        label=_("Were you referred by another company? Enter their name or UEN"),
         widget=forms.TextInput(attrs={
             "class": "form-input",
-            "placeholder": "e.g. Kimly Group Pte Ltd or 201234567A",
+            "placeholder": _("e.g. Kimly Group Pte Ltd or 201234567A"),
         }),
     )
 
@@ -54,11 +55,11 @@ class CompanySignupForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={
                 "class": "form-input",
-                "placeholder": "e.g. Kimly Group Pte Ltd",
+                "placeholder": _("e.g. Kimly Group Pte Ltd"),
             }),
             "uen": forms.TextInput(attrs={
                 "class": "form-input",
-                "placeholder": "e.g. 201234567A",
+                "placeholder": _("e.g. 201234567A"),
             }),
             "region": forms.Select(attrs={"class": "form-select"}),
             "whatsapp_number": forms.TextInput(attrs={
@@ -70,7 +71,7 @@ class CompanySignupForm(forms.ModelForm):
     def clean_uen(self):
         uen = self.cleaned_data.get("uen", "").strip().upper()
         if Company.objects.filter(uen=uen).exists():
-            raise forms.ValidationError("A company with this UEN is already registered.")
+            raise forms.ValidationError(_("A company with this UEN is already registered."))
         return uen
 
     def clean_whatsapp_number(self):
@@ -84,15 +85,16 @@ class CompanySignupForm(forms.ModelForm):
                 pass
             else:
                 raise forms.ValidationError(
-                    "Please enter a Singapore number: either 8 digits (e.g. 9123 4567) "
-                    "or with country code (e.g. +65 9123 4567)."
+                    # Kept on one line: the extraction checker only sees the first
+                    # fragment of an implicitly concatenated gettext string.
+                    _("Please enter a Singapore number: either 8 digits (e.g. 9123 4567) or with country code (e.g. +65 9123 4567).")
                 )
         return number
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("An account with this email already exists.")
+            raise forms.ValidationError(_("An account with this email already exists."))
         return email
 
     def clean(self):
@@ -100,7 +102,7 @@ class CompanySignupForm(forms.ModelForm):
         pw = cleaned_data.get("password")
         pw_confirm = cleaned_data.get("password_confirm")
         if pw and pw_confirm and pw != pw_confirm:
-            raise forms.ValidationError("Passwords do not match.")
+            raise forms.ValidationError(_("Passwords do not match."))
         return cleaned_data
 
     def save(self, commit=True):
@@ -147,16 +149,16 @@ class LeasingManagerInviteForm(forms.Form):
     )
     first_name = forms.CharField(
         max_length=30,
-        widget=forms.TextInput(attrs={"class": "form-input", "placeholder": "First name"}),
+        widget=forms.TextInput(attrs={"class": "form-input", "placeholder": _("First name")}),
     )
     last_name = forms.CharField(
         max_length=30,
         required=False,
-        widget=forms.TextInput(attrs={"class": "form-input", "placeholder": "Last name (optional)"}),
+        widget=forms.TextInput(attrs={"class": "form-input", "placeholder": _("Last name (optional)")}),
     )
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("An account with this email already exists.")
+            raise forms.ValidationError(_("An account with this email already exists."))
         return email

@@ -1,8 +1,8 @@
 {% extends "account/base.html" %}
-{% load static %}
+{% load static i18n %}
 {% load allauth account socialaccount %}
 
-{% block title %}Sign Up — MakanSpace{% endblock %}
+{% block title %}{% trans "Sign Up" %} — MakanSpace{% endblock %}
 
 {% block auth_content %}
 <!-- Logo -->
@@ -10,8 +10,8 @@
     <a href="{% url 'listings:listing_list' %}">
         <img src="{% static 'img/logo.svg' %}" alt="MakanSpace" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 0.5rem; color: var(--color-accent);">
     </a>
-    <h1 style="font-size: 1.4rem; font-weight: 700; color: var(--color-header);">Create Your Account</h1>
-    <p class="text-secondary text-sm">Join MakanSpace to browse or list hawker stalls</p>
+    <h1 style="font-size: 1.4rem; font-weight: 700; color: var(--color-header);">{% trans "Create Your Account" %}</h1>
+    <p class="text-secondary text-sm">{% trans "Create an account to manage your company's stalls" %}</p>
 </div>
 
 <!-- Signup form card -->
@@ -22,12 +22,12 @@
 
             {% if form.errors %}
             <div class="alert alert--error mb-2">
-                Please correct the errors below.
+                {% trans "Please correct the errors below." %}
             </div>
             {% endif %}
 
             <div class="form-group">
-                <label class="form-label" for="id_email">Email Address</label>
+                <label class="form-label" for="id_email">{% trans "Email Address" %}</label>
                 <input type="email" name="email" id="id_email" class="form-input"
                        placeholder="you@example.com" required
                        value="{{ form.email.value|default:'' }}">
@@ -35,29 +35,29 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="id_username">Username</label>
+                <label class="form-label" for="id_username">{% trans "Username" %}</label>
                 <input type="text" name="username" id="id_username" class="form-input"
-                       placeholder="Choose a username" required
+                       placeholder="{% trans 'Choose a username' %}" required
                        value="{{ form.username.value|default:'' }}">
                 {% for err in form.username.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="id_password1">Password</label>
+                <label class="form-label" for="id_password1">{% trans "Password" %}</label>
                 <input type="password" name="password1" id="id_password1" class="form-input"
-                       placeholder="Create a password" required>
+                       placeholder="{% trans 'Create a password' %}" required>
                 {% for err in form.password1.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="id_password2">Confirm Password</label>
+                <label class="form-label" for="id_password2">{% trans "Confirm Password" %}</label>
                 <input type="password" name="password2" id="id_password2" class="form-input"
-                       placeholder="Confirm your password" required>
+                       placeholder="{% trans 'Confirm your password' %}" required>
                 {% for err in form.password2.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
 
             <button type="submit" class="btn btn--primary btn--full" style="padding: 0.75rem;">
-                Create Account
+                {% trans "Create Account" %}
             </button>
         </form>
     </div>
@@ -67,14 +67,15 @@
 {% get_providers as socialaccount_providers %}
 {% if socialaccount_providers %}
 <div style="text-align: center; margin: 1.2rem 0; color: var(--color-text-secondary); font-size: 0.85rem;">
-    or sign up with
+    {% trans "or sign up with" %}
 </div>
 <div style="display: flex; gap: 0.75rem;">
     {% for provider in socialaccount_providers %}
     <form method="post" action="{% provider_login_url provider.id %}" style="flex: 1;">
         {% csrf_token %}
         <button type="submit" class="btn btn--secondary btn--full" style="padding: 0.6rem; font-size: 0.85rem;">
-            {% if provider.id == "google" %}🔵 Google{% elif provider.id == "facebook" %}📘 Facebook{% else %}{{ provider.name }}{% endif %}
+            {# Lucide's CDN build dropped the chrome/facebook brand icons; a name it cannot resolve would leave an empty 16px gap, so the nearest available line icons are used. Must stay on one line: Django's comment tag regex has no DOTALL. #}
+            {% if provider.id == "google" %}<i data-lucide="search" style="width:16px;height:16px;vertical-align:middle;"></i> Google{% elif provider.id == "facebook" %}<i data-lucide="message-circle" style="width:16px;height:16px;vertical-align:middle;"></i> Facebook{% else %}{{ provider.name }}{% endif %}
         </button>
     </form>
     {% endfor %}
@@ -83,7 +84,7 @@
 
 <!-- Login link -->
 <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem;">
-    Already have an account?
-    <a href="{% url 'account_login' %}" style="color: var(--color-accent); font-weight: 600;">Sign In</a>
+    {% trans "Already have an account?" %}
+    <a href="{% url 'account_login' %}" style="color: var(--color-accent); font-weight: 600;">{% trans "Sign In" %}</a>
 </div>
 {% endblock %}

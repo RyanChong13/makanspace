@@ -11,11 +11,22 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const map = L.map('dashboard-map').setView([1.3521, 103.8198], 11);
+        // Singapore-only viewport (spec A6): OneMap tiles cover Singapore alone.
+        const map = L.map('dashboard-map', {
+            maxBounds: [[1.1, 103.55], [1.5, 104.1]],
+            maxBoundsViscosity: 1.0,
+            minZoom: 11,
+            maxZoom: 19,
+        }).setView([1.3521, 103.8198], 12);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors',
-            maxZoom: 18,
+        L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png', {
+            detectRetina: true,
+            minZoom: 11,
+            maxZoom: 19,
+            attribution: '<img src="https://www.onemap.gov.sg/web-assets/images/logo/om_logo.png" '
+                       + 'style="height:18px;width:auto;vertical-align:middle;" alt="OneMap"> '
+                       + '<a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener">OneMap</a> '
+                       + '| Map data &copy; <a href="https://www.sla.gov.sg/">Singapore Land Authority</a>',
         }).addTo(map);
 
         const listings = [

@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.utils.translation import gettext as _
 from django.views import View
 
 from .forms import CompanySignupForm, LeasingManagerInviteForm, ProfileForm
@@ -39,8 +40,10 @@ class CompanySignupView(View):
             from django.contrib import messages
             messages.success(
                 request,
-                f"Company '{company.name}' registered. "
-                "Your account is pending business verification by our admin team.",
+                # One-line literal: the extraction checker only sees the first fragment
+                # of an implicitly concatenated gettext string.
+                _("Company '%(name)s' registered. Your account is pending business verification by our admin team.")
+                % {"name": company.name},
             )
             return redirect("listings:listing_list")
         return render(request, self.template_name, {"form": form})
@@ -97,8 +100,9 @@ class LeasingManagerInviteView(LoginRequiredMixin, CompanyRequiredMixin, View):
             from django.contrib import messages
             messages.success(
                 request,
-                f"Invitation created for {email}. "
-                "They can sign up using the standard signup with this email.",
+                # One-line literal, as above.
+                _("Invitation created for %(email)s. They can sign up using the standard signup with this email.")
+                % {"email": email},
             )
             return redirect("accounts:profile")
 
@@ -161,6 +165,6 @@ class ProfileView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
             from django.contrib import messages
-            messages.success(request, "Profile updated successfully.")
+            messages.success(request, _("Profile updated successfully."))
             return redirect("accounts:profile")
         return render(request, self.template_name, {"form": form})

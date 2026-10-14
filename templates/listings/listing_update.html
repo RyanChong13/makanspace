@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}Edit {{ listing.title }} — MakanSpace{% endblock %}
+{% block title %}{% blocktrans with title=listing.title trimmed %}Edit {{ title }}{% endblocktrans %} — MakanSpace{% endblock %}
 
 {% block content %}
 <div class="container--narrow" style="max-width: 650px; margin: 0 auto;">
-    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">Edit Your Listing</h1>
+    <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "Edit Your Listing" %}</h1>
     <p class="text-secondary text-sm mb-2">
-        Update your stall details. Changes will be re-reviewed if already verified.
+        {% trans "Update your stall details. Changes go live immediately." %}
         <span class="badge badge--{{ listing.status }}">{{ listing.get_status_display }}</span>
     </p>
 
@@ -22,13 +22,13 @@
         {% csrf_token %}
 
         <div class="form-group">
-            <label class="form-label" for="{{ form.title.id_for_label }}">Stall Title</label>
+            <label class="form-label" for="{{ form.title.id_for_label }}">{% trans "Stall Title" %}</label>
             {{ form.title }}
             {% for err in form.title.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
         <div class="form-group">
-            <label class="form-label" for="{{ form.description.id_for_label }}">Description</label>
+            <label class="form-label" for="{{ form.description.id_for_label }}">{% trans "Description" %}</label>
             {{ form.description }}
             {% for err in form.description.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
@@ -45,19 +45,19 @@
                 {% endfor %}
             </div>
             <p class="text-secondary text-sm mt-1" style="margin-bottom: 0;">
-                {% trans "Exact pricing helps hawkers compare stalls quickly. Only choose \"Rental on request\" if your pricing truly needs to be discussed privately." %}
+                {% trans "Exact pricing helps hawkers compare stalls quickly. Only choose 'Rental on request' if your pricing truly needs to be discussed privately." %}
             </p>
             {% for err in form.price_display.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
         <div class="flex gap-2" id="cost-fields-row">
             <div class="form-group" style="flex: 1;">
-                <label class="form-label" for="{{ form.cost_min.id_for_label }}">Monthly Rent (SGD)</label>
+                <label class="form-label" for="{{ form.cost_min.id_for_label }}">{% trans "Monthly Rent (SGD)" %}</label>
                 {{ form.cost_min }}
                 {% for err in form.cost_min.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
             <div class="form-group" style="flex: 1;">
-                <label class="form-label" for="{{ form.cost_max.id_for_label }}">Max Rent (optional)</label>
+                <label class="form-label" for="{{ form.cost_max.id_for_label }}">{% trans "Max Rent (optional)" %}</label>
                 {{ form.cost_max }}
                 {% for err in form.cost_max.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
@@ -65,46 +65,46 @@
 
         <div class="flex gap-2">
             <div class="form-group" style="flex: 1;">
-                <label class="form-label" for="{{ form.size_sqft.id_for_label }}">Size (sqft)</label>
+                <label class="form-label" for="{{ form.size_sqft.id_for_label }}">{% trans "Size (sqft)" %}</label>
                 {{ form.size_sqft }}
                 {% for err in form.size_sqft.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
             <div class="form-group" style="flex: 1;">
-                <label class="form-label" for="{{ form.lease_duration.id_for_label }}">Lease Duration</label>
+                <label class="form-label" for="{{ form.lease_duration.id_for_label }}">{% trans "Lease Duration" %}</label>
                 {{ form.lease_duration }}
                 {% for err in form.lease_duration.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
         </div>
 
         <div class="form-group">
-            <label class="form-label" for="{{ form.postal_code.id_for_label }}">Postal Code</label>
+            <label class="form-label" for="{{ form.postal_code.id_for_label }}">{% trans "Postal Code" %}</label>
             {{ form.postal_code }}
             {% for err in form.postal_code.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
         <div class="form-group">
-            <label class="form-label" for="{{ form.contact_number.id_for_label }}">WhatsApp Contact Number</label>
+            <label class="form-label" for="{{ form.contact_number.id_for_label }}">{% trans "WhatsApp Contact Number" %}</label>
             {{ form.contact_number }}
             {% for err in form.contact_number.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
         <!-- F&B-specific fields -->
         <div style="background: var(--color-bg-secondary); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
-            <div class="text-sm" style="font-weight: 600; margin-bottom: 0.5rem;">F&amp;B Operational Costs (optional)</div>
+            <div class="text-sm" style="font-weight: 600; margin-bottom: 0.5rem;">{% trans "F&B Operational Costs (optional)" %}</div>
             <div class="flex gap-2">
                 <div class="form-group" style="flex: 1;">
-                    <label class="form-label" for="{{ form.grease_trap_fee.id_for_label }}">Grease Trap Fee ($/mo)</label>
+                    <label class="form-label" for="{{ form.grease_trap_fee.id_for_label }}">{% trans "Grease Trap Fee ($/mo)" %}</label>
                     {{ form.grease_trap_fee }}
                     {% for err in form.grease_trap_fee.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
                 </div>
                 <div class="form-group" style="flex: 1;">
-                    <label class="form-label" for="{{ form.dishwashing_cost.id_for_label }}">Dishwashing Cost ($/mo)</label>
+                    <label class="form-label" for="{{ form.dishwashing_cost.id_for_label }}">{% trans "Dishwashing Cost ($/mo)" %}</label>
                     {{ form.dishwashing_cost }}
                     {% for err in form.dishwashing_cost.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-label" for="{{ form.footfall_estimate.id_for_label }}">Estimated Daily Footfall</label>
+                <label class="form-label" for="{{ form.footfall_estimate.id_for_label }}">{% trans "Estimated Daily Footfall" %}</label>
                 {{ form.footfall_estimate }}
                 {% for err in form.footfall_estimate.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
@@ -112,7 +112,7 @@
 
         <!-- Amenities -->
         <div class="form-group">
-            <label class="form-label">Amenities</label>
+            <label class="form-label">{% trans "Amenities" %}</label>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem;">
                 {% for amenity in amenities %}
                 <label style="display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.6rem;
@@ -129,9 +129,9 @@
 
         <!-- Existing + new images (6-slot grid) -->
         <div class="form-group">
-            <label class="form-label">Photos (up to 6)</label>
+            <label class="form-label">{% trans "Photos (up to 6)" %}</label>
             <p class="text-secondary text-sm mb-1">
-                Photos are automatically compressed. Tap a slot to replace or remove it.
+                {% trans "Photos are automatically compressed. Tap a slot to replace or remove it." %}
             </p>
             {{ formset.management_form }}
             {% if formset.non_form_errors %}
@@ -230,8 +230,8 @@
         </div>
 
         <div class="flex gap-2 mt-2">
-            <button type="submit" class="btn btn--primary" style="flex: 1; padding: 0.8rem;">Save Changes</button>
-            <a href="{% url 'listings:listing_detail' listing.code %}" class="btn btn--secondary" style="padding: 0.8rem;">Cancel</a>
+            <button type="submit" class="btn btn--primary" style="flex: 1; padding: 0.8rem;">{% trans "Save Changes" %}</button>
+            <a href="{% url 'listings:listing_detail' listing.code %}" class="btn btn--secondary" style="padding: 0.8rem;">{% trans "Cancel" %}</a>
         </div>
     </form>
 </div>

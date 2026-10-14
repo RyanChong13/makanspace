@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from accounts.models import LANG_CHOICES, Company
 
@@ -14,10 +15,10 @@ COST_RANGE_CHOICES = [
 ]
 
 LEASE_DURATION_CHOICES = [
-    ("<6mo", "Less than 6 months"),
-    ("6-12mo", "6 to 12 months"),
-    ("1-2yr", "1 to 2 years"),
-    ("2yr+", "More than 2 years"),
+    ("<6mo", _("Less than 6 months")),
+    ("6-12mo", _("6 to 12 months")),
+    ("1-2yr", _("1 to 2 years")),
+    ("2yr+", _("More than 2 years")),
 ]
 
 
@@ -83,10 +84,10 @@ class Listing(models.Model):
     """A hawker/coffee-shop stall available for rent (private, non-NEA only)."""
 
     class Status(models.TextChoices):
-        PENDING = "pending_verification", "Pending Verification"
-        VERIFIED = "verified", "Verified"
-        REJECTED = "rejected", "Rejected"
-        TAKEN = "taken", "Taken"
+        PENDING = "pending_verification", _("Pending Verification")
+        VERIFIED = "verified", _("Verified")
+        REJECTED = "rejected", _("Rejected")
+        TAKEN = "taken", _("Taken")
 
     # Company ownership (spec 2): only verified landlord companies can list
     company = models.ForeignKey(
@@ -125,9 +126,11 @@ class Listing(models.Model):
     )
     price_display = models.CharField(
         max_length=20,
+        # Labels are lazy so the price-display select on create/edit renders in
+        # the visitor's language; 'Rental on Request' reuses the cost_display msgid.
         choices=[
-            ("exact", "Exact price"),
-            ("on_request", "Rental on request"),
+            ("exact", _("Exact price")),
+            ("on_request", _("Rental on Request")),
         ],
         default="exact",
         help_text="'Exact price' is recommended for transparency. 'Rental on request' hides the numeric range.",
@@ -285,14 +288,17 @@ class Listing(models.Model):
     @property
     def cost_display(self):
         if self.price_display == "on_request":
-            return "Rental on Request"
+            return _("Rental on Request")
         if self.cost_max and self.cost_max != self.cost_min:
-            return f"${self.cost_min:,.0f}–${self.cost_max:,.0f}/mo"
-        return f"${self.cost_min:,.0f}/mo"
+            return _("%(min)s–%(max)s/mo") % {
+                "min": f"${self.cost_min:,.0f}",
+                "max": f"${self.cost_max:,.0f}",
+            }
+        return _("%(price)s/mo") % {"price": f"${self.cost_min:,.0f}"}
 
     @property
     def size_display(self):
-        return f"{self.size_sqft:,} sqft" if self.size_sqft else None
+        return _("%(size)s sqft") % {"size": f"{self.size_sqft:,}"} if self.size_sqft else None
 
     @property
     def lease_display(self):
@@ -301,13 +307,19 @@ class Listing(models.Model):
     @property
     def mrt_display(self):
         if self.nearest_mrt and self.mrt_walk_minutes:
-            return f"{self.mrt_walk_minutes} min walk to {self.nearest_mrt}"
+            return _("%(n)d min walk to %(station)s") % {
+                "n": self.mrt_walk_minutes,
+                "station": self.nearest_mrt,
+            }
         return None
 
     @property
     def bus_display(self):
         if self.nearest_bus_stop and self.bus_walk_minutes:
-            return f"{self.bus_walk_minutes} min walk to {self.nearest_bus_stop}"
+            return _("%(n)d min walk to %(station)s") % {
+                "n": self.bus_walk_minutes,
+                "station": self.nearest_bus_stop,
+            }
         return None
 
     @property
@@ -600,10 +612,10 @@ class ListingReport(models.Model):
     """
 
     class ReasonCategory(models.TextChoices):
-        NEA_MANAGED = "nea_managed", "This looks like an NEA-managed centre"
-        SCAM = "scam", "Scam / fake listing"
-        INCORRECT = "incorrect", "Incorrect information"
-        OTHER = "other", "Other"
+        NEA_MANAGED = "nea_managed", _("This looks like an NEA-managed centre")
+        SCAM = "scam", _("Scam / fake listing")
+        INCORRECT = "incorrect", _("Incorrect information")
+        OTHER = "other", _("Other")
 
     listing = models.ForeignKey(
         Listing,
@@ -640,9 +652,9 @@ class SupplierListing(models.Model):
     """
 
     class Category(models.TextChoices):
-        KITCHEN_AMENITIES = "kitchen_amenities", "Kitchen Amenities"
-        FURNITURE = "furniture", "Furniture"
-        RAW_FOOD = "raw_food", "Raw Food"
+        KITCHEN_AMENITIES = "kitchen_amenities", _("Kitchen Amenities")
+        FURNITURE = "furniture", _("Furniture")
+        RAW_FOOD = "raw_food", _("Raw Food")
 
     name = models.CharField(max_length=200)
     category = models.CharField(max_length=30, choices=Category.choices)

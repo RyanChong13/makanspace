@@ -8,6 +8,8 @@ from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.templatetags.static import static
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _lazy
 from django.views import View
 from datetime import timedelta
 import csv
@@ -16,12 +18,12 @@ import re
 
 from .forms import (
     ListingForm, ListingImage, ListingImageFormSet,
-    ApplicationForm, TastingSlotForm, WantedPostForm,
+    WantedPostForm,
     ListingReportForm, BulkImportCSVForm,
 )
 from accounts.models import Company, SiteSettings
 from .models import (
-    Amenity, Listing, Application, TastingSlot,
+    Amenity, Listing,
     WhatsAppClickEvent, QuickReplyTemplate, WantedPost,
     ListingReport, SupplierListing, LEASE_DURATION_CHOICES,
 )
@@ -29,6 +31,26 @@ from .services import compress_image, check_property_reference, geocode_listing,
 from .tasks import IMPORTABLE_FIELDS, propose_csv_mapping
 
 User = get_user_model()
+
+
+# The CSV mapping screen shows the internal field tokens (cost_min, …) as the
+# target of each column. Those tokens are not words a landlord reads, so the
+# dropdown and the preview heading use the same labels as the manual create
+# form — reusing their msgids rather than inventing new ones.
+IMPORTABLE_FIELD_LABELS = {
+    "title": _lazy("Stall Title"),
+    "description": _lazy("Description"),
+    "cost_min": _lazy("Monthly Rent (SGD)"),
+    "cost_max": _lazy("Max Rent (optional)"),
+    "size_sqft": _lazy("Size (sqft)"),
+    "lease_duration": _lazy("Lease Duration"),
+    "postal_code": _lazy("Postal Code"),
+    "contact_number": _lazy("WhatsApp Contact Number"),
+    "price_display": _lazy("Pricing Display"),
+    "grease_trap_fee": _lazy("Grease Trap Fee ($/mo)"),
+    "dishwashing_cost": _lazy("Dishwashing Cost ($/mo)"),
+    "footfall_estimate": _lazy("Estimated Daily Footfall"),
+}
 
 
 # ─── Mixins ──────────────────────────────────────────────────────────────────
@@ -205,12 +227,15 @@ class ListingDetailView(View):
             if images
             else request.build_absolute_uri(static("img/og-default.png"))
         )
-        og_parts = [listing.cost_display]
+        # The *_display properties hand back lazy translations, so each piece is
+        # forced to str here — str.join() rejects a __proxy__ (and 'Rental on
+        # Request' listings hit that path on every detail view).
+        og_parts = [str(listing.cost_display)]
         if listing.size_display:
-            og_parts.append(listing.size_display)
+            og_parts.append(str(listing.size_display))
         if listing.mrt_display:
-            og_parts.append(listing.mrt_display)
-        og_parts.append(f"Postal code {listing.postal_code}")
+            og_parts.append(str(listing.mrt_display))
+        og_parts.append(_("Postal code %(code)s") % {"code": listing.postal_code})
 
         return render(request, self.template_name, {
             "listing": listing,
@@ -247,7 +272,7 @@ class WhatsAppClickView(View):
         WhatsAppClickEvent.objects.create(listing=listing)
         if listing.whatsapp_url:
             return redirect(listing.whatsapp_url)
-        messages.error(request, "No WhatsApp contact number is available for this listing.")
+        messages.error(request, _("No WhatsApp contact number is available for this listing."))
         return redirect("listings:listing_detail", code=code)
 
 
@@ -306,9 +331,12 @@ class ListingCreateView(LoginRequiredMixin, LeasingManagerRequiredMixin, View):
 
             listing.save(update_fields=["status"])
             if ref_result["needs_review"]:
-                messages.info(request, "Listing is live. The location could not be auto-cross-checked and has been flagged for audit.")
+                messages.info(
+                    request,
+                    _("Listing is live. The location could not be auto-cross-checked and has been flagged for audit."),
+                )
             else:
-                messages.success(request, "Listing submitted and is now live!")
+                messages.success(request, _("Listing submitted and is now live!"))
 
             # Process image uploads with compression (spec 3.4)
             for i, img_form in enumerate(formset.forms):
@@ -425,7 +453,10 @@ class MyCompanyListingsView(LoginRequiredMixin, UserPassesTestMixin, View):
             match = listings.filter(code=normalized).first()
             if match:
                 return redirect("listings:listing_detail", code=match.code)
-            messages.error(request, f"No listing with code {query} found for your company.")
+            messages.error(
+                request,
+                _("No listing with code %(code)s found for your company.") % {"code": query},
+            )
 
         # Rolling 7-day WhatsApp click aggregate across all company listings
         weekly_clicks = WhatsAppClickEvent.objects.filter(
@@ -459,7 +490,10 @@ class ListingDeleteView(LoginRequiredMixin, CompanyListingMixin, View):
         listing = self.get_object()
         title = listing.title
         listing.delete()  # pre_delete signal removes images from storage first
-        messages.success(request, f"Listing '{title}' has been permanently deleted.")
+        messages.success(
+            request,
+            _("Listing '%(title)s' has been permanently deleted.") % {"title": title},
+        )
         return redirect("company:my_listings")
 
 
@@ -475,9 +509,9 @@ class QuickReplyCreateView(LoginRequiredMixin, CompanyMemberRequiredMixin, View)
             QuickReplyTemplate.objects.create(
                 company=request.user.company, label=label, message=message,
             )
-            messages.success(request, "Quick reply saved.")
+            messages.success(request, _("Quick reply saved."))
         else:
-            messages.error(request, "Both a label and a message are required.")
+            messages.error(request, _("Both a label and a message are required."))
         return redirect("company:my_listings")
 
 
@@ -490,7 +524,7 @@ class QuickReplyDeleteView(LoginRequiredMixin, CompanyMemberRequiredMixin, View)
             from django.http import HttpResponseForbidden
             return HttpResponseForbidden("You can only delete your own company's quick replies.")
         template.delete()
-        messages.success(request, "Quick reply deleted.")
+        messages.success(request, _("Quick reply deleted."))
         return redirect("company:my_listings")
 
 
@@ -550,7 +584,7 @@ class WantedPostCreateView(View):
             form.save()
             messages.success(
                 request,
-                "Your stall-wanted post is live. Landlords will reach out to you on WhatsApp.",
+                _("Your stall-wanted post is live. Landlords will reach out to you on WhatsApp."),
             )
             return redirect("listings:listing_list")
         return render(request, self.template_name, {"form": form})
@@ -592,145 +626,10 @@ class ListingReportCreateView(View):
                 listing.save(update_fields=["needs_audit"])
             messages.success(
                 request,
-                "Thank you — your report has been submitted and the listing has been flagged for review.",
+                _("Thank you — your report has been submitted and the listing has been flagged for review."),
             )
             return redirect("listings:listing_detail", code=code)
         return render(request, self.template_name, {"form": form, "listing": listing})
-
-
-# ─── Application Views (spec 4.1) ───────────────────────────────────────────
-
-class ApplicationCreateView(LoginRequiredMixin, View):
-    """Hawker applicant submits an application (menu proposal + message)."""
-
-    template_name = "listings/application_form.html"
-
-    def get(self, request, code):
-        listing = get_object_or_404(Listing, code=code, status=Listing.Status.VERIFIED)
-        form = ApplicationForm()
-        return render(request, self.template_name, {
-            "form": form,
-            "listing": listing,
-        })
-
-    def post(self, request, code):
-        listing = get_object_or_404(Listing, code=code, status=Listing.Status.VERIFIED)
-        form = ApplicationForm(request.POST, request.FILES)
-        if form.is_valid():
-            application = form.save(commit=False)
-            application.listing = listing
-            application.applicant = request.user
-            application.save()
-            messages.success(request, "Application submitted successfully! The landlord will review your proposal.")
-            return redirect("listings:listing_detail", code=listing.code)
-
-        return render(request, self.template_name, {
-            "form": form,
-            "listing": listing,
-        })
-
-
-class ApplicationActionView(LoginRequiredMixin, View):
-    """Landlord approves/rejects an application."""
-
-    def post(self, request, pk):
-        application = get_object_or_404(Application, pk=pk)
-        listing = application.listing
-
-        # Only same company or admin
-        if not request.user.is_staff and (not request.user.company or listing.company != request.user.company):
-            messages.error(request, "Permission denied.")
-            return redirect("listings:listing_detail", code=listing.code)
-
-        action = request.POST.get("action")
-        if action == "approve":
-            application.status = Application.Status.APPROVED
-            application.save(update_fields=["status", "updated_at"])
-            messages.success(request, f"Application from {application.applicant.display_name} approved.")
-        elif action == "reject":
-            application.status = Application.Status.REJECTED
-            application.rejection_reason = request.POST.get("reason", "")
-            application.save(update_fields=["status", "rejection_reason", "updated_at"])
-            messages.warning(request, f"Application from {application.applicant.display_name} rejected.")
-
-        return redirect("listings:application_list", code=listing.code)
-
-
-# ─── TastingSlot Views (spec 4.2) ───────────────────────────────────────────
-
-class TastingSlotManageView(LoginRequiredMixin, View):
-    """Landlord defines available tasting/viewing time slots for a listing."""
-
-    template_name = "listings/tasting_slot_manage.html"
-
-    def get(self, request, code):
-        listing = get_object_or_404(Listing, code=code)
-        if not request.user.is_staff and (not request.user.company or listing.company != request.user.company):
-            messages.error(request, "Permission denied.")
-            return redirect("listings:listing_detail", code=code)
-
-        form = TastingSlotForm()
-        slots = listing.tasting_slots.order_by("start_time")
-        return render(request, self.template_name, {
-            "form": form,
-            "listing": listing,
-            "slots": slots,
-        })
-
-    def post(self, request, code):
-        listing = get_object_or_404(Listing, code=code)
-        if not request.user.is_staff and (not request.user.company or listing.company != request.user.company):
-            messages.error(request, "Permission denied.")
-            return redirect("listings:listing_detail", code=code)
-
-        form = TastingSlotForm(request.POST)
-        if form.is_valid():
-            slot = form.save(commit=False)
-            slot.listing = listing
-            slot.company = listing.company
-            slot.save()
-            messages.success(request, "Tasting slot added.")
-            return redirect("listings:tasting_slot_manage", code=code)
-
-        slots = listing.tasting_slots.order_by("start_time")
-        return render(request, self.template_name, {
-            "form": form,
-            "listing": listing,
-            "slots": slots,
-        })
-
-
-class TastingSlotBookView(LoginRequiredMixin, View):
-    """Applicant books an available tasting slot for their application."""
-
-    def post(self, request, slot_pk):
-        slot = get_object_or_404(TastingSlot, pk=slot_pk, is_booked=False)
-        application_id = request.POST.get("application_id")
-
-        if application_id:
-            try:
-                application = Application.objects.get(
-                    pk=application_id,
-                    applicant=request.user,
-                )
-                # Atomic booking
-                updated = TastingSlot.objects.filter(
-                    pk=slot.pk, is_booked=False
-                ).update(is_booked=True)
-                if updated:
-                    application.tasting_slot = slot
-                    application.status = Application.Status.TASTING_SCHEDULED
-                    application.save(update_fields=["tasting_slot", "status", "updated_at"])
-                    messages.success(request, "Tasting session booked!")
-                else:
-                    messages.error(request, "This slot was just booked by someone else.")
-            except Application.DoesNotExist:
-                messages.error(request, "Application not found.")
-        else:
-            messages.error(request, "No application found.")
-
-        listing_code = slot.listing.code if slot.listing else ""
-        return redirect("listings:listing_detail", code=listing_code)
 
 
 # ─── AI API Endpoints ────────────────────────────────────────────────────────
@@ -915,7 +814,10 @@ class SelfServeImportView(LoginRequiredMixin, LeasingManagerRequiredMixin, View)
     def get(self, request):
         # Fresh visit: drop any stale upload state
         request.session.pop(SELF_SERVE_IMPORT_SESSION_KEY, None)
-        return render(request, self.upload_template)
+        # The upload page lists the columns it can read; those are internal field
+        # tokens, so show the same translated labels the mapping screen uses.
+        return render(request, self.upload_template,
+                      {"import_field_labels": IMPORTABLE_FIELD_LABELS})
 
     def post(self, request):
         if request.POST.get("confirm_import"):
@@ -931,25 +833,26 @@ class SelfServeImportView(LoginRequiredMixin, LeasingManagerRequiredMixin, View)
 
         csv_file = request.FILES.get("csv_file")
         if not csv_file:
-            return fail("Please choose a CSV file to upload.")
+            return fail(_("Please choose a CSV file to upload."))
         if not csv_file.name.lower().endswith(".csv"):
-            return fail("Please upload a .csv file.")
+            return fail(_("Please upload a .csv file."))
         if csv_file.size > SELF_SERVE_IMPORT_MAX_BYTES:
-            return fail("CSV file is too large (maximum 2MB).")
+            return fail(_("CSV file is too large (maximum 2MB)."))
 
         try:
             decoded = csv_file.read().decode("utf-8-sig")
         except UnicodeDecodeError:
-            return fail("CSV must be UTF-8 encoded.")
+            return fail(_("CSV must be UTF-8 encoded."))
 
         rows = [row for row in csv.reader(decoded.splitlines()) if any(cell.strip() for cell in row)]
         if len(rows) < 2:
-            return fail("The CSV needs a header row and at least one data row.")
+            return fail(_("The CSV needs a header row and at least one data row."))
 
         headers = [h.strip() for h in rows[0]]
         data_rows = rows[1:]
         if len(data_rows) > SELF_SERVE_IMPORT_MAX_ROWS:
-            return fail(f"CSV has too many rows (maximum {SELF_SERVE_IMPORT_MAX_ROWS}).")
+            return fail(_("CSV has too many rows (maximum %(max)s).")
+                        % {"max": SELF_SERVE_IMPORT_MAX_ROWS})
 
         # AI proposes the header→field mapping (alias fallback if unavailable)
         mapping = propose_csv_mapping(headers, data_rows[:5])
@@ -976,6 +879,7 @@ class SelfServeImportView(LoginRequiredMixin, LeasingManagerRequiredMixin, View)
             "columns": columns,
             "preview_rows": data_rows[:3],
             "importable_fields": IMPORTABLE_FIELDS,
+            "import_field_labels": IMPORTABLE_FIELD_LABELS,
             "total_rows": len(data_rows),
         }
 
@@ -988,7 +892,7 @@ class SelfServeImportView(LoginRequiredMixin, LeasingManagerRequiredMixin, View)
     def _process_confirmed(self, request):
         data = request.session.get(SELF_SERVE_IMPORT_SESSION_KEY)
         if not data:
-            messages.error(request, "Your upload session expired. Please upload the CSV again.")
+            messages.error(request, _("Your upload session expired. Please upload the CSV again."))
             return redirect("listings:self_serve_import")
 
         headers = data["headers"]
@@ -1035,18 +939,22 @@ class SelfServeImportView(LoginRequiredMixin, LeasingManagerRequiredMixin, View)
         title = record.get("title", "")
         postal_code = record.get("postal_code", "")
         if not title:
-            errors.append("missing title")
+            errors.append(_("Missing %(field)s")
+                          % {"field": IMPORTABLE_FIELD_LABELS["title"]})
         if not postal_code:
-            errors.append("missing postal_code")
+            errors.append(_("Missing %(field)s")
+                          % {"field": IMPORTABLE_FIELD_LABELS["postal_code"]})
         elif len(postal_code) != 6 or not postal_code.isdigit():
-            errors.append(f"invalid postal_code '{postal_code}'")
+            errors.append(_("Invalid %(field)s: %(value)s")
+                          % {"field": IMPORTABLE_FIELD_LABELS["postal_code"], "value": postal_code})
         if errors:
             return errors
 
         # Fall back to the company's own WhatsApp number for contactless rows
         contact_number = record.get("contact_number", "") or (request.user.company.whatsapp_number or "")
         if not contact_number:
-            return ["missing contact_number"]
+            return [_("Missing %(field)s")
+                    % {"field": IMPORTABLE_FIELD_LABELS["contact_number"]}]
 
         price_display_raw = (record.get("price_display") or "").strip().lower()
         price_display = "on_request" if ("request" in price_display_raw or price_display_raw == "poa") else "exact"
@@ -1082,7 +990,10 @@ class SelfServeImportView(LoginRequiredMixin, LeasingManagerRequiredMixin, View)
             listing.status = Listing.Status.REJECTED
             listing.rejection_reason = ref_result["message"]
             listing.save(update_fields=["status", "rejection_reason"])
-            return [f"blocked — {ref_result['message']}"]
+            # The service message is already a whole sentence ("Blocked: …") and is
+            # what the landlord sees in the manual flow too; wrapping it again would
+            # read "Blocked — Blocked: …".
+            return [ref_result["message"]]
 
         results["created"] += 1
         return []

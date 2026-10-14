@@ -8,7 +8,7 @@
 <meta property="og:site_name" content="MakanSpace">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ company.name }} | MakanSpace">
-<meta property="og:description" content="{% blocktrans count listing_count=listings|length %}{{ listing_count }} hawker stall available for rent{% plural %}{{ listing_count }} hawker stalls available for rent{% endblocktrans %}">
+<meta property="og:description" content="{% blocktrans count listing_count=listings|length trimmed %}{{ listing_count }} hawker stall available for rent{% plural %}{{ listing_count }} hawker stalls available for rent{% endblocktrans %}">
 <meta property="og:image" content="{{ og_image_url }}">
 <meta property="og:url" content="{{ og_url }}">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
                     <span class="badge badge--verified" title="{% trans 'Business verified' %}">&#10003; {% trans "Verified landlord" %}</span>
                     {% endif %}
                     <span>
-                        {% blocktrans count listing_count=listings|length %}{{ listing_count }} stall available{% plural %}{{ listing_count }} stalls available{% endblocktrans %}
+                        {% blocktrans count listing_count=listings|length trimmed %}{{ listing_count }} stall available{% plural %}{{ listing_count }} stalls available{% endblocktrans %}
                     </span>
                 </div>
             </div>

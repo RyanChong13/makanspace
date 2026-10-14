@@ -79,6 +79,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "accounts.middleware.UserLanguageMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
@@ -205,6 +206,10 @@ LANGUAGES = [
     ("ta", "தமிழ் (Tamil)"),
     ("ms", "Bahasa Melayu (Malay)"),
 ]
+
+# Send a cross-origin referrer policy so the OneMap tile host still recognises
+# the request. Set at module level so local development matches production.
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 

@@ -58,7 +58,7 @@
             {% else %}
             <div style="aspect-ratio: 16/10; background: var(--color-bg-secondary);
                         display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary);">
-                <span style="font-size: 2.5rem;">🏪</span>
+                <i data-lucide="image" style="width:48px;height:48px;"></i>
             </div>
             {% endif %}
         </a>
@@ -83,14 +83,14 @@
             {% endif %}
         </div>
         {% if listing.mrt_display %}
-        <div class="text-sm text-secondary mt-1">&#128647; {{ listing.mrt_display }}</div>
+        <div class="text-sm text-secondary mt-1"><i data-lucide="train-track" style="width:14px;height:14px;vertical-align:middle;"></i> {{ listing.mrt_display }}</div>
         {% endif %}
 
         <!-- F&B-specific fields -->
         {% if listing.footfall_estimate or listing.grease_trap_fee %}
         <div class="text-sm text-secondary mt-1" style="color: var(--color-text-secondary);">
-            {% if listing.footfall_estimate %}&#128694; {{ listing.footfall_estimate }}{% endif %}
-            {% if listing.grease_trap_fee %} &middot; {% trans "Grease trap" %}: ${{ listing.grease_trap_fee }}/mo{% endif %}
+            {% if listing.footfall_estimate %}<i data-lucide="footprints" style="width:14px;height:14px;vertical-align:middle;"></i> {{ listing.footfall_estimate }}{% endif %}
+            {% if listing.grease_trap_fee %} &middot; {% blocktrans with fee=listing.grease_trap_fee trimmed %}Grease trap: ${{ fee }}/mo{% endblocktrans %}{% endif %}
         </div>
         {% endif %}
 
@@ -112,7 +112,7 @@
 
         <!-- Freshness indicator (spec C) -->
         <div class="text-sm text-secondary mt-1" style="font-size: 0.78rem;">
-            {% trans "Listed" %} {{ listing.created_at|timesince }} {% trans "ago" %}
+            {{ listing.created_at|ago_short }}
         </div>
     </div>
 

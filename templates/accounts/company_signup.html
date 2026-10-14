@@ -26,7 +26,7 @@
         <div class="form-group">
             <label class="form-label" for="{{ form.uen.id_for_label }}">{% trans "UEN (Business Registration)" %}</label>
             {{ form.uen }}
-            <p class="text-secondary text-sm">Unique Entity Number from ACRA.</p>
+            <p class="text-secondary text-sm">{% trans "Unique Entity Number from ACRA." %}</p>
             {% for err in form.uen.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
@@ -39,7 +39,7 @@
         <div class="form-group">
             <label class="form-label" for="{{ form.business_reg_doc.id_for_label }}">{% trans "Business Registration Document" %}</label>
             {{ form.business_reg_doc }}
-            <p class="text-secondary text-sm">Upload ACRA certificate or UEN proof (PDF or image).</p>
+            <p class="text-secondary text-sm">{% trans "Upload ACRA certificate or UEN proof (PDF or image)." %}</p>
             {% for err in form.business_reg_doc.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 

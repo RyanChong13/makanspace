@@ -1,6 +1,6 @@
-{% load static %}
+{% load static i18n listing_extras %}
 <!DOCTYPE html>
-<html lang="{{ current_language|default:'en' }}">
+<html lang="{{ active_language|default:'en' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +10,13 @@
     <!-- Open Graph / Twitter fallbacks for rich link previews -->
     <meta property="og:site_name" content="MakanSpace">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="MakanSpace — Hawker stall rentals in Singapore">
-    <meta property="og:description" content="Browse verified hawker and coffee-shop stalls for rent across Singapore.">
+    <meta property="og:title" content="{% trans 'MakanSpace — Hawker stall rentals in Singapore' %}">
+    <meta property="og:description" content="{% trans 'Browse verified hawker and coffee-shop stalls for rent across Singapore.' %}">
     <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MakanSpace — Hawker stall rentals in Singapore">
-    <meta name="twitter:description" content="Browse verified hawker and coffee-shop stalls for rent across Singapore.">
+    <meta name="twitter:title" content="{% trans 'MakanSpace — Hawker stall rentals in Singapore' %}">
+    <meta name="twitter:description" content="{% trans 'Browse verified hawker and coffee-shop stalls for rent across Singapore.' %}">
     <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-default.png' %}">
     {% endblock %}
 
@@ -27,9 +27,10 @@
     <link rel="stylesheet" href="{% static 'css/design_system.css' %}">
     {% block extra_css %}{% endblock %}
 
-    <!-- HTMX -->
-    <script src="https://unpkg.com/htmx.org@2.0.4"
-            integrity="sha384-HD3H/kXwH+X9W2R7ME3pBfY1M8fTQ6K7s1F5q7B8kZx5G7t6m9r4s"
+    <!-- HTMX. The path is required (bare 'htmx.org@2.0.4' 301s) and the previous
+         hand-written sha384 integrity value was not a real hash, so the browser
+         blocked the script and every hx-* swap silently did nothing. -->
+    <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js"
             crossorigin="anonymous"></script>
 
     <!-- CSRF token for HTMX POST requests -->
@@ -64,14 +65,14 @@
         <button id="chatbot-toggle" style="background:var(--color-accent);color:#fff;border:none;border-radius:50%;
                 width:56px;height:56px;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 12px rgba(75,46,131,0.35);
                 display:flex;align-items:center;justify-content:center;transition:transform 0.2s"
-                onclick="document.getElementById('chatbot-panel').classList.toggle('is-open')">💬</button>
+                onclick="document.getElementById('chatbot-panel').classList.toggle('is-open')"><i data-lucide="message-circle" style="width:24px;height:24px;"></i></button>
     </div>
     <div id="chatbot-panel" style="position:fixed;bottom:6rem;right:1.5rem;width:340px;max-height:480px;
             background:#fff;border-radius:var(--radius-lg);box-shadow:0 8px 32px rgba(0,0,0,0.15);
             display:none;flex-direction:column;z-index:1001;overflow:hidden;border:1px solid var(--color-border);">
         <div style="background:var(--color-header);color:#fff;padding:0.8rem 1rem;font-weight:700;font-size:0.95rem;
                     display:flex;align-items:center;justify-content:space-between;">
-            <span>🔍 MakanSpace Assistant</span>
+            <span><i data-lucide="search" style="width:16px;height:16px;vertical-align:middle;"></i> {% trans "MakanSpace Assistant" %}</span>
             <button onclick="document.getElementById('chatbot-panel').classList.remove('is-open')"
                     style="background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer">✕</button>
         </div>
@@ -79,18 +80,18 @@
                                             display:flex;flex-direction:column;gap:0.6rem;">
             <div style="background:var(--color-bg-secondary);padding:0.6rem 0.8rem;border-radius:var(--radius-md);
                         max-width:85%;align-self:flex-start;">
-                Hi! Describe the hawker stall you're looking for — I'll find matches for you.
+                {% trans "Hi! Describe the hawker stall you're looking for — I'll find matches for you." %}
             </div>
         </div>
         <form id="chatbot-form" style="border-top:1px solid var(--color-border);padding:0.6rem;display:flex;gap:0.4rem;">
-            <input type="text" id="chatbot-input" placeholder="e.g. stall near MRT under $2000..."
+            <input type="text" id="chatbot-input" placeholder="{% trans 'e.g. stall near MRT under $2000...' %}"
                    style="flex:1;border:1px solid var(--color-border);border-radius:var(--radius-pill);
                           padding:0.5rem 0.8rem;font-size:0.9rem;outline:none">
-            <button type="button" id="chatbot-mic" title="Speak your search"
+            <button type="button" id="chatbot-mic" title="{% trans 'Speak your search' %}"
                     style="background:var(--color-bg-secondary);border:1px solid var(--color-border);
-                    border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem">🎤</button>
+                    border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;"><i data-lucide="mic" style="width:16px;height:16px;"></i></button>
             <button type="submit" style="background:var(--color-accent);color:#fff;border:none;
-                    border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem">↑</button>
+                    border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;"><i data-lucide="arrow-up" style="width:16px;height:16px;"></i></button>
         </form>
     </div>
 
@@ -108,23 +109,23 @@
     {% block extra_js %}{% endblock %}
 
     <!-- Mobile bottom navigation with floating filter button -->
-    <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+    <nav class="mobile-bottom-nav" aria-label="{% trans 'Mobile navigation' %}">
         <a href="{% url 'listings:listing_list' %}" class="mobile-bottom-nav__btn">
             <i data-lucide="home"></i>
-            <span>Home</span>
+            <span>{% trans "Home" %}</span>
         </a>
-        <button class="mobile-bottom-nav__fab" id="mobile-filter-fab" aria-label="Open filters">
+        <button class="mobile-bottom-nav__fab" id="mobile-filter-fab" aria-label="{% trans 'Open filters' %}">
             <i data-lucide="sliders-horizontal"></i>
         </button>
         {% if user.is_authenticated %}
         <a href="{% url 'accounts:profile' %}" class="mobile-bottom-nav__btn">
             <i data-lucide="user"></i>
-            <span>Account</span>
+            <span>{% trans "Account" %}</span>
         </a>
         {% else %}
         <a href="{% url 'account_login' %}" class="mobile-bottom-nav__btn">
             <i data-lucide="log-in"></i>
-            <span>Log In</span>
+            <span>{% trans "Log In" %}</span>
         </a>
         {% endif %}
     </nav>
@@ -180,7 +181,7 @@
                 // Loading
                 const loadDiv = document.createElement('div');
                 loadDiv.style.cssText = 'color:var(--color-text-secondary);font-size:0.85rem;padding:0.3rem;';
-                loadDiv.textContent = 'Searching...';
+                loadDiv.textContent = '{% trans "Searching..." %}';
                 chatMsgs.appendChild(loadDiv);
 
                 try {
@@ -196,21 +197,29 @@
                     botDiv.style.cssText = 'align-self:flex-start;max-width:90%;';
 
                     if (data.results && data.results.length > 0) {
-                        let html = '<div>Found ' + data.results.length + ' match(es):</div>';
+                        // The %(n)s placeholder stays literal in the translated text and is
+                        // substituted here. It must go through the |msg filter and not the
+                        // trans tag: the tag rewrites printf-style placeholders and the lookup
+                        // then misses, which would print English over a Chinese, Tamil or
+                        // Malay page.
+                        let template = '{{ "Found %(n)s match(es):"|msg|escapejs }}';
+                        let html = '<div>' + template.replace('%(n)s', data.results.length) + '</div>';
                         data.results.forEach(function(l) {
                             html += '<div class="chatbot-result"><strong>' + l.code + '</strong> — ' + l.title +
-                                    '<br>💰 ' + l.cost + (l.size ? ' · 📏 ' + l.size : '') + '</div>';
+                                    '<br><i data-lucide="banknote" style="width:14px;height:14px;vertical-align:middle;"></i> ' + l.cost +
+                                    (l.size ? ' · <i data-lucide="ruler" style="width:14px;height:14px;vertical-align:middle;"></i> ' + l.size : '') + '</div>';
                         });
                         botDiv.innerHTML = html;
                     } else {
-                        botDiv.innerHTML = '<div style="background:var(--color-bg-secondary);padding:0.6rem 0.8rem;border-radius:var(--radius-md);">No matches found. Try different criteria!</div>';
+                        botDiv.innerHTML = '<div style="background:var(--color-bg-secondary);padding:0.6rem 0.8rem;border-radius:var(--radius-md);">{% trans "No matches found. Try different criteria!" %}</div>';
                     }
                     chatMsgs.appendChild(botDiv);
+                    if (window.lucide) lucide.createIcons();
                 } catch(err) {
                     loadDiv.remove();
                     const errDiv = document.createElement('div');
                     errDiv.style.cssText = 'background:#FDE8E8;padding:0.6rem;border-radius:var(--radius-md);color:#C0392B;font-size:0.85rem;';
-                    errDiv.textContent = 'Sorry, something went wrong. Please try again.';
+                    errDiv.textContent = '{% trans "Sorry, something went wrong. Please try again." %}';
                     chatMsgs.appendChild(errDiv);
                 }
                 chatMsgs.scrollTop = chatMsgs.scrollHeight;
@@ -221,6 +230,14 @@
         const chatMic = document.getElementById('chatbot-mic');
         let chatRecorder = null;
         let chatChunks = [];
+
+        // The mic button holds a Lucide <i>; swapping the icon name re-renders it,
+        // because createIcons() replaces the <i> with an <svg>.
+        function setChatMicIcon(name) {
+            if (!chatMic) return;
+            chatMic.innerHTML = '<i data-lucide="' + name + '" style="width:16px;height:16px;"></i>';
+            if (window.lucide) lucide.createIcons();
+        }
 
         function chatbotVoiceError(text) {
             const errDiv = document.createElement('div');
@@ -238,7 +255,7 @@
                     return;
                 }
                 if (!navigator.mediaDevices || !window.MediaRecorder) {
-                    chatbotVoiceError('Voice input is not supported in this browser.');
+                    chatbotVoiceError('{% trans "Voice input is not supported in this browser." %}');
                     return;
                 }
                 try {
@@ -251,11 +268,11 @@
                     chatRecorder.addEventListener('stop', async function() {
                         stream.getTracks().forEach(function(t) { t.stop(); });
                         chatMic.classList.remove('is-recording');
-                        chatMic.textContent = '🎤';
+                        setChatMicIcon('mic');
 
                         const loadDiv = document.createElement('div');
                         loadDiv.style.cssText = 'color:var(--color-text-secondary);font-size:0.85rem;padding:0.3rem;';
-                        loadDiv.textContent = 'Transcribing...';
+                        loadDiv.textContent = '{% trans "Transcribing..." %}';
                         chatMsgs.appendChild(loadDiv);
                         chatMsgs.scrollTop = chatMsgs.scrollHeight;
 
@@ -274,18 +291,18 @@
                                 chatInput.value = data.text;
                                 chatForm.dispatchEvent(new Event('submit', {cancelable: true}));
                             } else {
-                                chatbotVoiceError(data.error || 'Sorry, something went wrong. Please try again.');
+                                chatbotVoiceError(data.error || '{% trans "Sorry, something went wrong. Please try again." %}');
                             }
                         } catch (err) {
                             loadDiv.remove();
-                            chatbotVoiceError('Sorry, something went wrong. Please try again.');
+                            chatbotVoiceError('{% trans "Sorry, something went wrong. Please try again." %}');
                         }
                     });
                     chatRecorder.start();
                     chatMic.classList.add('is-recording');
-                    chatMic.textContent = '⏹';
+                    setChatMicIcon('square');
                 } catch (err) {
-                    chatbotVoiceError('Microphone access was denied.');
+                    chatbotVoiceError('{% trans "Microphone access was denied." %}');
                 }
             });
         }

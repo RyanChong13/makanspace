@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MakanSpace VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-28 00:24+0800\n"
+"POT-Creation-Date: 2026-10-14 00:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_Hans\n"
@@ -19,14 +19,126 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
+#, python-format
+msgid "$%(fee)s/mo"
+msgstr "$%(fee)s/月"
+
+#, python-format
+msgid "%(clicks)s person asked about your stalls this week"
+msgid_plural "%(clicks)s people asked about your stalls this week"
+msgstr[0] "本周有 %(clicks)s 人咨询了你的摊位。"
+
+#, python-format
+msgid "%(count)s stall found"
+msgid_plural "%(count)s stalls found"
+msgstr[0] "%(count)s 个符合条件的摊位"
+
+#, python-format
+msgid "%(listing_count)s hawker stall available for rent"
+msgid_plural "%(listing_count)s hawker stalls available for rent"
+msgstr[0] "%(listing_count)s 个小贩摊位出租中"
+
+#, python-format
+msgid "%(listing_count)s stall available"
+msgid_plural "%(listing_count)s stalls available"
+msgstr[0] "%(listing_count)s 个摊位可租"
+
+#, python-format
+msgid "%(min)s–%(max)s/mo"
+msgstr "%(min)s–%(max)s/月"
+
+#, python-format
+msgid "%(n)d min walk to %(station)s"
+msgstr "距 %(station)s 步行 %(n)d 分钟"
+
+#, python-format
+msgid "%(n)s listing"
+msgid_plural "%(n)s listings"
+msgstr[0] "%(n)s 个摊位列表"
+
+#, python-format
+msgid "%(n)s listing created and is now live."
+msgid_plural "%(n)s listings created and are now live."
+msgstr[0] "已创建 %(n)s 个摊位，现已上线。"
+
+#, python-format
+msgid "%(n)s stall matching your search."
+msgid_plural "%(n)s stalls matching your search."
+msgstr[0] "匹配您搜索的 %(n)s 个摊位。"
+
+#, python-format
+msgid "%(price)s/mo"
+msgstr "%(price)s/月"
+
+#, python-format
+msgid "%(size)s sqft"
+msgstr "%(size)s 平方英尺"
+
 msgid "1 to 2 years"
 msgstr "1到2年"
+
+msgid "200–400 sqft"
+msgstr "200–400 平方英尺"
+
+msgid "400+ sqft"
+msgstr "400+ 平方英尺"
 
 msgid "6 to 12 months"
 msgstr "6到12个月"
 
+msgid "6-digit Singapore postal code. Location will be auto-geocoded."
+msgstr "6位数新加坡邮政编码。位置会自动地理编码。"
+
+msgid "<200 sqft"
+msgstr "<200 平方英尺"
+
+msgid "A company with this UEN is already registered."
+msgstr "此UEN的公司已经注册过了。"
+
+msgid "ACRA/UEN business registration proof (PDF or image)."
+msgstr "ACRA/UEN 商业注册证明（PDF或图片）。"
+
+msgid "AI search is not configured yet."
+msgstr "AI搜索还没有配置好。"
+
+msgid "AI search returned an unexpected response."
+msgstr "AI搜索返回了意外的结果。"
+
+msgid "About"
+msgstr "关于"
+
+msgid "Account"
+msgstr "账户"
+
 msgid "Account Settings"
 msgstr "账户设置"
+
+msgid "Add Photo"
+msgstr "添加照片"
+
+#, python-format
+msgid ""
+"Add a colleague to your company (%(name)s). They'll be able to create and"
+" manage listings."
+msgstr "把同事添加到您的公司（%(name)s）。他们将可以创建和管理摊位列表。"
+
+msgid "Add a quick reply"
+msgstr "添加快捷回复"
+
+msgid "Additional details"
+msgstr "补充详情"
+
+msgid "Admin"
+msgstr "管理员"
+
+msgid "All"
+msgstr "全部"
+
+msgid "All landlords are ACRA-verified before listing."
+msgstr "所有房东在上架前都经过ACRA验证。"
+
+msgid "All rights reserved."
+msgstr "版权所有。"
 
 msgid "Already have an account?"
 msgstr "已有账户？"
@@ -34,26 +146,83 @@ msgstr "已有账户？"
 msgid "Amenities"
 msgstr "设施"
 
+msgid "An account with this email already exists."
+msgstr "这个邮箱已经注册过了。"
+
+msgid "Analytics"
+msgstr "数据分析"
+
+msgid "Any cost"
+msgstr "不限费用"
+
 msgid "Any distance"
 msgstr "不限距离"
 
 msgid "Any duration"
 msgstr "不限租期"
 
-msgid "Apply Now"
-msgstr "立即申请"
+msgid "Any location"
+msgstr "不限地点"
 
-msgid "Available Tasting / Viewing Slots"
-msgstr "可用品尝/参观时段"
+msgid "Any size"
+msgstr "不限面积"
+
+msgid "Are you sure you want to sign out?"
+msgstr "确定要退出登录吗？"
+
+msgid "Back to Account Settings"
+msgstr "返回账户设置"
+
+msgid "Back to Sign In"
+msgstr "返回登录"
+
+msgid "Back to listing"
+msgstr "返回摊位"
 
 msgid "Back to listings"
 msgstr "返回列表"
 
-msgid "Boost this Listing"
-msgstr "推广此列表"
+#, python-format
+msgid ""
+"Blocked: '%(name)s' is an NEA Direct-managed centre, so it cannot be "
+"listed on MakanSpace. %(reason)s"
+msgstr "已屏蔽：'%(name)s' 属于国家环境局直接管理的中心，因此无法在 MakanSpace 上发布。%(reason)s"
+
+msgid "Both a label and a message are required."
+msgstr "标签和内容都必须填写。"
 
 msgid "Browse Hawker Stalls"
 msgstr "浏览小贩摊位"
+
+msgid "Browse Stalls"
+msgstr "浏览摊位"
+
+msgid "Browse all listings"
+msgstr "浏览所有摊位列表"
+
+msgid "Browse in English, Chinese, Tamil, or Malay."
+msgstr "可用英文、中文、淡米尔文或马来文浏览。"
+
+msgid "Browse verified hawker and coffee-shop stalls for rent across Singapore."
+msgstr "浏览全新加坡经验证的小贩与咖啡店摊位出租信息。"
+
+msgid "Budget From ($/mo)"
+msgstr "预算起（$/月）"
+
+msgid "Budget Up To ($/mo)"
+msgstr "预算至（$/月）"
+
+msgid "Bulk Upload"
+msgstr "批量上传"
+
+msgid "Bulk Upload CSV"
+msgstr "批量上传CSV"
+
+msgid "Bulk Upload Stalls"
+msgstr "批量上传摊位"
+
+msgid "Bulk Upload Stalls (CSV)"
+msgstr "批量上传摊位（CSV）"
 
 msgid "Business Registration Document"
 msgstr "商业注册文件"
@@ -61,11 +230,89 @@ msgstr "商业注册文件"
 msgid "Business verified"
 msgstr "已验证商家"
 
-msgid "Clear all filters"
-msgstr "清除所有筛选"
+msgid "CSV File"
+msgstr "CSV文件"
+
+msgid "CSV column"
+msgstr "CSV列"
+
+msgid "CSV file is too large (maximum 2MB)."
+msgstr "CSV 文件过大（最大 2MB）。"
+
+#, python-format
+msgid "CSV has too many rows (maximum %(max)s)."
+msgstr "CSV 行数过多（最多 %(max)s 行）。"
+
+msgid "CSV must be UTF-8 encoded."
+msgstr "CSV 必须是 UTF-8 编码。"
+
+msgid "CSV row"
+msgstr "CSV行"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Central"
+msgstr "中部"
+
+msgid "Change Password"
+msgstr "修改密码"
+
+msgid "Choose a username"
+msgstr "设置用户名"
+
+msgid "Clear all"
+msgstr "清除全部"
+
+#, python-format
+msgid ""
+"Company '%(name)s' registered. Your account is pending business "
+"verification by our admin team."
+msgstr "公司“%(name)s”已注册。您的账户正在等待管理员团队验证营业资质。"
 
 msgid "Company Legal Name"
 msgstr "公司法定名称"
+
+msgid ""
+"Company WhatsApp number for the Connect via WhatsApp button (with country"
+" code, e.g. +65)."
+msgstr "用于“通过 WhatsApp 联系”按钮的公司WhatsApp号码（含国家代码，例如 +65）。"
+
+msgid "Company legal name."
+msgstr "公司法定名称。"
+
+msgid "Company that referred this company at signup (optional)."
+msgstr "注册时推荐此公司的公司（可选）。"
+
+msgid "Company this user belongs to (leasing managers only)."
+msgstr "该用户所属的公司（仅限租赁经理）。"
+
+msgid "Compliant by Design"
+msgstr "天生合规"
+
+msgid "Confirm Column Mapping"
+msgstr "确认列对应关系"
+
+msgid "Confirm New Password"
+msgstr "确认新密码"
+
+msgid "Confirm Password"
+msgstr "确认密码"
+
+msgid "Confirm new password"
+msgstr "确认新密码"
+
+msgid "Confirm password"
+msgstr "确认密码"
+
+msgid "Confirm your password"
+msgstr "请再次输入密码"
+
+msgid "Connect Directly"
+msgstr "直接联系"
+
+msgid "Connect via WhatsApp"
+msgstr "通过 WhatsApp 联系"
 
 msgid ""
 "Connecting hawker companies with aspiring hawkers across Singapore. Only "
@@ -73,23 +320,121 @@ msgid ""
 "courts, and appointed-operator hawker centres are welcome."
 msgstr "连接新加坡的熟食公司与有志小贩。仅排除国家环境局直接招标的中心——私人咖啡店、美食广场和获委任运营商的小贩中心都欢迎。"
 
-msgid "Connecting hawker stall owners with prospective hawkers across Singapore."
-msgstr "连接新加坡各地小贩摊主与有意经营者。"
+msgid "Contact"
+msgstr "联系我们"
 
-msgid "Cost Range (SGD/month)"
-msgstr "租金范围（新元/月）"
+msgid "Contact landlords instantly via WhatsApp — no middlemen, no agent fees."
+msgstr "通过 WhatsApp 即时联系房东——没有中介，没有代理费。"
+
+msgid "Contact unavailable"
+msgstr "暂无法联系"
+
+msgid "Copied!"
+msgstr "已复制！"
+
+msgid "Copy"
+msgstr "复制"
+
+msgid "Cost Range"
+msgstr "租金范围"
+
+msgid "Create Account"
+msgstr "创建账户"
+
+msgid "Create Your Account"
+msgstr "创建您的账户"
+
+msgid "Create a password"
+msgstr "设置密码"
+
+msgid "Create an account to manage your company's stalls"
+msgstr "创建账户以管理贵公司的摊位"
+
+msgid "Cuisine Type"
+msgstr "菜系类型"
+
+msgid "Current Password"
+msgstr "当前密码"
+
+msgid "Dashboard"
+msgstr "控制台"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Delete Listing"
+msgstr "删除摊位列表"
+
+msgid "Delete this listing?"
+msgstr "删除此摊位列表？"
+
+msgid ""
+"Describe your stall — location highlights, foot traffic, what makes it "
+"special..."
+msgstr "描述您的摊位——地段优势、人流、有什么特别之处……"
 
 msgid "Description"
 msgstr "描述"
 
+msgid "Direct WhatsApp Contact"
+msgstr "WhatsApp 直接联系"
+
 msgid "Dishwashing Cost"
 msgstr "洗碗费用"
+
+msgid "Dishwashing Cost ($/mo)"
+msgstr "洗碗费用（$/月）"
+
+msgid "Don't have an account?"
+msgstr "还没有账户？"
+
+msgid "East"
+msgstr "东部"
+
+msgid "Edit"
+msgstr "编辑"
+
+#, python-format
+msgid "Edit %(title)s"
+msgstr "编辑 %(title)s"
 
 msgid "Edit Listing"
 msgstr "编辑列表"
 
+msgid "Edit Your Listing"
+msgstr "编辑您的摊位列表"
+
+msgid "Email Address"
+msgstr "电子邮箱"
+
+msgid "Email or Username"
+msgstr "邮箱或用户名"
+
+msgid "Enter 8 digits (e.g. 91234567) or with country code (e.g. +65 9123 4567)"
+msgstr "输入8位号码（例如 91234567），或加上国家代码（例如 +65 9123 4567）"
+
+msgid "Enter current password"
+msgstr "输入当前密码"
+
+msgid "Enter new password"
+msgstr "输入新密码"
+
+msgid "Enter your email and we'll send you a reset link."
+msgstr "输入您的邮箱，我们会给您发送重置链接。"
+
 msgid "Est. Daily Footfall"
 msgstr "预估每日客流量"
+
+msgid "Estimated Daily Footfall"
+msgstr "预估每日客流量"
+
+msgid "Exact price"
+msgstr "确切价格"
+
+msgid ""
+"Exact pricing helps hawkers compare stalls quickly. Only choose 'Rental "
+"on request' if your pricing truly needs to be discussed privately."
+msgstr "标明具体价格有助于小贩快速比较摊位。只有价格确实需要私下商议时才选择“租金面议”。"
 
 msgid "F&B Operational Costs"
 msgstr "餐饮运营成本"
@@ -97,25 +442,71 @@ msgstr "餐饮运营成本"
 msgid "F&B Operational Costs (optional)"
 msgstr "餐饮运营成本（可选）"
 
-msgid "FEATURED"
+msgid "FAQ"
+msgstr "常见问题"
+
+msgid "Featured"
 msgstr "精选"
 
-msgid "Featured first"
-msgstr "精选优先"
+msgid ""
+"Fill in your stall details. Your listing goes live immediately and may be"
+" reviewed afterwards."
+msgstr "填写摊位详情。您的摊位会立即上线，我们可能会在之后进行审核。"
+
+msgid "Find"
+msgstr "查找"
 
 msgid ""
-"Fill in your stall details. Your listing will be reviewed by our team "
-"before going live."
-msgstr "填写摊位详情。我们的团队会在上线前审核您的列表。"
+"Find trusted suppliers for your hawker business — kitchen equipment, "
+"furniture, and raw food ingredients."
+msgstr "为您的小贩生意寻找可靠供应商——厨房设备、家具和食材。"
+
+msgid "Find your next hawker stall"
+msgstr "找到您的下一个小贩摊位"
 
 msgid "First Name"
 msgstr "名字"
 
+msgid "First name"
+msgstr "名字"
+
+msgid "For Companies"
+msgstr "企业专区"
+
+msgid "For Hawkers"
+msgstr "小贩专区"
+
+msgid "For WhatsApp contact. Include country code, e.g. +65 9123 4567"
+msgstr "用于 WhatsApp 联系，请包含国家代码，例如 +65 9123 4567"
+
+msgid "Forgot Password"
+msgstr "忘记密码"
+
+msgid "Forgot password?"
+msgstr "忘记密码？"
+
+#, python-format
+msgid "Found %(n)s match(es):"
+msgstr "找到 %(n)s 个匹配结果："
+
+msgid "Furniture"
+msgstr "家具"
+
+msgid "Get Discovered"
+msgstr "获得曝光"
+
+msgid "Go to My Listings"
+msgstr "前往我的摊位列表"
+
 msgid "Grease Trap Fee"
 msgstr "油脂拦截器费用"
 
-msgid "Grease trap"
-msgstr "油脂拦截器"
+msgid "Grease Trap Fee ($/mo)"
+msgstr "油脂拦截器费用（$/月）"
+
+#, python-format
+msgid "Grease trap: $%(fee)s/mo"
+msgstr "油脂拦截器：$%(fee)s/月"
 
 msgid "Has Grease Trap"
 msgstr "有油脂拦截器"
@@ -123,20 +514,151 @@ msgstr "有油脂拦截器"
 msgid "Hawker Stalls for Rent"
 msgstr "出租小贩摊位"
 
+msgid ""
+"Hawkers browse verified stalls by area, price, and amenities — no account"
+" needed."
+msgstr "小贩可按区域、价格和设施浏览经验证的摊位——无需账户。"
+
+msgid ""
+"Hawkers looking for a stall. Reply directly on WhatsApp if one of your "
+"spaces fits."
+msgstr "小贩正在寻找摊位。如果您的场地合适，可直接用 WhatsApp 回复。"
+
+msgid ""
+"Hi! Describe the hawker stall you're looking for — I'll find matches for "
+"you."
+msgstr "您好！描述您想找的小贩摊位，我来为您匹配。"
+
+msgid "Home"
+msgstr "首页"
+
+msgid "How It Works"
+msgstr "运作方式"
+
+msgid ""
+"I confirm none of these stalls are part of an NEA Direct-managed hawker "
+"centre."
+msgstr "我确认这些摊位都不属于国家环境局直接管理的小贩中心。"
+
+msgid "I confirm this stall is NOT part of an NEA Direct-managed hawker centre."
+msgstr "我确认此摊位不属于国家环境局直接管理的小贩中心。"
+
+#, python-format
+msgid "Import %(rows)s listing"
+msgid_plural "Import %(rows)s listings"
+msgstr[0] "导入 %(rows)s 个摊位"
+
+msgid "Import Complete"
+msgstr "导入完成"
+
+msgid "Include country code, e.g. +65 9123 4567"
+msgstr "请包含国家代码，例如 +65 9123 4567"
+
+msgid "Incorrect information"
+msgstr "信息有误"
+
+#, python-format
+msgid "Invalid %(field)s: %(value)s"
+msgstr "%(field)s无效：%(value)s"
+
+msgid "Invalid username or password. Please try again."
+msgstr "用户名或密码有误，请重试。"
+
+#, python-format
+msgid ""
+"Invitation created for %(email)s. They can sign up using the standard "
+"signup with this email."
+msgstr "已为 %(email)s 创建邀请。对方可用这个邮箱通过标准注册流程注册。"
+
+msgid "Invite Leasing Manager"
+msgstr "邀请租赁经理"
+
+msgid "Invite a Leasing Manager"
+msgstr "邀请一位租赁经理"
+
+msgid "Jump to code, e.g. BOOTH-A1B2C3 or SG-A1B2C3"
+msgstr "跳转到编号，例如 BOOTH-A1B2C3 或 SG-A1B2C3"
+
+msgid "Kitchen Amenities"
+msgstr "厨房设施"
+
+msgid "Label, e.g. Still available"
+msgstr "标签，例如：仍有出租"
+
+msgid ""
+"Landlords list vacant hawker stalls with photos, pricing, and location "
+"details."
+msgstr "房东上传空置小贩摊位，附上照片、价格和位置详情。"
+
+msgid "Landlords will reply to you here. Include the country code."
+msgstr "房东会在此回复您，请包含国家代码。"
+
 msgid "Last Name"
 msgstr "姓氏"
+
+msgid "Last changed: never"
+msgstr "最近修改：从未"
+
+msgid "Last name (optional)"
+msgstr "姓氏（可选）"
 
 msgid "Lease Duration"
 msgstr "租期"
 
+msgid "Leasing Manager"
+msgstr "租赁经理"
+
 msgid "Less than 6 months"
 msgstr "少于6个月"
 
-msgid "List"
-msgstr "列表"
+msgid "Link copied!"
+msgstr "链接已复制！"
+
+#, python-format
+msgid "Listed %(n)s day ago"
+msgid_plural "Listed %(n)s days ago"
+msgstr[0] "%(n)s 天前发布"
+
+#, python-format
+msgid "Listed %(n)s hour ago"
+msgid_plural "Listed %(n)s hours ago"
+msgstr[0] "%(n)s 小时前发布"
+
+#, python-format
+msgid "Listed %(n)s minute ago"
+msgid_plural "Listed %(n)s minutes ago"
+msgstr[0] "%(n)s 分钟前发布"
+
+#, python-format
+msgid "Listed %(n)s month ago"
+msgid_plural "Listed %(n)s months ago"
+msgstr[0] "%(n)s 个月前发布"
+
+#, python-format
+msgid "Listed %(n)s year ago"
+msgid_plural "Listed %(n)s years ago"
+msgstr[0] "%(n)s 年前发布"
+
+msgid "Listed just now"
+msgstr "刚刚发布"
+
+#, python-format
+msgid "Listing '%(title)s' has been permanently deleted."
+msgstr "摊位列表“%(title)s”已被永久删除。"
 
 msgid "Listing code"
 msgstr "编号"
+
+msgid ""
+"Listing is live. The location could not be auto-cross-checked and has "
+"been flagged for audit."
+msgstr "摊位已上线。位置无法自动核对，已标记待审核。"
+
+msgid "Listing submitted and is now live!"
+msgstr "摊位已提交并上线！"
+
+msgid "Location"
+msgstr "地点"
 
 msgid "Log In"
 msgstr "登录"
@@ -147,17 +669,58 @@ msgstr "退出"
 msgid "Log in"
 msgstr "登录"
 
+msgid "Login & Security"
+msgstr "登录与安全"
+
+msgid "Looking for a stall?"
+msgstr "在找摊位？"
+
 msgid "MRT/Bus Distance"
 msgstr "地铁/巴士距离"
 
-msgid "Manage Tasting Slots"
-msgstr "管理品尝时段"
+msgid "MakanSpace Assistant"
+msgstr "MakanSpace 助手"
 
-msgid "Map"
-msgstr "地图"
+msgid "MakanSpace banner"
+msgstr "MakanSpace 横幅图片"
+
+msgid "MakanSpace — Hawker stall rentals in Singapore"
+msgstr "MakanSpace — 新加坡小贩摊位出租"
+
+msgid "Manage your profile and login details"
+msgstr "管理您的个人资料和登录信息"
+
+msgid "Maps to"
+msgstr "对应到"
 
 msgid "Max Rent (optional)"
 msgstr "最高租金（可选）"
+
+msgid "Maximum budget cannot be less than minimum budget."
+msgstr "最高预算不能低于最低预算。"
+
+msgid "Maximum rent cannot be less than minimum rent."
+msgstr "最高租金不能低于最低租金。"
+
+#, python-format
+msgid "Member since %(joined)s"
+msgstr "%(joined)s 加入"
+
+msgid "Message text to copy into WhatsApp"
+msgstr "要复制到 WhatsApp 的消息内容"
+
+msgid "Microphone access was denied."
+msgstr "麦克风权限被拒绝。"
+
+msgid "Minimum rent is required when exact pricing is selected."
+msgstr "选择标明具体价格时必须填写最低租金。"
+
+#, python-format
+msgid "Missing %(field)s"
+msgstr "缺少%(field)s"
+
+msgid "Mobile navigation"
+msgstr "移动端导航"
 
 msgid "Monthly Rent (SGD)"
 msgstr "月租金（新元）"
@@ -165,38 +728,190 @@ msgstr "月租金（新元）"
 msgid "More than 2 years"
 msgstr "超过2年"
 
-msgid "Nearest MRT/Bus"
-msgstr "最近地铁/巴士"
+msgid "Multi-Language"
+msgstr "多语言"
+
+msgid "My Company Listings"
+msgstr "我的公司摊位列表"
+
+msgid "My Listings"
+msgstr "我的摊位列表"
+
+msgid ""
+"NEA's directly-tendered centres (~32) are excluded from MakanSpace. SEHC "
+"and private centres are fine."
+msgstr "国家环境局直接招标的中心（约32个）不在 MakanSpace 范围内。SEHC 和私人中心都可以。"
+
+msgid "NEA-Direct centres are automatically excluded to protect hawkers."
+msgstr "为保护小贩，国家环境局直接管理的中心会自动排除。"
+
+msgid "Nearest Bus Stop"
+msgstr "最近巴士站"
+
+msgid "Nearest MRT"
+msgstr "最近地铁站"
+
+msgid "New Password"
+msgstr "新密码"
 
 msgid "Newest"
 msgstr "最新"
 
+msgid "No WhatsApp contact number is available for this listing."
+msgstr "此摊位没有可用的 WhatsApp 联系电话。"
+
+msgid "No audio file provided."
+msgstr "未收到音频文件。"
+
+#, python-format
+msgid "No listing with code %(code)s found for your company."
+msgstr "贵公司没有编号为 %(code)s 的摊位列表。"
+
+msgid "No listings were created."
+msgstr "没有创建任何摊位列表。"
+
+msgid "No login or contact info required. Your report is anonymous."
+msgstr "无需登录或提供联系方式，您的举报是匿名的。"
+
+msgid "No matches found. Try different criteria!"
+msgstr "没有找到匹配结果，请换个条件试试！"
+
+msgid "No stall-wanted posts yet. Check back later!"
+msgstr "暂无求租摊位信息，稍后再来看看！"
+
 msgid "No stalls match your filters"
 msgstr "没有符合条件的摊位"
+
+msgid "No suppliers listed yet. Check back soon!"
+msgstr "暂无供应商信息，很快会上线！"
+
+msgid "North"
+msgstr "北部"
+
+msgid "North-East"
+msgstr "东北部"
+
+msgid "Open filters"
+msgstr "打开筛选"
+
+msgid "Optional"
+msgstr "可选"
+
+msgid "Optional — enter their company name or UEN."
+msgstr "可选——填写对方公司名称或UEN。"
+
+msgid "Optional: any extra detail that helps us review this listing..."
+msgstr "可选：任何有助于我们审核此摊位的补充信息……"
+
+msgid "Other"
+msgstr "其他"
 
 msgid "Password"
 msgstr "密码"
 
+msgid "Passwords do not match."
+msgstr "两次输入的密码不一致。"
+
+msgid "Payment Successful"
+msgstr "付款成功"
+
+msgid "Payment Successful!"
+msgstr "付款成功！"
+
+msgid "Pending Verification"
+msgstr "待验证"
+
+msgid "Pending review — not yet visible to the public"
+msgstr "待审核——尚未对公众可见"
+
+msgid "Personal Information"
+msgstr "个人信息"
+
+msgid "Phone / HP Number"
+msgstr "电话 / 手机号"
+
 msgid "Phone Number"
 msgstr "电话号码"
+
+msgid "Photos"
+msgstr "照片"
 
 msgid "Photos (up to 6)"
 msgstr "照片（最多6张）"
 
+msgid "Photos are automatically compressed — just upload, we'll handle the rest."
+msgstr "照片会自动压缩——上传即可，其余交给我们。"
+
+msgid "Photos are automatically compressed. Tap a slot to replace or remove it."
+msgstr "照片会自动压缩。点按图片可替换或移除。"
+
+msgid ""
+"Photos are not included in CSV uploads — after importing, add photos to "
+"each listing from My Listings → Edit."
+msgstr "CSV上传不包含照片——导入后请在“我的摊位列表 → 编辑”中为每个摊位添加照片。"
+
+msgid "Please choose a CSV file to upload."
+msgstr "请选择要上传的 CSV 文件。"
+
 msgid "Please correct the errors below."
 msgstr "请更正以下错误。"
+
+msgid ""
+"Please enter a Singapore number: either 8 digits (e.g. 9123 4567) or with"
+" country code (e.g. +65 9123 4567)."
+msgstr "请输入新加坡号码：8位数字（例如 9123 4567），或加上国家代码（例如 +65 9123 4567）。"
+
+msgid "Please enter a search query."
+msgstr "请输入搜索内容。"
+
+msgid "Please enter a valid WhatsApp number with country code."
+msgstr "请输入有效的 WhatsApp 号码并包含国家代码。"
+
+msgid "Please upload a .csv file."
+msgstr "请上传 .csv 文件。"
 
 msgid "Post Stall"
 msgstr "发布摊位"
 
+msgid "Post Stall Wanted Ad"
+msgstr "发布求租摊位信息"
+
 msgid "Post Your Hawker Stall"
 msgstr "发布您的小贩摊位"
+
+msgid "Post Your Stall"
+msgstr "发布您的摊位"
 
 msgid "Post a Hawker Stall"
 msgstr "发布小贩摊位"
 
+msgid "Post a Stall"
+msgstr "发布摊位"
+
+msgid "Post a Stall Wanted Ad"
+msgstr "发布求租摊位信息"
+
+msgid "Post your first stall"
+msgstr "发布您的第一个摊位"
+
 msgid "Postal Code"
 msgstr "邮政编码"
+
+#, python-format
+msgid "Postal code %(code)s"
+msgstr "邮政编码 %(code)s"
+
+msgid "Preferred District"
+msgstr "意向片区"
+
+msgid "Preferred Town"
+msgstr "意向市镇"
+
+msgid "Preview (first rows)"
+msgstr "预览（前几行）"
+
+msgid "Preview only — not yet visible to the public"
+msgstr "仅预览——尚未对公众可见"
 
 msgid "Price: High to Low"
 msgstr "价格：从高到低"
@@ -204,8 +919,38 @@ msgstr "价格：从高到低"
 msgid "Price: Low to High"
 msgstr "价格：从低到高"
 
+msgid "Pricing"
+msgstr "价格"
+
+msgid "Pricing Display"
+msgstr "价格显示方式"
+
 msgid "Primary Region"
 msgstr "主要区域"
+
+msgid "Primary operating region (matches landlord leasing-team structures)."
+msgstr "主要营业区域（与房东的租赁团队架构对应）。"
+
+msgid "Profile updated successfully."
+msgstr "资料更新成功。"
+
+msgid "Quick reply deleted."
+msgstr "快捷回复已删除。"
+
+msgid "Quick reply saved."
+msgstr "快捷回复已保存。"
+
+msgid "Raw Food"
+msgstr "生鲜食材"
+
+msgid "Reason"
+msgstr "原因"
+
+msgid "Reason for report"
+msgstr "举报原因"
+
+msgid "Recognised columns (loose names are fine):"
+msgstr "可识别的列名（名称宽松即可）："
 
 msgid "Register Company"
 msgstr "注册公司"
@@ -218,14 +963,191 @@ msgid ""
 "you can invite leasing managers and create stall listings."
 msgstr "注册为餐饮企业房东。经管理员验证后，您可以邀请租赁经理并创建摊位列表。"
 
+msgid "Rejected"
+msgstr "已拒绝"
+
+msgid "Remember me"
+msgstr "记住我"
+
+msgid "Remove"
+msgstr "移除"
+
+msgid "Rent"
+msgstr "租金"
+
+msgid "Rental on Request"
+msgstr "租金面议"
+
+msgid "Replace"
+msgstr "替换"
+
+msgid "Reply on WhatsApp"
+msgstr "用 WhatsApp 回复"
+
+msgid "Report"
+msgstr "举报"
+
+msgid "Report Listing"
+msgstr "举报摊位"
+
+msgid "Report this listing"
+msgstr "举报此摊位"
+
+msgid "Reset Password"
+msgstr "重置密码"
+
+msgid "Resources"
+msgstr "资源"
+
+msgid "Sample values"
+msgstr "示例值"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Save Changes"
+msgstr "保存更改"
+
+msgid ""
+"Save pre-written replies (e.g. 'Yes, still available — when would you "
+"like to view it?') so you can paste them into WhatsApp quickly."
+msgstr "保存预先写好的回复（例如“是的，还在出租——您什么时候来看？”），方便快速粘贴到 WhatsApp。"
+
+msgid "Scam / fake listing"
+msgstr "诈骗 / 虚假摊位"
+
+msgid "Searching..."
+msgstr "搜索中……"
+
+msgid "Select language"
+msgstr "选择语言"
+
+msgid "Send Invite"
+msgstr "发送邀请"
+
+msgid "Send Reset Link"
+msgstr "发送重置链接"
+
+msgid "Settings"
+msgstr "设置"
+
+msgid "Share this listing"
+msgstr "分享此摊位"
+
+msgid "Sign In"
+msgstr "登录"
+
+msgid "Sign Out"
+msgstr "退出登录"
+
+msgid "Sign Up"
+msgstr "注册"
+
+msgid "Sign in to manage your landlord company listings"
+msgstr "登录后即可管理贵公司的摊位列表"
+
+msgid "Singapore postal codes must be exactly 6 digits."
+msgstr "新加坡邮政编码必须为6位数字。"
+
 msgid "Size"
 msgstr "面积"
 
 msgid "Size (sqft)"
 msgstr "面积（平方英尺）"
 
+msgid "Skipped rows"
+msgstr "跳过的行"
+
+msgid "Sorry, I couldn't hear that. Please try again."
+msgstr "抱歉，我没听清楚。请再试一次。"
+
+msgid "Sorry, I couldn't process your search right now. Please try again."
+msgstr "抱歉，目前无法处理您的搜索。请稍后再试。"
+
+msgid "Sorry, something went wrong. Please try again."
+msgstr "抱歉，出了点问题。请再试一次。"
+
+msgid "South"
+msgstr "南部"
+
+msgid "Speak your search"
+msgstr "说出您的搜索条件"
+
 msgid "Stall Title"
 msgstr "摊位名称"
+
+msgid "Stall Wanted"
+msgstr "求租摊位"
+
+msgid "Stall Wanted Posts"
+msgstr "求租摊位信息"
+
+msgid "Stall wanted posts"
+msgstr "求租摊位信息"
+
+msgid "Start Over"
+msgstr "重新开始"
+
+msgid "Submit Listing"
+msgstr "提交摊位"
+
+msgid "Submit Report"
+msgstr "提交举报"
+
+msgid "Supplier Directory"
+msgstr "供应商目录"
+
+msgid "Suppliers"
+msgstr "供应商"
+
+msgid "Taken"
+msgstr "已出租"
+
+msgid "Talk directly to landlords — no in-app messaging barriers."
+msgstr "直接与房东沟通——没有站内消息的限制。"
+
+msgid "Tell landlords what you want"
+msgstr "告诉房东您的需求"
+
+msgid ""
+"Tell landlords what you're looking for — no account needed. Leasing teams"
+" will contact you directly on WhatsApp."
+msgstr "告诉房东您在找什么——无需账户。租赁团队会直接通过 WhatsApp 联系您。"
+
+msgid "Terms"
+msgstr "条款"
+
+msgid ""
+"Thank you — your report has been submitted and the listing has been "
+"flagged for review."
+msgstr "谢谢——您的举报已提交，该摊位已被标记审核。"
+
+msgid "The CSV needs a header row and at least one data row."
+msgstr "CSV 需要表头行和至少一行数据。"
+
+msgid "This company has no available stalls right now. Check back soon!"
+msgstr "该公司目前没有可租摊位，请稍后再看！"
+
+msgid "This looks like an NEA-managed centre"
+msgstr "这似乎是NEA管理的中心"
+
+#, python-format
+msgid ""
+"This will permanently remove the listing and its %(photo_count)s photo. "
+"This cannot be undone."
+msgid_plural ""
+"This will permanently remove the listing and its %(photo_count)s photos. "
+"This cannot be undone."
+msgstr[0] "这将会永久删除该摊位及其 %(photo_count)s 张照片，且无法撤销。"
+
+msgid "Toggle menu"
+msgstr "展开/收起菜单"
+
+msgid "Transcribing..."
+msgstr "转写中……"
+
+msgid "Translated by AI"
+msgstr "由AI翻译"
 
 msgid "Try broadening your search or clearing some filters."
 msgstr "请尝试扩大搜索范围或清除部分筛选条件。"
@@ -233,17 +1155,107 @@ msgstr "请尝试扩大搜索范围或清除部分筛选条件。"
 msgid "UEN (Business Registration)"
 msgstr "UEN（商业注册）"
 
+msgid ""
+"UTF-8, up to 500 rows. Any reasonable column headers work — e.g. 'Stall "
+"Name', 'Rent', 'Size (sqft)'."
+msgstr "UTF-8 编码，最多500行。任意合理的表头都可以——例如 'Stall Name'、'Rent'、'Size (sqft)'。"
+
+msgid "Unique Entity Number (ACRA business registration)."
+msgstr "统一实体编号（ACRA商业注册）。"
+
+msgid "Unique Entity Number from ACRA."
+msgstr "来自ACRA的统一实体编号。"
+
+msgid "Update your stall details. Changes go live immediately."
+msgstr "更新摊位详情。修改会立即生效。"
+
+msgid "Upload & Preview Mapping"
+msgstr "上传并预览列对应"
+
+msgid "Upload ACRA certificate or UEN proof (PDF or image)."
+msgstr "上传ACRA证明或UEN证明（PDF或图片）。"
+
+msgid "Upload Another CSV"
+msgstr "上传另一个CSV"
+
+msgid ""
+"Upload a spreadsheet of your vacant stalls — we'll read the columns for "
+"you and confirm the mapping before creating anything."
+msgstr "上传空置摊位的表格——我们会读取列名，并在创建任何内容前先与您确认对应关系。"
+
+msgid "Used for login and notifications."
+msgstr "用于登录和接收通知。"
+
+msgid "Username"
+msgstr "用户名"
+
 msgid "Verified"
 msgstr "已验证"
 
-msgid "Verified Landlord"
+msgid "Verified Companies"
+msgstr "已验证公司"
+
+msgid "Verified landlord"
 msgstr "已验证房东"
 
-msgid "View Applications"
-msgstr "查看申请"
+msgid "View"
+msgstr "查看"
+
+msgid "View Your Boosted Listing"
+msgstr "查看您推广的摊位"
+
+msgid "Views"
+msgstr "浏览量"
+
+msgid "Voice input is not configured yet."
+msgstr "语音输入尚未配置。"
+
+msgid "Voice input is not supported in this browser."
+msgstr "此浏览器不支持语音输入。"
+
+msgid ""
+"We've matched your spreadsheet's columns to MakanSpace listing fields. "
+"Check each one — nothing is created until you confirm below."
+msgstr "我们已把您表格的列对应到 MakanSpace 的摊位字段。请逐一检查——在您点击下方确认前不会创建任何内容。"
+
+msgid "Website"
+msgstr "网站"
+
+msgid "Welcome Back"
+msgstr "欢迎回来"
+
+msgid "Were you referred by another company?"
+msgstr "是否有其他公司推荐您？"
+
+msgid "Were you referred by another company? Enter their name or UEN"
+msgstr "是否有其他公司推荐您？请填写对方名称或UEN"
+
+msgid "West"
+msgstr "西部"
+
+msgid "What is MakanSpace"
+msgstr "MakanSpace 是什么"
+
+msgid "What we can read"
+msgstr "我们能读取的内容"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "WhatsApp Clicks"
+msgstr "WhatsApp 点击数"
 
 msgid "WhatsApp Contact Number"
 msgstr "WhatsApp联系电话"
+
+msgid "WhatsApp Number"
+msgstr "WhatsApp 号码"
+
+msgid "WhatsApp quick replies"
+msgstr "WhatsApp 快捷回复"
+
+msgid "Why MakanSpace"
+msgstr "为何选择 MakanSpace"
 
 msgid "Within 10 min walk"
 msgstr "步行10分钟内"
@@ -254,18 +1266,105 @@ msgstr "步行15分钟内"
 msgid "Within 5 min walk"
 msgstr "步行5分钟内"
 
+msgid "Yes, delete listing"
+msgstr "确认删除摊位"
+
+#, python-format
+msgid "You can upload at most %(max)d photos per listing."
+msgstr "每个摊位最多可上传 %(max)d 张照片。"
+
+msgid ""
+"You must confirm this stall is not part of an NEA Direct-managed hawker "
+"centre."
+msgstr "您必须确认此摊位不属于国家环境局直接管理的小贩中心。"
+
 msgid "Your Account (First Leasing Manager)"
 msgstr "您的账户（首位租赁经理）"
 
 msgid "Your Email"
 msgstr "您的邮箱"
 
-msgid "found"
-msgstr "找到"
+msgid "Your Name"
+msgstr "您的姓名"
+
+msgid "Your columns"
+msgstr "您的列"
+
+msgid "Your company has no listings yet."
+msgstr "贵公司还没有摊位列表。"
+
+msgid ""
+"Your listing has been boosted and will now appear at the top of search "
+"results."
+msgstr "您的摊位已推广，将显示在搜索结果顶部。"
+
+msgid ""
+"Your new listings are live. Photos aren't included in CSV uploads — add "
+"them by opening each listing from My Listings → Edit."
+msgstr "您的新摊位已上线。CSV上传不含照片——请在“我的摊位列表”中打开每个摊位，通过“编辑”添加照片。"
+
+msgid "Your password"
+msgstr "您的密码"
+
+msgid ""
+"Your stall-wanted post is live. Landlords will reach out to you on "
+"WhatsApp."
+msgstr "您的求租摊位信息已发布。房东会通过 WhatsApp 联系您。"
+
+msgid "Your upload session expired. Please upload the CSV again."
+msgstr "您的上传会话已过期，请重新上传 CSV。"
+
+msgid "data rows"
+msgstr "数据行"
+
+msgid "e.g. 201234567A"
+msgstr "例如 201234567A"
+
+msgid "e.g. 270001"
+msgstr "例如 270001"
+
+msgid "e.g. Ah Hock"
+msgstr "例如 Ah Hock"
+
+msgid "e.g. Bright corner stall near Ghim Moh Market"
+msgstr "例如：近 Ghim Moh Market 的转角明亮摊位"
+
+msgid "e.g. Chicken rice, Western"
+msgstr "例如：鸡饭、西餐"
+
+msgid "e.g. Jurong West"
+msgstr "例如：裕廊西"
+
+msgid "e.g. Kimly Group Pte Ltd"
+msgstr "例如 Kimly Group Pte Ltd"
+
+msgid "e.g. Kimly Group Pte Ltd or 201234567A"
+msgstr "例如 Kimly Group Pte Ltd 或 201234567A"
+
+msgid "e.g. West, Central"
+msgstr "例如：西部、中部"
+
+msgid "e.g. stall near MRT under $2000..."
+msgstr "例如：地铁站附近、$2000以下的摊位……"
+
+msgid "e.g. ~500/day"
+msgstr "例如 约500人/天"
+
+msgid "exact or on request"
+msgstr "确切价格或租金面议"
+
+msgid "ignore"
+msgstr "忽略"
 
 msgid "more"
 msgstr "更多"
 
-msgid "stall"
-msgstr "个摊位"
+msgid "optional"
+msgstr "可选"
+
+msgid "or continue with"
+msgstr "或以下方式登录"
+
+msgid "or sign up with"
+msgstr "或以下方式注册"
 

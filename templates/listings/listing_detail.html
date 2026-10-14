@@ -90,8 +90,8 @@
         </div>
         {% else %}
         <div style="aspect-ratio: 16/9; background: var(--color-bg-secondary);
-                    display: flex; align-items: center; justify-content: center; font-size: 4rem;">
-            🏪
+                    display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="image" style="width:64px;height:64px;color:var(--color-text-secondary);"></i>
         </div>
         {% endif %}
         </div>
@@ -124,13 +124,13 @@
                 {% if listing.mrt_display %}
                 <div>
                     <div class="text-sm text-secondary">{% trans "Nearest MRT" %}</div>
-                    <div style="font-weight: 600;">&#128647; {{ listing.mrt_display }}</div>
+                    <div style="font-weight: 600;"><i data-lucide="train-track" style="width:16px;height:16px;vertical-align:middle;"></i> {{ listing.mrt_display }}</div>
                 </div>
                 {% endif %}
                 {% if listing.bus_display %}
                 <div>
                     <div class="text-sm text-secondary">{% trans "Nearest Bus Stop" %}</div>
-                    <div style="font-weight: 600;">&#128652; {{ listing.bus_display }}</div>
+                    <div style="font-weight: 600;"><i data-lucide="bus" style="width:16px;height:16px;vertical-align:middle;"></i> {{ listing.bus_display }}</div>
                 </div>
                 {% endif %}
             </div>
@@ -143,13 +143,13 @@
                     {% if listing.grease_trap_fee %}
                     <div>
                         <div class="text-sm text-secondary">{% trans "Grease Trap Fee" %}</div>
-                        <div style="font-weight: 600;">${{ listing.grease_trap_fee }}/mo</div>
+                        <div style="font-weight: 600;">{% blocktrans with fee=listing.grease_trap_fee trimmed %}${{ fee }}/mo{% endblocktrans %}</div>
                     </div>
                     {% endif %}
                     {% if listing.dishwashing_cost %}
                     <div>
                         <div class="text-sm text-secondary">{% trans "Dishwashing Cost" %}</div>
-                        <div style="font-weight: 600;">${{ listing.dishwashing_cost }}/mo</div>
+                        <div style="font-weight: 600;">{% blocktrans with fee=listing.dishwashing_cost trimmed %}${{ fee }}/mo{% endblocktrans %}</div>
                     </div>
                     {% endif %}
                     {% if listing.footfall_estimate %}
@@ -213,7 +213,7 @@
                 <button type="button" id="share-listing-btn" class="btn btn--secondary btn--full"
                         data-url="{{ og_url }}" data-title="{{ og_title }}"
                         style="padding: 0.7rem;">
-                    &#128279; {% trans "Share this listing" %}
+                    <i data-lucide="link" style="width:16px;height:16px;vertical-align:middle;"></i> {% trans "Share this listing" %}
                 </button>
             </div>
 

@@ -1,16 +1,16 @@
 {% load i18n %}
 <!-- HTMX partial: listing results grid -->
-<div class="text-secondary text-sm mb-1">{{ count }} {% trans "stall" %}{{ count|pluralize }} {% trans "found" %}</div>
+<div class="text-secondary text-sm mb-1">{% blocktrans count count=count trimmed %}{{ count }} stall found{% plural %}{{ count }} stalls found{% endblocktrans %}</div>
 
 {% if listings %}
-<div style="display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
+<div style="display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));">
     {% for listing in listings %}
     {% include "includes/listing_card.html" %}
     {% endfor %}
 </div>
 {% else %}
 <div class="text-center" style="padding: 3rem 1rem; color: var(--color-text-secondary);">
-    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏪</div>
+    <div style="margin-bottom: 0.5rem;"><i data-lucide="image" style="width:32px;height:32px;"></i></div>
     <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem;">{% trans "No stalls match your filters" %}</div>
     <div class="text-sm">{% trans "Try broadening your search or clearing some filters." %}</div>
 </div>

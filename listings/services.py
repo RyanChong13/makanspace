@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.core.files.base import ContentFile
+from django.utils.translation import gettext as _
 from PIL import Image
 
 
@@ -420,10 +421,9 @@ def check_property_reference(establishment_name, postal_code=""):
                 "match": exact,
                 "blocked": True,
                 "needs_review": False,
-                "message": (
-                    f"BLOCKED: '{exact.establishment_name}' is an NEA Direct-managed centre. "
-                    f"{exact.scope_reason}"
-                ),
+                "message": _(
+                    "Blocked: '%(name)s' is an NEA Direct-managed centre, so it cannot be listed on MakanSpace. %(reason)s"
+                ) % {"name": exact.establishment_name, "reason": exact.scope_reason},
             }
         return {
             "match": exact,
@@ -453,10 +453,9 @@ def check_property_reference(establishment_name, postal_code=""):
                 "match": partial,
                 "blocked": True,
                 "needs_review": False,
-                "message": (
-                    f"BLOCKED (fuzzy match): '{partial.establishment_name}' is NEA Direct. "
-                    f"{partial.scope_reason}"
-                ),
+                "message": _(
+                    "Blocked: '%(name)s' is an NEA Direct-managed centre, so it cannot be listed on MakanSpace. %(reason)s"
+                ) % {"name": partial.establishment_name, "reason": partial.scope_reason},
             }
         return {
             "match": partial,

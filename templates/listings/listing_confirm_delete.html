@@ -15,11 +15,7 @@
                 <span class="badge badge--{{ listing.status }}">{{ listing.get_status_display }}</span>
             </p>
             <p class="text-secondary text-sm mb-2">
-                {% blocktrans count photo_count=listing.images.count %}
-                This will permanently remove the listing and its {{ photo_count }} photo. This cannot be undone.
-                {% plural %}
-                This will permanently remove the listing and its {{ photo_count }} photos. This cannot be undone.
-                {% endblocktrans %}
+                {% blocktrans count photo_count=listing.images.count trimmed %}This will permanently remove the listing and its {{ photo_count }} photo. This cannot be undone.{% plural %}This will permanently remove the listing and its {{ photo_count }} photos. This cannot be undone.{% endblocktrans %}
             </p>
             <form method="post">
                 {% csrf_token %}

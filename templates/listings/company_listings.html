@@ -7,7 +7,7 @@
 <div style="max-width: 900px; margin: 0 auto;">
     <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "My Company Listings" %}</h1>
     <p class="text-secondary text-sm mb-2">
-        {{ company.name }} — {{ listings|length }} listing{{ listings|length|pluralize }}
+        {{ company.name }} — {% blocktrans count n=listings|length trimmed %}{{ n }} listing{% plural %}{{ n }} listings{% endblocktrans %}
     </p>
 
     <!-- Mobile quick-action grid (hidden on desktop) -->
@@ -38,10 +38,9 @@
 
     <!-- Rolling 7-day WhatsApp enquiry stat -->
     <div class="card mb-2" id="stat-section" style="background: var(--color-accent); color: #fff;">
-        <div class="card__body" style="display: flex; align-items: center; gap: 1rem;">
-            <div style="font-size: 2rem; font-weight: 700;">{{ weekly_clicks }}</div>
-            <div style="font-size: 0.95rem;">
-                {% blocktrans count clicks=weekly_clicks %}person asked about your stalls this week{% plural %}people asked about your stalls this week{% endblocktrans %}
+        <div class="card__body">
+            <div style="font-size: 1.15rem; font-weight: 700; line-height: 1.35;">
+                {% blocktrans count clicks=weekly_clicks trimmed %}{{ clicks }} person asked about your stalls this week{% plural %}{{ clicks }} people asked about your stalls this week{% endblocktrans %}
             </div>
         </div>
     </div>

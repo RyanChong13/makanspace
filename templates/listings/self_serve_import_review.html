@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n listing_extras %}
 
 {% block title %}{% trans "Confirm Column Mapping" %} — MakanSpace{% endblock %}
 
@@ -40,7 +40,7 @@
                                     <select name="column_map" class="form-select" style="width: auto;">
                                         <option value="">({% trans "ignore" %})</option>
                                         {% for f in importable_fields %}
-                                        <option value="{{ f }}" {% if col.mapped == f %}selected{% endif %}>{{ f }}</option>
+                                        <option value="{{ f }}" {% if col.mapped == f %}selected{% endif %}>{{ import_field_labels|field_label:f }}</option>
                                         {% endfor %}
                                     </select>
                                 </td>
@@ -61,7 +61,7 @@
                         <thead>
                             <tr style="text-align: left; border-bottom: 1px solid var(--color-border);">
                                 {% for col in columns %}
-                                <th style="padding: 0.4rem 0.6rem; white-space: nowrap;">{{ col.mapped|default:col.header }}</th>
+                                <th style="padding: 0.4rem 0.6rem; white-space: nowrap;">{% if col.mapped %}{{ import_field_labels|field_label:col.mapped }}{% else %}{{ col.header }}{% endif %}</th>
                                 {% endfor %}
                             </tr>
                         </thead>
@@ -95,7 +95,7 @@
 
         <div class="flex gap-2 mt-2">
             <button type="submit" name="confirm_import" value="1" class="btn btn--primary" style="flex: 1; padding: 0.8rem;">
-                {% blocktrans count rows=total_rows %}Import 1 listing{% plural %}Import {{ rows }} listings{% endblocktrans %}
+                {% blocktrans count rows=total_rows trimmed %}Import {{ rows }} listing{% plural %}Import {{ rows }} listings{% endblocktrans %}
             </button>
             <a href="{% url 'listings:self_serve_import' %}" class="btn btn--secondary" style="padding: 0.8rem;">{% trans "Start Over" %}</a>
         </div>

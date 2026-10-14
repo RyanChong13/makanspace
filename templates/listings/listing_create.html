@@ -9,7 +9,7 @@
 <div class="container--narrow" style="max-width: 650px; margin: 0 auto;">
     <h1 style="font-size: 1.5rem; margin-bottom: 0.3rem;">{% trans "Post Your Hawker Stall" %}</h1>
     <p class="text-secondary text-sm mb-2">
-        {% trans "Fill in your stall details. Your listing will be reviewed by our team before going live." %}
+        {% trans "Fill in your stall details. Your listing goes live immediately and may be reviewed afterwards." %}
     </p>
 
     {% if form.errors or formset.errors %}
@@ -85,7 +85,7 @@
         <div class="form-group">
             <label class="form-label" for="{{ form.postal_code.id_for_label }}">{% trans "Postal Code" %}</label>
             {{ form.postal_code }}
-            <p class="text-secondary text-sm">6-digit Singapore postal code. Location will be auto-geocoded.</p>
+            <p class="text-secondary text-sm">{% trans "6-digit Singapore postal code. Location will be auto-geocoded." %}</p>
             {% for err in form.postal_code.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
@@ -93,7 +93,7 @@
         <div class="form-group">
             <label class="form-label" for="{{ form.contact_number.id_for_label }}">{% trans "WhatsApp Contact Number" %}</label>
             {{ form.contact_number }}
-            <p class="text-secondary text-sm">Include country code, e.g. +65 9123 4567</p>
+            <p class="text-secondary text-sm">{% trans "Include country code, e.g. +65 9123 4567" %}</p>
             {% for err in form.contact_number.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
 
@@ -119,18 +119,18 @@
             <div class="text-sm" style="font-weight: 600; margin-bottom: 0.5rem;">{% trans "F&B Operational Costs (optional)" %}</div>
             <div class="flex gap-2">
                 <div class="form-group" style="flex: 1;">
-                    <label class="form-label" for="{{ form.grease_trap_fee.id_for_label }}">Grease Trap Fee ($/mo)</label>
+                    <label class="form-label" for="{{ form.grease_trap_fee.id_for_label }}">{% trans "Grease Trap Fee ($/mo)" %}</label>
                     {{ form.grease_trap_fee }}
                     {% for err in form.grease_trap_fee.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
                 </div>
                 <div class="form-group" style="flex: 1;">
-                    <label class="form-label" for="{{ form.dishwashing_cost.id_for_label }}">Dishwashing Cost ($/mo)</label>
+                    <label class="form-label" for="{{ form.dishwashing_cost.id_for_label }}">{% trans "Dishwashing Cost ($/mo)" %}</label>
                     {{ form.dishwashing_cost }}
                     {% for err in form.dishwashing_cost.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
                 </div>
             </div>
             <div class="form-group">
-                <label class="form-label" for="{{ form.footfall_estimate.id_for_label }}">Estimated Daily Footfall</label>
+                <label class="form-label" for="{{ form.footfall_estimate.id_for_label }}">{% trans "Estimated Daily Footfall" %}</label>
                 {{ form.footfall_estimate }}
                 {% for err in form.footfall_estimate.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
             </div>
@@ -140,7 +140,7 @@
         <div class="form-group">
             <label class="form-label">{% trans "Photos (up to 6)" %}</label>
             <p class="text-secondary text-sm mb-1">
-                Photos are automatically compressed — just upload, we'll handle the rest.
+                {% trans "Photos are automatically compressed — just upload, we'll handle the rest." %}
             </p>
             {{ formset.management_form }}
             {% if formset.non_form_errors %}
@@ -207,7 +207,7 @@
         </div>
 
         <button type="submit" class="btn btn--primary btn--full mt-2" style="padding: 0.8rem;">
-            Submit Listing
+            {% trans "Submit Listing" %}
         </button>
     </form>
 </div>

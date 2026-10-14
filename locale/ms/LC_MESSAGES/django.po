@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MakanSpace VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-28 00:24+0800\n"
+"POT-Creation-Date: 2026-10-14 00:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ms\n"
@@ -19,14 +19,135 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
+#, python-format
+msgid "$%(fee)s/mo"
+msgstr "$%(fee)s/bulan"
+
+#, python-format
+msgid "%(clicks)s person asked about your stalls this week"
+msgid_plural "%(clicks)s people asked about your stalls this week"
+msgstr[0] "%(clicks)s orang bertanya tentang gerai anda minggu ini"
+msgstr[1] "%(clicks)s orang bertanya tentang gerai anda minggu ini"
+
+#, python-format
+msgid "%(count)s stall found"
+msgid_plural "%(count)s stalls found"
+msgstr[0] "%(count)s gerai ditemui"
+msgstr[1] "%(count)s gerai ditemui"
+
+#, python-format
+msgid "%(listing_count)s hawker stall available for rent"
+msgid_plural "%(listing_count)s hawker stalls available for rent"
+msgstr[0] "%(listing_count)s gerai hawker untuk disewa"
+msgstr[1] "%(listing_count)s gerai hawker untuk disewa"
+
+#, python-format
+msgid "%(listing_count)s stall available"
+msgid_plural "%(listing_count)s stalls available"
+msgstr[0] "%(listing_count)s gerai tersedia"
+msgstr[1] "%(listing_count)s gerai tersedia"
+
+#, python-format
+msgid "%(min)s–%(max)s/mo"
+msgstr "%(min)s–%(max)s/bulan"
+
+#, python-format
+msgid "%(n)d min walk to %(station)s"
+msgstr "%(n)d minit berjalan ke %(station)s"
+
+#, python-format
+msgid "%(n)s listing"
+msgid_plural "%(n)s listings"
+msgstr[0] "%(n)s senarai"
+msgstr[1] "%(n)s senarai"
+
+#, python-format
+msgid "%(n)s listing created and is now live."
+msgid_plural "%(n)s listings created and are now live."
+msgstr[0] "%(n)s senarai dijana dan kini disiarkan."
+msgstr[1] "%(n)s senarai dijana dan kini disiarkan."
+
+#, python-format
+msgid "%(n)s stall matching your search."
+msgid_plural "%(n)s stalls matching your search."
+msgstr[0] "%(n)s gerai sepadan dengan carian anda."
+msgstr[1] "%(n)s gerai sepadan dengan carian anda."
+
+#, python-format
+msgid "%(price)s/mo"
+msgstr "%(price)s/bulan"
+
+#, python-format
+msgid "%(size)s sqft"
+msgstr "%(size)s kaki persegi"
+
 msgid "1 to 2 years"
 msgstr "1 hingga 2 tahun"
+
+msgid "200–400 sqft"
+msgstr "200–400 kaki persegi"
+
+msgid "400+ sqft"
+msgstr "400+ kaki persegi"
 
 msgid "6 to 12 months"
 msgstr "6 hingga 12 bulan"
 
+msgid "6-digit Singapore postal code. Location will be auto-geocoded."
+msgstr "Poskod Singapura 6 digit. Lokasi akan dikod geografi secara automatik."
+
+msgid "<200 sqft"
+msgstr "<200 kaki persegi"
+
+msgid "A company with this UEN is already registered."
+msgstr "Syarikat dengan UEN ini telah pun berdaftar."
+
+msgid "ACRA/UEN business registration proof (PDF or image)."
+msgstr "Bukti pendaftaran perniagaan ACRA/UEN (PDF atau imej)."
+
+msgid "AI search is not configured yet."
+msgstr "Carian AI belum dikonfigurasi."
+
+msgid "AI search returned an unexpected response."
+msgstr "Carian AI memberikan respons yang tidak dijangka."
+
+msgid "About"
+msgstr "Tentang"
+
+msgid "Account"
+msgstr "Akaun"
+
 msgid "Account Settings"
 msgstr "Tetapan Akaun"
+
+msgid "Add Photo"
+msgstr "Tambah Foto"
+
+#, python-format
+msgid ""
+"Add a colleague to your company (%(name)s). They'll be able to create and"
+" manage listings."
+msgstr ""
+"Tambah rakan sekerja ke syarikat anda (%(name)s). Mereka boleh mencipta "
+"dan menguruskan senarai."
+
+msgid "Add a quick reply"
+msgstr "Tambah balasan pantas"
+
+msgid "Additional details"
+msgstr "Butiran tambahan"
+
+msgid "Admin"
+msgstr "Pentadbir"
+
+msgid "All"
+msgstr "Semua"
+
+msgid "All landlords are ACRA-verified before listing."
+msgstr "Semua tuan tanah disahkan ACRA sebelum menyenaraikan."
+
+msgid "All rights reserved."
+msgstr "Hak cipta terpelihara."
 
 msgid "Already have an account?"
 msgstr "Sudah mempunyai akaun?"
@@ -34,26 +155,87 @@ msgstr "Sudah mempunyai akaun?"
 msgid "Amenities"
 msgstr "Kemudahan"
 
+msgid "An account with this email already exists."
+msgstr "Akaun dengan e-mel ini sudah wujud."
+
+msgid "Analytics"
+msgstr "Analitik"
+
+msgid "Any cost"
+msgstr "Sebarang kos"
+
 msgid "Any distance"
 msgstr "Sebarang jarak"
 
 msgid "Any duration"
 msgstr "Sebarang tempoh"
 
-msgid "Apply Now"
-msgstr "Mohon Sekarang"
+msgid "Any location"
+msgstr "Sebarang lokasi"
 
-msgid "Available Tasting / Viewing Slots"
-msgstr "Slot Merasa / Melihat yang Tersedia"
+msgid "Any size"
+msgstr "Sebarang saiz"
+
+msgid "Are you sure you want to sign out?"
+msgstr "Anda pasti ingin log keluar?"
+
+msgid "Back to Account Settings"
+msgstr "Kembali ke Tetapan Akaun"
+
+msgid "Back to Sign In"
+msgstr "Kembali ke Log Masuk"
+
+msgid "Back to listing"
+msgstr "Kembali ke senarai"
 
 msgid "Back to listings"
 msgstr "Kembali ke senarai"
 
-msgid "Boost this Listing"
-msgstr "Galakkan Senarai Ini"
+#, python-format
+msgid ""
+"Blocked: '%(name)s' is an NEA Direct-managed centre, so it cannot be "
+"listed on MakanSpace. %(reason)s"
+msgstr ""
+"Disekat: '%(name)s' ialah pusat yang diurus secara langsung oleh NEA, "
+"jadi ia tidak dapat disenaraikan di MakanSpace. %(reason)s"
+
+msgid "Both a label and a message are required."
+msgstr "Label dan mesej kedua-duanya diperlukan."
 
 msgid "Browse Hawker Stalls"
 msgstr "Layari Gerai Penjaja"
+
+msgid "Browse Stalls"
+msgstr "Layari Gerai"
+
+msgid "Browse all listings"
+msgstr "Layari semua senarai"
+
+msgid "Browse in English, Chinese, Tamil, or Malay."
+msgstr "Layari dalam Bahasa Inggeris, Cina, Tamil, atau Melayu."
+
+msgid "Browse verified hawker and coffee-shop stalls for rent across Singapore."
+msgstr ""
+"Layari gerai penjaja dan kedai kopi yang disahkan untuk disewa di seluruh"
+" Singapura."
+
+msgid "Budget From ($/mo)"
+msgstr "Bajet Dari ($/bulan)"
+
+msgid "Budget Up To ($/mo)"
+msgstr "Bajet Sehingga ($/bulan)"
+
+msgid "Bulk Upload"
+msgstr "Muat Naik Pukal"
+
+msgid "Bulk Upload CSV"
+msgstr "Muat Naik Pukal CSV"
+
+msgid "Bulk Upload Stalls"
+msgstr "Muat Naik Pukal Gerai"
+
+msgid "Bulk Upload Stalls (CSV)"
+msgstr "Muat Naik Pukal Gerai (CSV)"
 
 msgid "Business Registration Document"
 msgstr "Dokumen Pendaftaran Perniagaan"
@@ -61,11 +243,93 @@ msgstr "Dokumen Pendaftaran Perniagaan"
 msgid "Business verified"
 msgstr "Perniagaan disahkan"
 
-msgid "Clear all filters"
-msgstr "Kosongkan semua penapis"
+msgid "CSV File"
+msgstr "Fail CSV"
+
+msgid "CSV column"
+msgstr "Lajur CSV"
+
+msgid "CSV file is too large (maximum 2MB)."
+msgstr "Fail CSV terlalu besar (maksimum 2MB)."
+
+#, python-format
+msgid "CSV has too many rows (maximum %(max)s)."
+msgstr "CSV mempunyai terlalu banyak baris (maksimum %(max)s)."
+
+msgid "CSV must be UTF-8 encoded."
+msgstr "CSV mesti dikodkan UTF-8."
+
+msgid "CSV row"
+msgstr "Baris CSV"
+
+msgid "Cancel"
+msgstr "Batal"
+
+msgid "Central"
+msgstr "Tengah"
+
+msgid "Change Password"
+msgstr "Tukar Kata Laluan"
+
+msgid "Choose a username"
+msgstr "Pilih nama pengguna"
+
+msgid "Clear all"
+msgstr "Kosongkan semua"
+
+#, python-format
+msgid ""
+"Company '%(name)s' registered. Your account is pending business "
+"verification by our admin team."
+msgstr ""
+"Syarikat '%(name)s' berdaftar. Akaun anda menunggu pengesahan perniagaan "
+"oleh pasukan admin kami."
 
 msgid "Company Legal Name"
 msgstr "Nama Undang-undang Syarikat"
+
+msgid ""
+"Company WhatsApp number for the Connect via WhatsApp button (with country"
+" code, e.g. +65)."
+msgstr ""
+"Nombor WhatsApp syarikat untuk butang Hubungi melalui WhatsApp (dengan "
+"kod negara, cth. +65)."
+
+msgid "Company legal name."
+msgstr "Nama undang-undang syarikat."
+
+msgid "Company that referred this company at signup (optional)."
+msgstr "Syarikat yang merujuk syarikat ini semasa pendaftaran (pilihan)."
+
+msgid "Company this user belongs to (leasing managers only)."
+msgstr "Syarikat tempat pengguna ini berada (pengurus pajakan sahaja)."
+
+msgid "Compliant by Design"
+msgstr "Patuh Sejak Reka Bentuk"
+
+msgid "Confirm Column Mapping"
+msgstr "Sahkan Padanan Lajur"
+
+msgid "Confirm New Password"
+msgstr "Sahkan Kata Laluan Baharu"
+
+msgid "Confirm Password"
+msgstr "Sahkan Kata Laluan"
+
+msgid "Confirm new password"
+msgstr "Sahkan kata laluan baharu"
+
+msgid "Confirm password"
+msgstr "Sahkan kata laluan"
+
+msgid "Confirm your password"
+msgstr "Sahkan kata laluan anda"
+
+msgid "Connect Directly"
+msgstr "Hubungi Terus"
+
+msgid "Connect via WhatsApp"
+msgstr "Hubungi melalui WhatsApp"
 
 msgid ""
 "Connecting hawker companies with aspiring hawkers across Singapore. Only "
@@ -74,28 +338,133 @@ msgid ""
 msgstr ""
 "Menghubungkan syarikat penjaja dengan penjaja berpotensi di seluruh "
 "Singapura. Hanya pusat yang ditender secara langsung oleh NEA "
-"dikecualikan — kedai kopi persendirian, food court, dan pusat penjaja "
+"dikecualikan — kedai kopi persendirian, medan selera, dan pusat penjaja "
 "pengendali dilantik dialu-alukan."
 
-msgid "Connecting hawker stall owners with prospective hawkers across Singapore."
-msgstr ""
-"Menghubungkan pemilik gerai penjaja dengan penjaja berpotensi di seluruh "
-"Singapura."
+msgid "Contact"
+msgstr "Hubungi"
 
-msgid "Cost Range (SGD/month)"
-msgstr "Julat Kos (SGD/bulan)"
+msgid "Contact landlords instantly via WhatsApp — no middlemen, no agent fees."
+msgstr ""
+"Hubungi tuan tanah serta-merta melalui WhatsApp — tanpa perantara, tanpa "
+"yuran ejen."
+
+msgid "Contact unavailable"
+msgstr "Hubungan tidak tersedia"
+
+msgid "Copied!"
+msgstr "Disalin!"
+
+msgid "Copy"
+msgstr "Salin"
+
+msgid "Cost Range"
+msgstr "Julat Kos"
+
+msgid "Create Account"
+msgstr "Cipta Akaun"
+
+msgid "Create Your Account"
+msgstr "Cipta Akaun Anda"
+
+msgid "Create a password"
+msgstr "Ciptakan kata laluan"
+
+msgid "Create an account to manage your company's stalls"
+msgstr "Cipta akaun untuk menguruskan gerai syarikat anda"
+
+msgid "Cuisine Type"
+msgstr "Jenis Masakan"
+
+msgid "Current Password"
+msgstr "Kata Laluan Semasa"
+
+msgid "Dashboard"
+msgstr "Papan Pemuka"
+
+msgid "Delete"
+msgstr "Padam"
+
+msgid "Delete Listing"
+msgstr "Padam Senarai"
+
+msgid "Delete this listing?"
+msgstr "Padam senarai ini?"
+
+msgid ""
+"Describe your stall — location highlights, foot traffic, what makes it "
+"special..."
+msgstr ""
+"Ceritakan gerai anda — kelebihan lokasi, trafik orang, apa yang "
+"menjadikannya istimewa..."
 
 msgid "Description"
 msgstr "Penerangan"
 
+msgid "Direct WhatsApp Contact"
+msgstr "Hubungan WhatsApp Terus"
+
 msgid "Dishwashing Cost"
 msgstr "Kos Basuh Pinggan"
+
+msgid "Dishwashing Cost ($/mo)"
+msgstr "Kos Basuh Pinggan ($/bulan)"
+
+msgid "Don't have an account?"
+msgstr "Belum punya akaun?"
+
+msgid "East"
+msgstr "Timur"
+
+msgid "Edit"
+msgstr "Sunting"
+
+#, python-format
+msgid "Edit %(title)s"
+msgstr "Sunting %(title)s"
 
 msgid "Edit Listing"
 msgstr "Sunting Senarai"
 
+msgid "Edit Your Listing"
+msgstr "Sunting Senarai Anda"
+
+msgid "Email Address"
+msgstr "Alamat E-mel"
+
+msgid "Email or Username"
+msgstr "E-mel atau Nama Pengguna"
+
+msgid "Enter 8 digits (e.g. 91234567) or with country code (e.g. +65 9123 4567)"
+msgstr ""
+"Masukkan 8 digit (cth. 91234567) atau dengan kod negara (cth. +65 9123 "
+"4567)"
+
+msgid "Enter current password"
+msgstr "Masukkan kata laluan semasa"
+
+msgid "Enter new password"
+msgstr "Masukkan kata laluan baharu"
+
+msgid "Enter your email and we'll send you a reset link."
+msgstr "Masukkan e-mel anda dan kami akan hantar pautan set semula."
+
 msgid "Est. Daily Footfall"
 msgstr "Anggaran Trafik Harian"
+
+msgid "Estimated Daily Footfall"
+msgstr "Anggaran Trafik Harian"
+
+msgid "Exact price"
+msgstr "Harga tepat"
+
+msgid ""
+"Exact pricing helps hawkers compare stalls quickly. Only choose 'Rental "
+"on request' if your pricing truly needs to be discussed privately."
+msgstr ""
+"Harga yang tepat membantu penjaja membandingkan gerai dengan cepat. Hanya"
+" pilih 'Sewa atas permintaan' jika harga anda benar-benar perlu "
+"dibincangkan secara persendirian."
 
 msgid "F&B Operational Costs"
 msgstr "Kos Operasi F&B"
@@ -103,27 +472,75 @@ msgstr "Kos Operasi F&B"
 msgid "F&B Operational Costs (optional)"
 msgstr "Kos Operasi F&B (pilihan)"
 
-msgid "FEATURED"
-msgstr "TETAPAN"
+msgid "FAQ"
+msgstr "Soalan Lazim"
 
-msgid "Featured first"
-msgstr "Tetapan pertama"
+msgid "Featured"
+msgstr "Diketengahkan"
 
 msgid ""
-"Fill in your stall details. Your listing will be reviewed by our team "
-"before going live."
+"Fill in your stall details. Your listing goes live immediately and may be"
+" reviewed afterwards."
 msgstr ""
-"Isikan butiran gerai anda. Senarai anda akan disemak oleh pasukan kami "
-"sebelum disiarkan."
+"Isikan butiran gerai anda. Senarai anda terus disiarkan dan mungkin "
+"disemak selepas itu."
+
+msgid "Find"
+msgstr "Cari"
+
+msgid ""
+"Find trusted suppliers for your hawker business — kitchen equipment, "
+"furniture, and raw food ingredients."
+msgstr ""
+"Cari pembekal terpercaya untuk perniagaan penjaja anda — peralatan dapur,"
+" perabot, dan bahan makanan mentah."
+
+msgid "Find your next hawker stall"
+msgstr "Cari gerai penjaja anda yang seterusnya"
 
 msgid "First Name"
 msgstr "Nama Pertama"
 
+msgid "First name"
+msgstr "Nama pertama"
+
+msgid "For Companies"
+msgstr "Untuk Syarikat"
+
+msgid "For Hawkers"
+msgstr "Untuk Penjaja"
+
+msgid "For WhatsApp contact. Include country code, e.g. +65 9123 4567"
+msgstr "Untuk hubungan WhatsApp. Sertakan kod negara, cth. +65 9123 4567"
+
+msgid "Forgot Password"
+msgstr "Lupa Kata Laluan"
+
+msgid "Forgot password?"
+msgstr "Lupa kata laluan?"
+
+#, python-format
+msgid "Found %(n)s match(es):"
+msgstr "Dijumpai %(n)s padanan:"
+
+msgid "Furniture"
+msgstr "Perabot"
+
+msgid "Get Discovered"
+msgstr "Jadi Dikenali"
+
+msgid "Go to My Listings"
+msgstr "Pergi ke Senarai Saya"
+
 msgid "Grease Trap Fee"
 msgstr "Yuran Perangkap Gris"
 
-msgid "Grease trap"
-msgstr "Perangkap gris"
+msgid "Grease Trap Fee ($/mo)"
+msgstr "Yuran Perangkap Gris ($/bulan)"
+
+#, python-format
+msgid "Grease trap: $%(fee)s/mo"
+msgstr "Perangkap gris: $%(fee)s/bulan"
 
 msgid "Has Grease Trap"
 msgstr "Ada Perangkap Gris"
@@ -131,20 +548,173 @@ msgstr "Ada Perangkap Gris"
 msgid "Hawker Stalls for Rent"
 msgstr "Gerai Penjaja Untuk Disewa"
 
+msgid ""
+"Hawkers browse verified stalls by area, price, and amenities — no account"
+" needed."
+msgstr ""
+"Penjaja layari gerai yang disahkan mengikut kawasan, harga, dan kemudahan"
+" — tanpa akaun."
+
+msgid ""
+"Hawkers looking for a stall. Reply directly on WhatsApp if one of your "
+"spaces fits."
+msgstr ""
+"Penjaja yang mencari gerai. Balas terus di WhatsApp jika salah satu ruang"
+" anda sesuai."
+
+msgid ""
+"Hi! Describe the hawker stall you're looking for — I'll find matches for "
+"you."
+msgstr ""
+"Hi! Ceritakan gerai penjaja yang anda cari — saya akan cari padanan untuk"
+" anda."
+
+msgid "Home"
+msgstr "Utama"
+
+msgid "How It Works"
+msgstr "Cara Ia Berfungsi"
+
+msgid ""
+"I confirm none of these stalls are part of an NEA Direct-managed hawker "
+"centre."
+msgstr ""
+"Saya sahkan tiada gerai ini yang merupakan bahagian pusat penjaja yang "
+"diurus terus oleh NEA."
+
+msgid "I confirm this stall is NOT part of an NEA Direct-managed hawker centre."
+msgstr ""
+"Saya sahkan gerai ini BUKAN bahagian pusat penjaja yang diurus terus oleh"
+" NEA."
+
+#, python-format
+msgid "Import %(rows)s listing"
+msgid_plural "Import %(rows)s listings"
+msgstr[0] "Muat masuk %(rows)s senarai"
+msgstr[1] "Muat masuk %(rows)s senarai"
+
+msgid "Import Complete"
+msgstr "Muat Masuk Selesai"
+
+msgid "Include country code, e.g. +65 9123 4567"
+msgstr "Sertakan kod negara, cth. +65 9123 4567"
+
+msgid "Incorrect information"
+msgstr "Maklumat salah"
+
+#, python-format
+msgid "Invalid %(field)s: %(value)s"
+msgstr "%(field)s tidak sah: %(value)s"
+
+msgid "Invalid username or password. Please try again."
+msgstr "Nama pengguna atau kata laluan tidak sah. Sila cuba lagi."
+
+#, python-format
+msgid ""
+"Invitation created for %(email)s. They can sign up using the standard "
+"signup with this email."
+msgstr ""
+"Jemputan dicipta untuk %(email)s. Mereka boleh mendaftar guna e-mel ini "
+"melalui pendaftaran biasa."
+
+msgid "Invite Leasing Manager"
+msgstr "Jemput Pengurus Pajakan"
+
+msgid "Invite a Leasing Manager"
+msgstr "Jemput seorang Pengurus Pajakan"
+
+msgid "Jump to code, e.g. BOOTH-A1B2C3 or SG-A1B2C3"
+msgstr "Lompat ke kod, cth. BOOTH-A1B2C3 atau SG-A1B2C3"
+
+msgid "Kitchen Amenities"
+msgstr "Kemudahan Dapur"
+
+msgid "Label, e.g. Still available"
+msgstr "Label, cth. Masih ada"
+
+msgid ""
+"Landlords list vacant hawker stalls with photos, pricing, and location "
+"details."
+msgstr ""
+"Tuan tanah menyenaraikan gerai penjaja kosong dengan foto, harga, dan "
+"butiran lokasi."
+
+msgid "Landlords will reply to you here. Include the country code."
+msgstr "Tuan tanah akan membalas anda di sini. Sertakan kod negara."
+
 msgid "Last Name"
 msgstr "Nama Akhir"
+
+msgid "Last changed: never"
+msgstr "Terakhir diubah: belum"
+
+msgid "Last name (optional)"
+msgstr "Nama akhir (pilihan)"
 
 msgid "Lease Duration"
 msgstr "Tempoh Sewa"
 
+msgid "Leasing Manager"
+msgstr "Pengurus Pajakan"
+
 msgid "Less than 6 months"
 msgstr "Kurang dari 6 bulan"
 
-msgid "List"
-msgstr "Senarai"
+msgid "Link copied!"
+msgstr "Pautan disalin!"
+
+#, python-format
+msgid "Listed %(n)s day ago"
+msgid_plural "Listed %(n)s days ago"
+msgstr[0] "Disenaraikan %(n)s hari lalu"
+msgstr[1] "Disenaraikan %(n)s hari lalu"
+
+#, python-format
+msgid "Listed %(n)s hour ago"
+msgid_plural "Listed %(n)s hours ago"
+msgstr[0] "Disenaraikan %(n)s jam lalu"
+msgstr[1] "Disenaraikan %(n)s jam lalu"
+
+#, python-format
+msgid "Listed %(n)s minute ago"
+msgid_plural "Listed %(n)s minutes ago"
+msgstr[0] "Disenaraikan %(n)s minit lalu"
+msgstr[1] "Disenaraikan %(n)s minit lalu"
+
+#, python-format
+msgid "Listed %(n)s month ago"
+msgid_plural "Listed %(n)s months ago"
+msgstr[0] "Disenaraikan %(n)s bulan lalu"
+msgstr[1] "Disenaraikan %(n)s bulan lalu"
+
+#, python-format
+msgid "Listed %(n)s year ago"
+msgid_plural "Listed %(n)s years ago"
+msgstr[0] "Disenaraikan %(n)s tahun lalu"
+msgstr[1] "Disenaraikan %(n)s tahun lalu"
+
+msgid "Listed just now"
+msgstr "Disenaraikan baru sahaja"
+
+#, python-format
+msgid "Listing '%(title)s' has been permanently deleted."
+msgstr "Senarai '%(title)s' telah dipadamkan secara kekal."
 
 msgid "Listing code"
 msgstr "Kod senarai"
+
+msgid ""
+"Listing is live. The location could not be auto-cross-checked and has "
+"been flagged for audit."
+msgstr ""
+"Senarai sudah disiarkan. Lokasi tidak dapat disemak silang secara "
+"automatik dan telah ditanda untuk audit."
+
+msgid "Listing submitted and is now live!"
+msgstr "Senarai dihantar dan kini disiarkan!"
+
+msgid "Location"
+msgstr "Lokasi"
 
 msgid "Log In"
 msgstr "Log Masuk"
@@ -155,17 +725,58 @@ msgstr "Log Keluar"
 msgid "Log in"
 msgstr "Log masuk"
 
+msgid "Login & Security"
+msgstr "Log Masuk & Keselamatan"
+
+msgid "Looking for a stall?"
+msgstr "Mencari gerai?"
+
 msgid "MRT/Bus Distance"
 msgstr "Jarak MRT/Bas"
 
-msgid "Manage Tasting Slots"
-msgstr "Urus Slot Merasa"
+msgid "MakanSpace Assistant"
+msgstr "Pembantu MakanSpace"
 
-msgid "Map"
-msgstr "Peta"
+msgid "MakanSpace banner"
+msgstr "Baner MakanSpace"
+
+msgid "MakanSpace — Hawker stall rentals in Singapore"
+msgstr "MakanSpace — Sewa gerai penjaja di Singapura"
+
+msgid "Manage your profile and login details"
+msgstr "Uruskan profil dan butiran log masuk anda"
+
+msgid "Maps to"
+msgstr "Sepadan dengan"
 
 msgid "Max Rent (optional)"
 msgstr "Sewa Maksimum (pilihan)"
+
+msgid "Maximum budget cannot be less than minimum budget."
+msgstr "Bajet maksimum tidak boleh kurang daripada bajet minimum."
+
+msgid "Maximum rent cannot be less than minimum rent."
+msgstr "Sewa maksimum tidak boleh kurang daripada sewa minimum."
+
+#, python-format
+msgid "Member since %(joined)s"
+msgstr "Ahli sejak %(joined)s"
+
+msgid "Message text to copy into WhatsApp"
+msgstr "Teks mesej untuk disalin ke WhatsApp"
+
+msgid "Microphone access was denied."
+msgstr "Akses mikrofon ditolak."
+
+msgid "Minimum rent is required when exact pricing is selected."
+msgstr "Sewa minimum diperlukan apabila harga tepat dipilih."
+
+#, python-format
+msgid "Missing %(field)s"
+msgstr "%(field)s tiada"
+
+msgid "Mobile navigation"
+msgstr "Navigasi mudah alih"
 
 msgid "Monthly Rent (SGD)"
 msgstr "Sewa Bulanan (SGD)"
@@ -173,38 +784,200 @@ msgstr "Sewa Bulanan (SGD)"
 msgid "More than 2 years"
 msgstr "Lebih dari 2 tahun"
 
-msgid "Nearest MRT/Bus"
-msgstr "MRT/Bas Terdekat"
+msgid "Multi-Language"
+msgstr "Berbilang Bahasa"
+
+msgid "My Company Listings"
+msgstr "Senarai Syarikat Saya"
+
+msgid "My Listings"
+msgstr "Senarai Saya"
+
+msgid ""
+"NEA's directly-tendered centres (~32) are excluded from MakanSpace. SEHC "
+"and private centres are fine."
+msgstr ""
+"Pusat yang ditender secara langsung oleh NEA (~32) dikecualikan daripada "
+"MakanSpace. Pusat SEHC dan persendirian dibenarkan."
+
+msgid "NEA-Direct centres are automatically excluded to protect hawkers."
+msgstr "Pusat NEA-Direct dikecualikan secara automatik untuk melindungi penjaja."
+
+msgid "Nearest Bus Stop"
+msgstr "Perhentian Bas Terdekat"
+
+msgid "Nearest MRT"
+msgstr "MRT Terdekat"
+
+msgid "New Password"
+msgstr "Kata Laluan Baharu"
 
 msgid "Newest"
 msgstr "Terbaru"
 
+msgid "No WhatsApp contact number is available for this listing."
+msgstr "Tiada nombor hubungan WhatsApp untuk senarai ini."
+
+msgid "No audio file provided."
+msgstr "Tiada fail audio diberikan."
+
+#, python-format
+msgid "No listing with code %(code)s found for your company."
+msgstr "Tiada senarai dengan kod %(code)s untuk syarikat anda."
+
+msgid "No listings were created."
+msgstr "Tiada senarai yang dicipta."
+
+msgid "No login or contact info required. Your report is anonymous."
+msgstr "Tidak perlu log masuk atau maklumat hubungan. Laporan anda tanpa nama."
+
+msgid "No matches found. Try different criteria!"
+msgstr "Tiada padanan ditemui. Cuba kriteria lain!"
+
+msgid "No stall-wanted posts yet. Check back later!"
+msgstr "Belum ada iklan gerai dicari. Nanti datang lagi!"
+
 msgid "No stalls match your filters"
 msgstr "Tiada gerai yang sepadan dengan penapis anda"
+
+msgid "No suppliers listed yet. Check back soon!"
+msgstr "Belum ada pembekal disenaraikan. Nanti datang lagi!"
+
+msgid "North"
+msgstr "Utara"
+
+msgid "North-East"
+msgstr "Timur Laut"
+
+msgid "Open filters"
+msgstr "Buka penapis"
+
+msgid "Optional"
+msgstr "Pilihan"
+
+msgid "Optional — enter their company name or UEN."
+msgstr "Pilihan — masukkan nama syarikat atau UEN mereka."
+
+msgid "Optional: any extra detail that helps us review this listing..."
+msgstr ""
+"Pilihan: sebarang butiran tambahan yang membantu kami menyemak senarai "
+"ini..."
+
+msgid "Other"
+msgstr "Lain-lain"
 
 msgid "Password"
 msgstr "Kata Laluan"
 
+msgid "Passwords do not match."
+msgstr "Kata laluan tidak sama."
+
+msgid "Payment Successful"
+msgstr "Pembayaran Berjaya"
+
+msgid "Payment Successful!"
+msgstr "Pembayaran Berjaya!"
+
+msgid "Pending Verification"
+msgstr "Menunggu Pengesahan"
+
+msgid "Pending review — not yet visible to the public"
+msgstr "Menunggu semakan — belum kelihatan kepada orang ramai"
+
+msgid "Personal Information"
+msgstr "Maklumat Peribadi"
+
+msgid "Phone / HP Number"
+msgstr "Nombor Telefon / HP"
+
 msgid "Phone Number"
 msgstr "Nombor Telefon"
+
+msgid "Photos"
+msgstr "Foto"
 
 msgid "Photos (up to 6)"
 msgstr "Foto (sehingga 6)"
 
+msgid "Photos are automatically compressed — just upload, we'll handle the rest."
+msgstr ""
+"Foto dimampatkan secara automatik — muat naik sahaja, kami uruskan "
+"selebihnya."
+
+msgid "Photos are automatically compressed. Tap a slot to replace or remove it."
+msgstr "Foto dimampatkan secara automatik. Ketik ruang untuk ganti atau buang."
+
+msgid ""
+"Photos are not included in CSV uploads — after importing, add photos to "
+"each listing from My Listings → Edit."
+msgstr ""
+"Foto tidak disertakan dalam muat naik CSV — selepas import, tambah foto "
+"untuk setiap senarai daripada Senarai Saya → Sunting."
+
+msgid "Please choose a CSV file to upload."
+msgstr "Sila pilih fail CSV untuk dimuat naik."
+
 msgid "Please correct the errors below."
 msgstr "Sila betulkan kesilapan di bawah."
+
+msgid ""
+"Please enter a Singapore number: either 8 digits (e.g. 9123 4567) or with"
+" country code (e.g. +65 9123 4567)."
+msgstr ""
+"Sila masukkan nombor Singapura: sama ada 8 digit (cth. 9123 4567) atau "
+"dengan kod negara (cth. +65 9123 4567)."
+
+msgid "Please enter a search query."
+msgstr "Sila masukkan carian."
+
+msgid "Please enter a valid WhatsApp number with country code."
+msgstr "Sila masukkan nombor WhatsApp yang sah dengan kod negara."
+
+msgid "Please upload a .csv file."
+msgstr "Sila muat naik fail .csv."
 
 msgid "Post Stall"
 msgstr "Siarkan Gerai"
 
+msgid "Post Stall Wanted Ad"
+msgstr "Iklan Gerai Dicari"
+
 msgid "Post Your Hawker Stall"
 msgstr "Siarkan Gerai Penjaja Anda"
+
+msgid "Post Your Stall"
+msgstr "Siarkan Gerai Anda"
 
 msgid "Post a Hawker Stall"
 msgstr "Siarkan Gerai Penjaja"
 
+msgid "Post a Stall"
+msgstr "Siarkan Gerai"
+
+msgid "Post a Stall Wanted Ad"
+msgstr "Iklan Gerai Dicari"
+
+msgid "Post your first stall"
+msgstr "Siarkan gerai pertama anda"
+
 msgid "Postal Code"
 msgstr "Poskod"
+
+#, python-format
+msgid "Postal code %(code)s"
+msgstr "Poskod %(code)s"
+
+msgid "Preferred District"
+msgstr "Daerah Diingini"
+
+msgid "Preferred Town"
+msgstr "Bandar Diingini"
+
+msgid "Preview (first rows)"
+msgstr "Pratonton (baris pertama)"
+
+msgid "Preview only — not yet visible to the public"
+msgstr "Pratonton sahaja — belum kelihatan kepada orang ramai"
 
 msgid "Price: High to Low"
 msgstr "Harga: Tinggi ke Rendah"
@@ -212,8 +985,38 @@ msgstr "Harga: Tinggi ke Rendah"
 msgid "Price: Low to High"
 msgstr "Harga: Rendah ke Tinggi"
 
+msgid "Pricing"
+msgstr "Harga"
+
+msgid "Pricing Display"
+msgstr "Paparan Harga"
+
 msgid "Primary Region"
 msgstr "Rantau Utama"
+
+msgid "Primary operating region (matches landlord leasing-team structures)."
+msgstr "Rantau operasi utama (sepadan dengan struktur pasukan pajakan tuan tanah)."
+
+msgid "Profile updated successfully."
+msgstr "Profil berjaya dikemas kini."
+
+msgid "Quick reply deleted."
+msgstr "Balasan pantas dipadamkan."
+
+msgid "Quick reply saved."
+msgstr "Balasan pantas disimpan."
+
+msgid "Raw Food"
+msgstr "Makanan Mentah"
+
+msgid "Reason"
+msgstr "Sebab"
+
+msgid "Reason for report"
+msgstr "Sebab laporan"
+
+msgid "Recognised columns (loose names are fine):"
+msgstr "Lajur yang dikenali (nama longgar pun boleh):"
 
 msgid "Register Company"
 msgstr "Daftar Syarikat"
@@ -229,14 +1032,202 @@ msgstr ""
 "pentadbir, anda boleh menjemput pengurus pajakan dan membuat senarai "
 "gerai."
 
+msgid "Rejected"
+msgstr "Ditolak"
+
+msgid "Remember me"
+msgstr "Ingat saya"
+
+msgid "Remove"
+msgstr "Buang"
+
+msgid "Rent"
+msgstr "Sewa"
+
+msgid "Rental on Request"
+msgstr "Sewa atas permintaan"
+
+msgid "Replace"
+msgstr "Ganti"
+
+msgid "Reply on WhatsApp"
+msgstr "Balas di WhatsApp"
+
+msgid "Report"
+msgstr "Laporkan"
+
+msgid "Report Listing"
+msgstr "Laporkan Senarai"
+
+msgid "Report this listing"
+msgstr "Laporkan senarai ini"
+
+msgid "Reset Password"
+msgstr "Set Semula Kata Laluan"
+
+msgid "Resources"
+msgstr "Sumber"
+
+msgid "Sample values"
+msgstr "Nilai contoh"
+
+msgid "Save"
+msgstr "Simpan"
+
+msgid "Save Changes"
+msgstr "Simpan Perubahan"
+
+msgid ""
+"Save pre-written replies (e.g. 'Yes, still available — when would you "
+"like to view it?') so you can paste them into WhatsApp quickly."
+msgstr ""
+"Simpan balasan siap tulis (cth. 'Ya, masih ada — bila anda mahu "
+"melihatnya?') supaya mudah disalin ke WhatsApp."
+
+msgid "Scam / fake listing"
+msgstr "Scam / senarai palsu"
+
+msgid "Searching..."
+msgstr "Mencari..."
+
+msgid "Select language"
+msgstr "Pilih bahasa"
+
+msgid "Send Invite"
+msgstr "Hantar Jemputan"
+
+msgid "Send Reset Link"
+msgstr "Hantar Pautan Set Semula"
+
+msgid "Settings"
+msgstr "Tetapan"
+
+msgid "Share this listing"
+msgstr "Kongsi senarai ini"
+
+msgid "Sign In"
+msgstr "Log Masuk"
+
+msgid "Sign Out"
+msgstr "Log Keluar"
+
+msgid "Sign Up"
+msgstr "Daftar"
+
+msgid "Sign in to manage your landlord company listings"
+msgstr "Log masuk untuk menguruskan senarai syarikat tuan tanah anda"
+
+msgid "Singapore postal codes must be exactly 6 digits."
+msgstr "Poskod Singapura mestilah tepat 6 digit."
+
 msgid "Size"
 msgstr "Saiz"
 
 msgid "Size (sqft)"
 msgstr "Saiz (kaki persegi)"
 
+msgid "Skipped rows"
+msgstr "Baris dilangkau"
+
+msgid "Sorry, I couldn't hear that. Please try again."
+msgstr "Maaf, saya tidak dapat dengar itu. Sila cuba lagi."
+
+msgid "Sorry, I couldn't process your search right now. Please try again."
+msgstr "Maaf, saya tidak dapat memproses carian anda sekarang. Sila cuba lagi."
+
+msgid "Sorry, something went wrong. Please try again."
+msgstr "Maaf, sesuatu tidak kena. Sila cuba lagi."
+
+msgid "South"
+msgstr "Selatan"
+
+msgid "Speak your search"
+msgstr "Sebutkan carian anda"
+
 msgid "Stall Title"
 msgstr "Tajuk Gerai"
+
+msgid "Stall Wanted"
+msgstr "Gerai Dicari"
+
+msgid "Stall Wanted Posts"
+msgstr "Iklan Gerai Dicari"
+
+msgid "Stall wanted posts"
+msgstr "Iklan gerai dicari"
+
+msgid "Start Over"
+msgstr "Mula Semula"
+
+msgid "Submit Listing"
+msgstr "Hantar Senarai"
+
+msgid "Submit Report"
+msgstr "Hantar Laporan"
+
+msgid "Supplier Directory"
+msgstr "Direktori Pembekal"
+
+msgid "Suppliers"
+msgstr "Pembekal"
+
+msgid "Taken"
+msgstr "Diambil"
+
+msgid "Talk directly to landlords — no in-app messaging barriers."
+msgstr "Bercakap terus dengan tuan tanah — tiada halangan mesej dalam aplikasi."
+
+msgid "Tell landlords what you want"
+msgstr "Beritahu tuan tanah apa yang anda mahu"
+
+msgid ""
+"Tell landlords what you're looking for — no account needed. Leasing teams"
+" will contact you directly on WhatsApp."
+msgstr ""
+"Beritahu tuan tanah apa yang anda cari — tidak perlu akaun. Pasukan "
+"pajakan akan hubungi anda terus di WhatsApp."
+
+msgid "Terms"
+msgstr "Terma"
+
+msgid ""
+"Thank you — your report has been submitted and the listing has been "
+"flagged for review."
+msgstr ""
+"Terima kasih — laporan anda telah dihantar dan senarai itu telah ditanda "
+"untuk disemak."
+
+msgid "The CSV needs a header row and at least one data row."
+msgstr "CSV memerlukan baris kepala dan sekurang-kurangnya satu baris data."
+
+msgid "This company has no available stalls right now. Check back soon!"
+msgstr "Syarikat ini tiada gerai yang tersedia sekarang. Nanti datang lagi!"
+
+msgid "This looks like an NEA-managed centre"
+msgstr "Ini kelihatan seperti pusat yang diurus NEA"
+
+#, python-format
+msgid ""
+"This will permanently remove the listing and its %(photo_count)s photo. "
+"This cannot be undone."
+msgid_plural ""
+"This will permanently remove the listing and its %(photo_count)s photos. "
+"This cannot be undone."
+msgstr[0] ""
+"Ini akan memadamkan senarai ini dan %(photo_count)s gambarnya secara "
+"kekal. Tindakan ini tidak boleh dibatalkan."
+msgstr[1] ""
+"Ini akan memadamkan senarai ini dan %(photo_count)s gambarnya secara "
+"kekal. Tindakan ini tidak boleh dibatalkan."
+
+msgid "Toggle menu"
+msgstr "Buka/tutup menu"
+
+msgid "Transcribing..."
+msgstr "Menyalin suara..."
+
+msgid "Translated by AI"
+msgstr "Diterjemahkan oleh AI"
 
 msgid "Try broadening your search or clearing some filters."
 msgstr "Cuba luaskan carian anda atau kosongkan beberapa penapis."
@@ -244,17 +1235,114 @@ msgstr "Cuba luaskan carian anda atau kosongkan beberapa penapis."
 msgid "UEN (Business Registration)"
 msgstr "UEN (Pendaftaran Perniagaan)"
 
+msgid ""
+"UTF-8, up to 500 rows. Any reasonable column headers work — e.g. 'Stall "
+"Name', 'Rent', 'Size (sqft)'."
+msgstr ""
+"UTF-8, sehingga 500 baris. Mana-mana kepala lajur yang munasabah boleh — "
+"cth. 'Stall Name', 'Rent', 'Size (sqft)'."
+
+msgid "Unique Entity Number (ACRA business registration)."
+msgstr "Nombor Entiti Unik (pendaftaran perniagaan ACRA)."
+
+msgid "Unique Entity Number from ACRA."
+msgstr "Nombor Entiti Unik daripada ACRA."
+
+msgid "Update your stall details. Changes go live immediately."
+msgstr "Kemas kini butiran gerai anda. Perubahan terus disiarkan."
+
+msgid "Upload & Preview Mapping"
+msgstr "Muat Naik & Pratonton Padanan"
+
+msgid "Upload ACRA certificate or UEN proof (PDF or image)."
+msgstr "Muat naik sijil ACRA atau bukti UEN (PDF atau imej)."
+
+msgid "Upload Another CSV"
+msgstr "Muat Naik CSV Lain"
+
+msgid ""
+"Upload a spreadsheet of your vacant stalls — we'll read the columns for "
+"you and confirm the mapping before creating anything."
+msgstr ""
+"Muat naik hamparan gerai kosong anda — kami akan baca lajur dan sahkan "
+"padanan sebelum mencipta apa-apa."
+
+msgid "Used for login and notifications."
+msgstr "Digunakan untuk log masuk dan pemberitahuan."
+
+msgid "Username"
+msgstr "Nama Pengguna"
+
 msgid "Verified"
 msgstr "Disahkan"
 
-msgid "Verified Landlord"
-msgstr "Tuan Tanah Disahkan"
+msgid "Verified Companies"
+msgstr "Syarikat Disahkan"
 
-msgid "View Applications"
-msgstr "Lihat Permohonan"
+msgid "Verified landlord"
+msgstr "Tuan tanah disahkan"
+
+msgid "View"
+msgstr "Lihat"
+
+msgid "View Your Boosted Listing"
+msgstr "Lihat Senarai Yang Digalakkan"
+
+msgid "Views"
+msgstr "Paparan"
+
+msgid "Voice input is not configured yet."
+msgstr "Input suara belum dikonfigurasi."
+
+msgid "Voice input is not supported in this browser."
+msgstr "Input suara tidak disokong dalam pelayar ini."
+
+msgid ""
+"We've matched your spreadsheet's columns to MakanSpace listing fields. "
+"Check each one — nothing is created until you confirm below."
+msgstr ""
+"Kami telah memadankan lajur hamparan anda dengan medan senarai "
+"MakanSpace. Periksa setiap satu — tiada apa dicipta sehingga anda sahkan "
+"di bawah."
+
+msgid "Website"
+msgstr "Laman Web"
+
+msgid "Welcome Back"
+msgstr "Selamat Kembali"
+
+msgid "Were you referred by another company?"
+msgstr "Anda dirujuk oleh syarikat lain?"
+
+msgid "Were you referred by another company? Enter their name or UEN"
+msgstr "Anda dirujuk oleh syarikat lain? Masukkan nama atau UEN mereka"
+
+msgid "West"
+msgstr "Barat"
+
+msgid "What is MakanSpace"
+msgstr "Apa itu MakanSpace"
+
+msgid "What we can read"
+msgstr "Apa yang boleh kami baca"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "WhatsApp Clicks"
+msgstr "Klik WhatsApp"
 
 msgid "WhatsApp Contact Number"
 msgstr "Nombor Hubungan WhatsApp"
+
+msgid "WhatsApp Number"
+msgstr "Nombor WhatsApp"
+
+msgid "WhatsApp quick replies"
+msgstr "Balasan pantas WhatsApp"
+
+msgid "Why MakanSpace"
+msgstr "Kenapa MakanSpace"
 
 msgid "Within 10 min walk"
 msgstr "Dalam 10 minit berjalan"
@@ -265,18 +1353,114 @@ msgstr "Dalam 15 minit berjalan"
 msgid "Within 5 min walk"
 msgstr "Dalam 5 minit berjalan"
 
+msgid "Yes, delete listing"
+msgstr "Ya, padam senarai"
+
+#, python-format
+msgid "You can upload at most %(max)d photos per listing."
+msgstr "Anda boleh muat naik paling banyak %(max)d foto untuk setiap senarai."
+
+msgid ""
+"You must confirm this stall is not part of an NEA Direct-managed hawker "
+"centre."
+msgstr ""
+"Anda mesti sahkan gerai ini bukan bahagian pusat penjaja yang diurus "
+"terus oleh NEA."
+
 msgid "Your Account (First Leasing Manager)"
 msgstr "Akaun Anda (Pengurus Pajakan Pertama)"
 
 msgid "Your Email"
 msgstr "E-mel Anda"
 
-msgid "found"
-msgstr "dijumpai"
+msgid "Your Name"
+msgstr "Nama Anda"
+
+msgid "Your columns"
+msgstr "Lajur anda"
+
+msgid "Your company has no listings yet."
+msgstr "Syarikat anda belum ada senarai."
+
+msgid ""
+"Your listing has been boosted and will now appear at the top of search "
+"results."
+msgstr ""
+"Senarai anda telah digalakkan dan kini muncul di bahagian atas keputusan "
+"carian."
+
+msgid ""
+"Your new listings are live. Photos aren't included in CSV uploads — add "
+"them by opening each listing from My Listings → Edit."
+msgstr ""
+"Senarai baharu anda telah disiarkan. Foto tidak disertakan dalam muat "
+"naik CSV — tambah dengan membuka setiap senarai daripada Senarai Saya → "
+"Sunting."
+
+msgid "Your password"
+msgstr "Kata laluan anda"
+
+msgid ""
+"Your stall-wanted post is live. Landlords will reach out to you on "
+"WhatsApp."
+msgstr ""
+"Iklan gerai dicari anda telah disiarkan. Tuan tanah akan hubungi anda di "
+"WhatsApp."
+
+msgid "Your upload session expired. Please upload the CSV again."
+msgstr "Sesi muat naik anda telah luput. Sila muat naik CSV semula."
+
+msgid "data rows"
+msgstr "baris data"
+
+msgid "e.g. 201234567A"
+msgstr "cth. 201234567A"
+
+msgid "e.g. 270001"
+msgstr "cth. 270001"
+
+msgid "e.g. Ah Hock"
+msgstr "cth. Ah Hock"
+
+msgid "e.g. Bright corner stall near Ghim Moh Market"
+msgstr "cth. gerai sudut cerah dekat Ghim Moh Market"
+
+msgid "e.g. Chicken rice, Western"
+msgstr "cth. nasi ayam, Barat"
+
+msgid "e.g. Jurong West"
+msgstr "cth. Jurong West"
+
+msgid "e.g. Kimly Group Pte Ltd"
+msgstr "cth. Kimly Group Pte Ltd"
+
+msgid "e.g. Kimly Group Pte Ltd or 201234567A"
+msgstr "cth. Kimly Group Pte Ltd atau 201234567A"
+
+msgid "e.g. West, Central"
+msgstr "cth. Barat, Tengah"
+
+msgid "e.g. stall near MRT under $2000..."
+msgstr "cth. gerai dekat MRT bawah $2000..."
+
+msgid "e.g. ~500/day"
+msgstr "cth. ~500/hari"
+
+msgid "exact or on request"
+msgstr "harga tepat atau sewa atas permintaan"
+
+msgid "ignore"
+msgstr "abaikan"
 
 msgid "more"
 msgstr "lagi"
 
-msgid "stall"
-msgstr "gerai"
+msgid "optional"
+msgstr "pilihan"
+
+msgid "or continue with"
+msgstr "atau teruskan dengan"
+
+msgid "or sign up with"
+msgstr "atau daftar dengan"
 
