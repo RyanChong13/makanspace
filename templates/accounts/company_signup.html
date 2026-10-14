@@ -83,7 +83,13 @@
             {{ form.password }}
             {% for err in form.password.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
         </div>
-
+        
+        <div class="form-group">
+            <label class="form-label" for="{{ form.password_confirm.id_for_label }}">{% trans "Confirm Password" %}</label>
+            {{ form.password_confirm }}
+            {% for err in form.password_confirm.errors %}<div class="form-error">{{ err }}</div>{% endfor %}
+        </div>
+        
         <button type="submit" class="btn btn--primary btn--full mt-2" style="padding: 0.8rem;">
             {% trans "Register Company" %}
         </button>
